@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Param &amp; Ruchira</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Caveat:wght@500;600&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* ===================== TOKENS ===================== */
+:root{
+  --ink:        #f6ecd9;     /* warm ivory text on dark */
+  --ink-dim:    #d9c6ab;     /* dimmer ivory */
+  --night:      #190f10;     /* deep banaras-night maroon-black */
+  --night-2:    #241313;     /* slightly lifted panel */
+  --maroon:     #3a1418;     /* deep rose-maroon */
+  --gold:       #d8a753;     /* diya gold */
+  --gold-soft:  #efc97e;
+  --rose:       #c23b5e;     /* saree rose/pink */
+  --rose-soft:  #e98aa3;
+  --ember:      #e8784a;     /* marigold/sunset ember */
+  --cream:      #f5ede0;     /* light card bg for contrast moments */
+
+  --serif: 'Marcellus', 'Cormorant Garamond', serif;
+  --display: 'Cormorant Garamond', serif;
+  --script: 'Caveat', cursive;
+  --body: 'Mulish', sans-serif;
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  background:var(--night);
+  color:var(--ink);
+  font-family:var(--body);
+  overflow-x:hidden;
+  position:relative;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+}
+
+/* subtle bokeh texture across whole page */
+.bg-glow{
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(216,167,83,0.10), transparent 40%),
+    radial-gradient(circle at 85% 65%, rgba(194,59,94,0.10), transparent 45%),
+    radial-gradient(circle at 50% 90%, rgba(232,120,74,0.08), transparent 50%);
+  animation:glow-drift 18s ease-in-out infinite;
+}
+@keyframes glow-drift{
+  0%,100%{ background-position:0 0, 0 0, 0 0; }
+  50%{ background-position:30px -20px, -25px 30px, 15px -15px; }
+}
+
+/* ambient floating embers/petals */
+.embers{
+  position:fixed; inset:0; z-index:1; pointer-events:none;
+  overflow:hidden;
+}
+.ember-particle{
+  position:absolute;
+  bottom:-20px;
+  border-radius:50%;
+  background:radial-gradient(circle, var(--gold-soft), var(--ember) 70%, transparent);
+  opacity:0;
+  animation-name:ember-rise;
+  animation-timing-function:ease-in;
+  animation-iteration-count:infinite;
+}
+@keyframes ember-rise{
+  0%{ transform:translate(0,0) scale(1); opacity:0; }
+  8%{ opacity:0.85; }
+  90%{ opacity:0.5; }
+  100%{ transform:translate(var(--drift), -110vh) scale(0.4); opacity:0; }
+}
+
+a{ color:inherit; }
+
+/* ===================== DIYA SPINE (signature element) ===================== */
+.spine{
+  position:absolute;
+  left:50%;
+  top:100vh;
+  width:2px;
+  height:calc(100% - 100vh);
+  background:linear-gradient(to bottom, transparent, rgba(216,167,83,0.35) 6%, rgba(216,167,83,0.35) 94%, transparent);
+  transform:translateX(-50%);
+  z-index:1;
+}
+@media (max-width:760px){
+  .spine{ left:28px; }
+}
+
+.diya{
+  position:absolute;
+  left:50%;
+  top:100vh;
+  width:34px;
+  height:34px;
+  transform:translate(-50%,-50%);
+  z-index:2;
+  pointer-events:none;
+  filter:drop-shadow(0 0 10px rgba(216,167,83,0.55));
+  transition:top 0.05s linear, opacity 0.4s ease;
+  opacity:0;
+}
+@media (max-width:760px){
+  .diya{ left:28px; width:26px; height:26px; }
+}
+.diya .flame{
+  animation:flicker 1.6s ease-in-out infinite;
+  transform-origin:50% 90%;
+}
+@keyframes flicker{
+  0%,100%{ transform:scaleY(1) scaleX(1) rotate(0deg); opacity:1; }
+  25%{ transform:scaleY(1.08) scaleX(0.94) rotate(-2deg); opacity:0.92; }
+  50%{ transform:scaleY(0.95) scaleX(1.05) rotate(1.5deg); opacity:1; }
+  75%{ transform:scaleY(1.05) scaleX(0.97) rotate(-1deg); opacity:0.95; }
+}
+
+/* ===================== HERO ===================== */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:80px 24px 60px;
+  z-index:3;
+}
+.hero-eyebrow{
+  font-family:var(--script);
+  font-size:1.4rem;
+  color:var(--rose-soft);
+  letter-spacing:0.02em;
+  margin-bottom:6px;
+  opacity:0;
+  transform:translateY(14px);
+  animation:rise-in 0.9s ease 0.2s forwards;
+}
+.hero-names{
+  font-family:var(--serif);
+  font-size:clamp(2.8rem, 8vw, 5.4rem);
+  line-height:1.05;
+  margin:0;
+  color:var(--ink);
+  text-shadow:0 0 40px rgba(216,167,83,0.25);
+  opacity:0;
+  transform:translateY(18px);
+  animation:rise-in 1s ease 0.5s forwards;
+}
+.hero-names .amp{
+  color:var(--gold);
+  font-family:var(--display);
+  font-style:italic;
+  font-size:0.85em;
+  padding:0 0.15em;
+  display:inline-block;
+  animation:amp-glow 3.4s ease-in-out 1.6s infinite;
+}
+@keyframes rise-in{
+  to{ opacity:1; transform:translateY(0); }
+}
+@keyframes amp-glow{
+  0%,100%{ text-shadow:0 0 12px rgba(216,167,83,0.35); }
+  50%{ text-shadow:0 0 26px rgba(239,201,126,0.75); }
+}
+.hero-sub{
+  font-family:var(--display);
+  font-style:italic;
+  font-size:clamp(1.1rem, 2.4vw, 1.5rem);
+  color:var(--ink-dim);
+  max-width:560px;
+  margin:22px auto 0;
+  line-height:1.55;
+  opacity:0;
+  transform:translateY(16px);
+  animation:rise-in 1s ease 0.85s forwards;
+}
+.hero-sub .hin{
+  display:block;
+  font-family:var(--script);
+  font-size:1.3em;
+  color:var(--gold-soft);
+  margin-bottom:4px;
+}
+.scroll-hint{
+  margin-top:56px;
+  font-size:0.78rem;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--ink-dim);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  opacity:0;
+  animation:rise-in 1s ease 1.3s forwards;
+  cursor:default;
+}
+.scroll-hint .mini-diya{
+  width:20px;
+  height:20px;
+  animation:bob 2.2s ease-in-out infinite;
+  filter:drop-shadow(0 0 6px rgba(216,167,83,0.6));
+}
+.scroll-hint .mini-diya .mini-flame{
+  animation:flicker 1.6s ease-in-out infinite;
+  transform-origin:50% 90%;
+}
+@keyframes bob{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(6px); }
+}
+
+/* ===================== SECTION SHELLS ===================== */
+.story{
+  position:relative;
+  z-index:3;
+  max-width:1100px;
+  margin:0 auto;
+  padding:40px 24px 160px;
+}
+
+.beat{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:48px;
+  margin:0 0 130px;
+  min-height:200px;
+}
+.beat.right{ flex-direction:row-reverse; }
+
+@media (max-width:760px){
+  .beat, .beat.right{
+    flex-direction:column;
+    align-items:flex-start;
+    margin-left:56px;
+    margin-bottom:90px;
+    gap:18px;
+  }
+}
+
+.beat-media{
+  flex:0 0 42%;
+  position:relative;
+}
+.beat-media img{
+  width:100%;
+  display:block;
+  border-radius:6px;
+  box-shadow:0 18px 50px rgba(0,0,0,0.55), 0 0 0 1px rgba(216,167,83,0.18);
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity 0.9s ease, transform 0.9s ease, box-shadow 0.4s ease;
+}
+.beat.is-visible .beat-media img{ opacity:1; transform:translateY(0); }
+@media (hover:hover){
+  .beat-media img:hover{
+    transform:translateY(-6px) scale(1.015);
+    box-shadow:0 26px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(216,167,83,0.35), 0 0 40px rgba(216,167,83,0.18);
+  }
+}
+
+.beat-text{
+  flex:1;
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity 0.9s ease 0.15s, transform 0.9s ease 0.15s;
+}
+.beat.is-visible .beat-text{ opacity:1; transform:translateY(0); }
+
+.beat-marker{
+  font-family:var(--script);
+  font-size:1.15rem;
+  color:var(--rose-soft);
+  margin:0 0 8px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.beat-marker .ic{ font-size:1.1rem; }
+
+.beat-title{
+  font-family:var(--serif);
+  font-size:clamp(1.5rem, 3vw, 2.1rem);
+  margin:0 0 12px;
+  color:var(--ink);
+  line-height:1.2;
+}
+.beat-copy{
+  font-family:var(--display);
+  font-size:1.08rem;
+  line-height:1.7;
+  color:var(--ink-dim);
+  margin:0;
+}
+.beat-copy .hin{
+  font-family:var(--script);
+  font-size:1.25em;
+  color:var(--gold-soft);
+  display:block;
+  margin-bottom:6px;
+}
+
+/* node dot on the spine for each beat */
+.beat-node{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:13px; height:13px;
+  border-radius:50%;
+  background:var(--night);
+  border:2px solid var(--gold);
+  z-index:2;
+  box-shadow:0 0 0 4px var(--night), 0 0 14px rgba(216,167,83,0.4);
+  transition:background 0.4s ease, box-shadow 0.4s ease;
+}
+.beat.is-visible .beat-node{
+  background:var(--gold);
+  box-shadow:0 0 0 4px var(--night), 0 0 22px rgba(216,167,83,0.85);
+}
+@media (max-width:760px){
+  .beat-node{ left:-56px; top:8px; }
+}
+
+/* ===================== INSTAGRAM DM MOMENT ===================== */
+.dm-wrap{
+  flex:1;
+}
+.dm-bubble{
+  display:inline-block;
+  background:#2a2a2a;
+  color:#f1f1f1;
+  font-family:var(--body);
+  font-size:0.98rem;
+  padding:12px 18px;
+  border-radius:20px;
+  max-width:300px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.4);
+}
+.dm-meta{
+  font-family:var(--body);
+  font-size:0.72rem;
+  color:var(--ink-dim);
+  margin-top:8px;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  opacity:0.7;
+}
+
+/* ===================== QUOTE / DIVIDER MOMENTS ===================== */
+.divider{
+  text-align:center;
+  margin:60px auto 110px;
+  max-width:640px;
+  position:relative;
+  z-index:3;
+  padding:0 24px;
+}
+.divider-mark{
+  font-size:1.6rem;
+  color:var(--gold);
+  margin-bottom:14px;
+}
+.divider-text{
+  font-family:var(--display);
+  font-style:italic;
+  font-size:clamp(1.2rem, 2.6vw, 1.7rem);
+  line-height:1.6;
+  color:var(--ink);
+}
+.divider-text .hin{
+  display:block;
+  font-family:var(--script);
+  font-size:1.2em;
+  color:var(--gold-soft);
+  margin-bottom:8px;
+}
+
+/* ===================== PROPOSAL ===================== */
+.proposal-section{
+  position:relative;
+  z-index:3;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:100px 24px;
+  overflow:hidden;
+}
+.proposal-eyebrow{
+  font-family:var(--script);
+  font-size:1.4rem;
+  color:var(--rose-soft);
+  margin-bottom:14px;
+}
+.proposal-question{
+  font-family:var(--serif);
+  font-size:clamp(2.2rem, 6vw, 4rem);
+  color:var(--ink);
+  margin:0 0 18px;
+  text-shadow:0 0 40px rgba(216,167,83,0.25);
+}
+.proposal-sub{
+  font-family:var(--display);
+  font-style:italic;
+  font-size:1.15rem;
+  color:var(--ink-dim);
+  max-width:480px;
+  margin:0 0 56px;
+  line-height:1.6;
+}
+.proposal-buttons{
+  position:relative;
+  width:100%;
+  max-width:480px;
+  height:160px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:28px;
+}
+.btn-yes, .btn-no{
+  font-family:var(--body);
+  font-weight:600;
+  font-size:1.1rem;
+  padding:16px 38px;
+  border-radius:50px;
+  border:none;
+  cursor:pointer;
+  letter-spacing:0.02em;
+}
+.btn-yes{
+  background:linear-gradient(135deg, var(--gold-soft), var(--gold));
+  color:#241313;
+  box-shadow:0 10px 30px rgba(216,167,83,0.35);
+  transition:transform 0.3s ease, box-shadow 0.3s ease;
+  position:relative;
+  z-index:2;
+}
+.btn-yes:hover{
+  transform:translateY(-3px) scale(1.04);
+  box-shadow:0 14px 40px rgba(216,167,83,0.55);
+}
+.btn-no{
+  background:transparent;
+  color:var(--ink-dim);
+  border:1.5px solid rgba(217,198,171,0.4);
+  position:relative;
+  transition:transform 0.25s ease, opacity 0.25s ease;
+  z-index:3;
+}
+.btn-no.dodging{
+  position:absolute;
+  transition:left 0.25s ease, top 0.25s ease, transform 0.25s ease, opacity 0.25s ease;
+}
+.proposal-hint{
+  margin-top:34px;
+  font-size:0.82rem;
+  color:var(--ink-dim);
+  opacity:0.65;
+  font-style:italic;
+  min-height:1.2em;
+}
+
+/* celebration burst after yes */
+.celebration{
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+.celebration.show{ display:flex; animation:celebrate-in 0.7s ease forwards; }
+@keyframes celebrate-in{
+  from{ opacity:0; transform:scale(0.85); }
+  to{ opacity:1; transform:scale(1); }
+}
+.celebration-title{
+  font-family:var(--serif);
+  font-size:clamp(2.4rem, 6vw, 4.2rem);
+  color:var(--gold-soft);
+  margin:0 0 14px;
+  text-shadow:0 0 50px rgba(239,201,126,0.5);
+}
+.celebration-sub{
+  font-family:var(--display);
+  font-style:italic;
+  font-size:1.2rem;
+  color:var(--ink-dim);
+  max-width:480px;
+}
+
+.confetti-burst{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  overflow:visible;
+}
+.confetti-piece{
+  position:absolute;
+  top:50%; left:50%;
+  font-size:1.4rem;
+  opacity:0;
+  animation:confetti-fly 1.4s ease-out forwards;
+}
+@keyframes confetti-fly{
+  0%{ transform:translate(-50%,-50%) scale(0.3) rotate(0deg); opacity:1; }
+  100%{ transform:translate(var(--cx), var(--cy)) scale(1) rotate(var(--cr)); opacity:0; }
+}
+
+/* gate: hide what comes after the proposal until she says yes */
+.gated{
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  transition:opacity 1s ease;
+}
+.gated.unlocked{
+  max-height:none;
+  opacity:1;
+}
+
+/* ===================== COUNTDOWN ===================== */
+.countdown-section{
+  position:relative;
+  z-index:3;
+  text-align:center;
+  padding:100px 24px 120px;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 30%, rgba(216,167,83,0.14), transparent 70%);
+}
+.countdown-eyebrow{
+  font-family:var(--script);
+  font-size:1.3rem;
+  color:var(--rose-soft);
+  margin-bottom:10px;
+}
+.countdown-title{
+  font-family:var(--serif);
+  font-size:clamp(2rem, 5vw, 3.2rem);
+  margin:0 0 8px;
+  color:var(--ink);
+}
+.countdown-date{
+  font-family:var(--display);
+  font-style:italic;
+  color:var(--gold-soft);
+  font-size:1.2rem;
+  margin-bottom:48px;
+}
+.countdown-grid{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-bottom:40px;
+}
+.cd-box{
+  background:var(--night-2);
+  border:1px solid rgba(216,167,83,0.3);
+  border-radius:10px;
+  padding:22px 20px;
+  min-width:100px;
+  box-shadow:0 0 30px rgba(216,167,83,0.08) inset, 0 12px 30px rgba(0,0,0,0.4);
+}
+.cd-num{
+  font-family:var(--serif);
+  font-size:clamp(1.8rem, 4vw, 2.6rem);
+  color:var(--gold);
+  display:block;
+  line-height:1;
+}
+.cd-num.tick{
+  animation:tick-pulse 0.5s ease;
+}
+@keyframes tick-pulse{
+  0%{ transform:scale(1); }
+  30%{ transform:scale(1.18); color:var(--gold-soft); }
+  100%{ transform:scale(1); }
+}
+.cd-label{
+  font-size:0.7rem;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--ink-dim);
+  margin-top:8px;
+  display:block;
+}
+.countdown-img{
+  max-width:480px;
+  width:100%;
+  margin:0 auto;
+  border-radius:8px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(216,167,83,0.2);
+}
+.countdown-note{
+  font-family:var(--display);
+  font-style:italic;
+  color:var(--ink-dim);
+  max-width:520px;
+  margin:36px auto 0;
+  font-size:1.05rem;
+  line-height:1.7;
+}
+
+/* ===================== FOOTER ===================== */
+.footer{
+  position:relative;
+  z-index:3;
+  text-align:center;
+  padding:50px 24px 70px;
+  font-family:var(--script);
+  font-size:1.2rem;
+  color:var(--ink-dim);
+}
+.footer .heart{
+  color:var(--rose);
+  display:inline-block;
+  animation:heartbeat 1.6s ease-in-out infinite;
+}
+@keyframes heartbeat{
+  0%,100%{ transform:scale(1); }
+  20%{ transform:scale(1.25); }
+  40%{ transform:scale(1); }
+  60%{ transform:scale(1.18); }
+  80%{ transform:scale(1); }
+}
+
+/* generic reveal utility for non-beat blocks */
+.reveal{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.is-visible{ opacity:1; transform:translateY(0); }
+
+
+@media (max-width:768px){
+.hero{padding:40px 16px;}
+.hero-names{font-size:2.8rem!important;}
+.story{padding:20px 14px 100px!important;}
+.beat,.beat.right{margin-left:20px!important;}
+.beat-media,.beat-text{width:100%!important;}
+.beat-media img{max-width:100%!important;height:auto!important;}
+}
+
+.hero-title,.hero-names{font-size:clamp(3.5rem,8vw,6rem)!important;line-height:1.1!important;}
+.hero-subtitle,.subtitle{font-size:1.4rem!important;}
+.story-text,p,.beat-text{font-size:1.25rem!important;line-height:1.95!important;}
+h1{font-size:clamp(3rem,7vw,5.5rem)!important;}
+h2{font-size:clamp(2rem,5vw,3.2rem)!important;}
+h3{font-size:clamp(1.5rem,4vw,2.2rem)!important;}
+.quote{font-size:1.8rem!important;line-height:1.8!important;}
+.countdown-number{font-size:3rem!important;}
+.countdown-label{font-size:1rem!important;}
+.story-section,.beat{margin-bottom:3rem!important;}
+img{border-radius:18px;}
+@media(max-width:768px){
+ body{font-size:18px!important;}
+ .hero-title,.hero-names{font-size:3rem!important;}
+ .story-text,p,.beat-text{font-size:1.15rem!important;line-height:1.9!important;}
+ h2{font-size:2rem!important;}
+ .countdown-number{font-size:2.2rem!important;}
+}
+
+.hero-names{font-size:clamp(4rem,8vw,6.5rem)!important;}
+.beat-title{font-size:clamp(1.8rem,3vw,2.4rem)!important;}
+.beat-copy{font-size:1.18rem!important;line-height:1.85!important;}
+.countdown-title{font-size:clamp(2.4rem,5vw,3.8rem)!important;}
+.cd-num{font-size:clamp(2.5rem,5vw,3.8rem)!important;}
+@media(max-width:768px){
+.hero-names{font-size:3.5rem!important;}
+.beat-copy{font-size:1.1rem!important;}
+.cd-num{font-size:2.4rem!important;}
+}
+
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="embers" id="embers"></div>
+<div class="spine"></div>
+
+<!-- diya that travels down the spine -->
+<div class="diya" id="diya">
+  <svg viewBox="0 0 40 40" width="100%" height="100%">
+    <ellipse cx="20" cy="30" rx="14" ry="6" fill="#8a5a2b"/>
+    <ellipse cx="20" cy="28" rx="11" ry="4.2" fill="#c9842f"/>
+    <g class="flame">
+      <path d="M20 10 C 24 16, 25 21, 20 26 C 15 21, 16 16, 20 10 Z" fill="#f7b955"/>
+      <path d="M20 15 C 22 18, 22.5 21, 20 24 C 17.5 21, 18 18, 20 15 Z" fill="#fde2a0"/>
+    </g>
+  </svg>
+</div>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="hero-eyebrow">a story that found its way home</div>
+  <h1 class="hero-names">Param <span class="amp">&amp;</span> Ruchira</h1>
+  <p class="hero-sub">
+    <span class="hin">Ek story reply se shuru hui baat...</span>
+    Pune ki mulaqaton se guzri, Banaras ki yaadon mein basi,<br>
+    and now, ours forever.
+  </p>
+  <div class="scroll-hint">
+    <svg class="mini-diya" viewBox="0 0 40 40" width="20" height="20">
+      <ellipse cx="20" cy="30" rx="14" ry="6" fill="#8a5a2b"/>
+      <ellipse cx="20" cy="28" rx="11" ry="4.2" fill="#c9842f"/>
+      <g class="mini-flame">
+        <path d="M20 10 C 24 16, 25 21, 20 26 C 15 21, 16 16, 20 10 Z" fill="#f7b955"/>
+        <path d="M20 15 C 22 18, 22.5 21, 20 24 C 17.5 21, 18 18, 20 15 Z" fill="#fde2a0"/>
+      </g>
+    </svg>
+    <span>let the story unfold</span>
+  </div>
+</section>
+
+<!-- ===================== STORY BEATS ===================== -->
+<div class="story">
+
+  <!-- BEAT 1 : Instagram story reply -->
+  <div class="beat" data-beat>
+    <div class="beat-node"></div>
+    <div class="beat-media">
+      <div class="dm-bubble">Hello... kya chal raha hai? 😊</div>
+      <div class="dm-meta">Instagram · story reply · the very first message</div>
+    </div>
+    <div class="beat-text">
+      <p class="beat-marker"><span class="ic">📱</span> Where it began</p>
+      <h2 class="beat-title">One reply to a story</h2>
+      <p class="beat-copy">A small reply to a small story — neither of us knew it was the opening line of something that would last a lifetime.</p>
+    </div>
+  </div>
+
+  <!-- BEAT 2 : daily conversations -->
+  <div class="beat right" data-beat>
+    <div class="beat-node"></div>
+    <div class="beat-media">
+      <img src="images/real-collage-1.png" alt="Param and Ruchira on a boat at sunset in Banaras, and Ruchira enjoying kachori chaat">
+    </div>
+    <div class="beat-text">
+      <p class="beat-marker"><span class="ic">☕</span> The in-between days</p>
+      <h2 class="beat-title">Daily conversations</h2>
+      <p class="beat-copy">Good mornings turned into good nights. Somewhere between the everyday texts, talking to each other became the best part of the day.</p>
+    </div>
+  </div>
+
+  <!-- BEAT 3 : Pune meetings -->
+  <div class="beat" data-beat>
+    <div class="beat-node"></div>
+    <div class="beat-media">
+      <img src="images/real-bouquet.jpeg" alt="Ruchira holding a bouquet of red roses with Param in Pune">
+    </div>
+    <div class="beat-text">
+      <p class="beat-marker"><span class="ic">🌆</span> Pune</p>
+      <h2 class="beat-title">When the screen became real</h2>
+      <p class="beat-copy">The first time "talking" turned into actually being in the same room. Pune gave us our first real meetings — and a bouquet that meant more than its flowers.</p>
+    </div>
+  </div>
+
+  <!-- BEAT 4 : Pune memories collage -->
+  <div class="beat right" data-beat>
+    <div class="beat-node"></div>
+    <div class="beat-media">
+      <img src="images/real-collage-2.jpeg" alt="Collage of Param and Ruchira together — ice cream, hugging by the water, holding hands">
+    </div>
+    <div class="beat-text">
+      <p class="beat-marker"><span class="ic">❤️</span> Pune memories</p>
+      <h2 class="beat-title">Better together</h2>
+      <p class="beat-copy">Ice cream shared off one spoon, shoulders to lean on, hands that fit. The small ordinary moments that quietly became our favourites.</p>
+    </div>
+  </div>
+
+  <!-- BEAT 5 : Banaras ghat -->
+  <div class="beat" data-beat>
+    <div class="beat-node"></div>
+    <div class="beat-media">
+      <img src="images/scene2-ghat-a.png" alt="Illustration of Param and Ruchira sitting together at a Banaras ghat at sunset">
+    </div>
+    <div class="beat-text">
+      <p class="beat-marker"><span class="ic">🌅</span> Banaras diaries</p>
+      <h2 class="beat-title">A city that felt like ours</h2>
+      <p class="beat-copy"><span class="hin">Banaras ki yaadon mein basi...</span>The ghats, the lamplight on the water, the sound of the river — Banaras kept us close and gave us a city to call our own.</p>
+    </div>
+  </div>
+
+  <!-- BEAT 6 : Kachori date -->
+  <div class="beat right" data-beat>
+    <div class="beat-node"></div>
+    <div class="beat-media">
+      <img src="images/scene3-kachori.png" alt="Illustration of Param feeding Ruchira kachori chaat at a Banaras street stall">
+    </div>
+    <div class="beat-text">
+      <p class="beat-marker"><span class="ic">🥟</span> Kachori date</p>
+      <h2 class="beat-title">Kashi Chaat Bhandar</h2>
+      <p class="beat-copy">Street lights, a paper plate, and you feeding me the first bite. Some of our best dates didn't need a reservation — just kachori and chaos.</p>
+    </div>
+  </div>
+
+  <!-- BEAT 7 : Ice cream -->
+  <div class="beat" data-beat>
+    <div class="beat-node"></div>
+    <div class="beat-media">
+      <img src="images/scene4-icecream.png" alt="Illustration of Param and Ruchira sharing ice cream by the river at sunset in Banaras">
+    </div>
+    <div class="beat-text">
+      <p class="beat-marker"><span class="ic">🍦</span> Sweet evenings</p>
+      <h2 class="beat-title">Two cones, one sunset</h2>
+      <p class="beat-copy">Vanilla for you, strawberry for me, and the whole sky turning gold behind us. Some evenings don't need an occasion to be unforgettable.</p>
+    </div>
+  </div>
+
+  <!-- BEAT 8 : Boat ride -->
+  <div class="beat right" data-beat>
+    <div class="beat-node"></div>
+    <div class="beat-media">
+      <img src="images/scene5-boatride.png" alt="Illustration of Param and Ruchira holding hands in a boat on the Ganges at sunset">
+    </div>
+    <div class="beat-text">
+      <p class="beat-marker"><span class="ic">🚣</span> On the Ganga</p>
+      <h2 class="beat-title">Drifting, hand in hand</h2>
+      <p class="beat-copy">A wooden boat, a melting sun, and your hand in mine. No destination — just the river deciding to take its time with us.</p>
+    </div>
+  </div>
+
+  <!-- BEAT 9 : Last walk -->
+  <div class="beat" data-beat>
+    <div class="beat-node"></div>
+    <div class="beat-media">
+      <img src="images/scene7-lastwalk.png" alt="Illustration of Param and Ruchira walking hand in hand through a lit-up Banaras street">
+    </div>
+    <div class="beat-text">
+      <p class="beat-marker"><span class="ic">🪔</span> Last walk of the trip</p>
+      <h2 class="beat-title">Down the lantern-lit lane</h2>
+      <p class="beat-copy">Ganga aarti behind us, fairy lights ahead, your hand never letting go. Every trip ends — but this feeling didn't have to.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== PROPOSAL ===================== -->
+<section class="proposal-section reveal" data-reveal id="proposal">
+
+  <div id="proposal-ask">
+    <p class="proposal-eyebrow">one last question, Ruchira</p>
+    <h2 class="proposal-question">Will you marry me?</h2>
+    <p class="proposal-sub">Every chapter above led here. There's only one button that actually works 😊</p>
+    <div class="proposal-buttons" id="proposal-buttons">
+      <button class="btn-yes" id="btn-yes">Yes, forever 💍</button>
+      <button class="btn-no" id="btn-no">No</button>
+    </div>
+    <p class="proposal-hint" id="proposal-hint">&nbsp;</p>
+  </div>
+
+  <div class="celebration" id="celebration">
+    <div class="confetti-burst" id="confetti"></div>
+    <h2 class="celebration-title">She said yes! 🎉</h2>
+    <p class="celebration-sub">Param, your forever just said yes. <br>Now let's count down to it.</p>
+  </div>
+
+</section>
+
+<div class="gated" id="gated-content">
+
+<!-- ===================== DIVIDER QUOTE ===================== -->
+<div class="divider reveal" data-reveal>
+  <div class="divider-mark">❀</div>
+  <p class="divider-text">
+    <span class="hin">Aur ab hamesha ke liye hamari ho gayi.</span>
+    And now, it's ours — forever.
+  </p>
+</div>
+
+<!-- ===================== WEDDING COUNTDOWN ===================== -->
+<section class="countdown-section">
+  <p class="countdown-eyebrow reveal" data-reveal>our forever begins</p>
+  <h2 class="countdown-title reveal" data-reveal>The Wedding Countdown</h2>
+  <p class="countdown-date reveal" data-reveal>16th November, 2026</p>
+
+  <div class="countdown-grid reveal" data-reveal id="countdown">
+    <div class="cd-box"><span class="cd-num" id="cd-days">--</span><span class="cd-label">days</span></div>
+    <div class="cd-box"><span class="cd-num" id="cd-hours">--</span><span class="cd-label">hours</span></div>
+    <div class="cd-box"><span class="cd-num" id="cd-mins">--</span><span class="cd-label">minutes</span></div>
+    <div class="cd-box"><span class="cd-num" id="cd-secs">--</span><span class="cd-label">seconds</span></div>
+  </div>
+
+  <img class="countdown-img reveal" data-reveal src="images/scene4-wedding.png" alt="Illustration of Param and Ruchira at their wedding ceremony, holding hands by the sacred fire">
+
+  <p class="countdown-note reveal" data-reveal>
+    Every memory before this was a chapter. November 16th is where our story becomes a forever.
+  </p>
+</section>
+
+</div>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  Param <span class="heart">&hearts;</span> Ruchira — our forever begins 16.11.2026
+</footer>
+
+<script>
+// ---------- ambient floating embers ----------
+(function spawnEmbers(){
+  const container = document.getElementById('embers');
+  const count = window.innerWidth < 760 ? 10 : 18;
+  for(let i=0;i<count;i++){
+    const el = document.createElement('div');
+    el.className = 'ember-particle';
+    const size = 3 + Math.random()*5;
+    const left = Math.random()*100;
+    const duration = 9 + Math.random()*10;
+    const delay = Math.random()*duration;
+    const drift = (Math.random()*120 - 60) + 'px';
+    el.style.width = size+'px';
+    el.style.height = size+'px';
+    el.style.left = left+'vw';
+    el.style.setProperty('--drift', drift);
+    el.style.animationDuration = duration+'s';
+    el.style.animationDelay = '-' + delay+'s';
+    container.appendChild(el);
+  }
+})();
+
+// ---------- proposal: No button dodges, Yes unlocks everything ----------
+(function proposalLogic(){
+  const wrap = document.getElementById('proposal-buttons');
+  const btnNo = document.getElementById('btn-no');
+  const btnYes = document.getElementById('btn-yes');
+  const hint = document.getElementById('proposal-hint');
+  const askBlock = document.getElementById('proposal-ask');
+  const celebration = document.getElementById('celebration');
+  const gated = document.getElementById('gated-content');
+  const confettiWrap = document.getElementById('confetti');
+
+  if(!wrap || !btnNo || !btnYes) return;
+
+  const hints = [
+    "nice try 😄",
+    "she's not going anywhere, but neither is that button",
+    "okay that one's just rude to chase",
+    "the universe really wants you to click yes",
+    "I promise yes is the easier option",
+    "you can keep trying, the button can keep running"
+  ];
+  let dodgeCount = 0;
+  let yesScale = 1;
+
+  function dodge(){
+    dodgeCount++;
+
+    if (!btnNo.classList.contains('dodging')){
+      btnNo.classList.add('dodging');
+    }
+
+    const cRect = wrap.getBoundingClientRect();
+    const eRect = btnNo.getBoundingClientRect();
+    const maxLeft = Math.max(cRect.width - eRect.width, 0);
+    const maxTop = Math.max(cRect.height - eRect.height, 0);
+    const left = Math.random() * maxLeft;
+    const top = Math.random() * maxTop;
+
+    btnNo.style.left = left + 'px';
+    btnNo.style.top = top + 'px';
+
+    // shrink and fade the No button a little more each time, then vanish
+    const scale = Math.max(1 - dodgeCount * 0.12, 0);
+    if (scale <= 0.05){
+      btnNo.style.display = 'none';
+    } else {
+      btnNo.style.transform = `scale(${scale})`;
+      btnNo.style.opacity = String(Math.max(1 - dodgeCount * 0.1, 0.3));
+    }
+
+    // grow Yes slightly each time, capped
+    yesScale = Math.min(1 + dodgeCount * 0.05, 1.35);
+    btnYes.style.transform = `scale(${yesScale})`;
+
+    hint.textContent = hints[Math.min(dodgeCount - 1, hints.length - 1)];
+  }
+
+  // desktop: dodge on hover
+  btnNo.addEventListener('mouseenter', dodge);
+  // touch devices: dodge before a tap can land
+  btnNo.addEventListener('touchstart', (e)=>{ e.preventDefault(); dodge(); }, { passive:false });
+  // safety net: if a click ever lands, still dodge instead of doing anything else
+  btnNo.addEventListener('click', (e)=>{ e.preventDefault(); dodge(); });
+  // keyboard users tabbing to the button: dodge on focus too
+  btnNo.addEventListener('focus', dodge);
+
+  function spawnConfetti(){
+    const pieces = ['❤️','💛','✨','💍','🌸','💫'];
+    const count = 26;
+    for(let i=0;i<count;i++){
+      const span = document.createElement('span');
+      span.className = 'confetti-piece';
+      span.textContent = pieces[Math.floor(Math.random()*pieces.length)];
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 120 + Math.random()*180;
+      const cx = Math.cos(angle) * dist + 'px';
+      const cy = Math.sin(angle) * dist - 60 + 'px';
+      const rot = (Math.random()*360 - 180) + 'deg';
+      span.style.setProperty('--cx', cx);
+      span.style.setProperty('--cy', cy);
+      span.style.setProperty('--cr', rot);
+      span.style.animationDelay = (Math.random()*0.25) + 's';
+      confettiWrap.appendChild(span);
+    }
+    setTimeout(()=>{ confettiWrap.innerHTML = ''; }, 2200);
+  }
+
+  btnYes.addEventListener('click', ()=>{
+    askBlock.style.display = 'none';
+    celebration.classList.add('show');
+    spawnConfetti();
+    gated.classList.add('unlocked');
+
+    setTimeout(()=>{
+      gated.scrollIntoView({ behavior:'smooth', block:'start' });
+    }, 1400);
+  });
+})();
+
+// ---------- intersection observer reveals ----------
+const beats = document.querySelectorAll('[data-beat]');
+const reveals = document.querySelectorAll('[data-reveal]');
+
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('is-visible');
+    }
+  });
+},{ threshold:0.25 });
+
+beats.forEach(b=>io.observe(b));
+reveals.forEach(r=>io.observe(r));
+
+// ---------- diya travels down the spine as user scrolls through the story ----------
+const diya = document.getElementById('diya');
+const storyEl = document.querySelector('.story');
+
+function positionDiya(){
+  const rect = storyEl.getBoundingClientRect();
+  const storyTop = rect.top + window.scrollY;
+  const storyHeight = storyEl.offsetHeight;
+  const viewportCenter = window.scrollY + window.innerHeight * 0.4;
+
+  let progress = (viewportCenter - storyTop) / storyHeight;
+  progress = Math.max(0, Math.min(1, progress));
+
+  const top = storyTop + progress * storyHeight;
+  const fadeZone = 120;
+
+  diya.style.top = top + 'px';
+  diya.style.opacity = (viewportCenter < storyTop - fadeZone || viewportCenter > storyTop + storyHeight + fadeZone) ? '0' : '1';
+}
+
+window.addEventListener('scroll', positionDiya, { passive:true });
+window.addEventListener('resize', positionDiya);
+positionDiya();
+
+// ---------- wedding countdown ----------
+const weddingDate = new Date('2026-11-16T00:00:00');
+let lastValues = { days:null, hours:null, mins:null, secs:null };
+
+function setIfChanged(el, value, key){
+  if(!el) return;
+  const text = String(value);
+  if (el.textContent !== text){
+    el.textContent = text;
+    if (lastValues[key] !== null){
+      el.classList.remove('tick');
+      // restart animation
+      void el.offsetWidth;
+      el.classList.add('tick');
+    }
+    lastValues[key] = value;
+  }
+}
+
+function updateCountdown(){
+  const now = new Date();
+  let diff = weddingDate - now;
+
+  const elDays = document.getElementById('cd-days');
+  const elHours = document.getElementById('cd-hours');
+  const elMins = document.getElementById('cd-mins');
+  const elSecs = document.getElementById('cd-secs');
+
+  if (diff <= 0){
+    elDays.textContent = '0';
+    elHours.textContent = '0';
+    elMins.textContent = '0';
+    elSecs.textContent = '0';
+    return;
+  }
+
+  const days = Math.floor(diff / (1000*60*60*24));
+  diff -= days * (1000*60*60*24);
+  const hours = Math.floor(diff / (1000*60*60));
+  diff -= hours * (1000*60*60);
+  const mins = Math.floor(diff / (1000*60));
+  diff -= mins * (1000*60);
+  const secs = Math.floor(diff / 1000);
+
+  setIfChanged(elDays, days, 'days');
+  setIfChanged(elHours, String(hours).padStart(2,'0'), 'hours');
+  setIfChanged(elMins, String(mins).padStart(2,'0'), 'mins');
+  setIfChanged(elSecs, String(secs).padStart(2,'0'), 'secs');
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+</script>
+
+
+
+
+</body>
+</html>
