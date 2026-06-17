@@ -688,6 +688,36 @@ img{border-radius:18px;}
 .cd-num{font-size:2.4rem!important;}
 }
 
+
+.music-message{
+  margin-top:22px;
+  margin-bottom:18px;
+  font-family:var(--display);
+  font-style:italic;
+  font-size:1.15rem;
+  line-height:1.8;
+  color:var(--ink-dim);
+  max-width:560px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.music-btn{
+display:inline-flex;
+align-items:center;
+gap:8px;
+margin-top:8px;
+padding:14px 30px;
+border:none;
+border-radius:999px;
+background:rgba(216,167,83,.15);
+backdrop-filter:blur(12px);
+border:1px solid rgba(216,167,83,.45);
+color:#efc97e;
+font-weight:700;
+cursor:pointer;
+box-shadow:0 8px 24px rgba(0,0,0,.25);
+}
+
 </style>
 </head>
 <body>
@@ -712,6 +742,19 @@ img{border-radius:18px;}
 <section class="hero">
   <div class="hero-eyebrow">a story that found its way home</div>
   <h1 class="hero-names">Param <span class="amp">&amp;</span> Ruchira</h1>
+<audio id="bgMusic" loop>
+<source src="tum-tak.mp3" type="audio/mpeg">
+</audio>
+
+<div class="music-message">
+✨ Wait... ✨<br>
+This isn't just a website. It's our journey.<br><br>
+Before you scroll through our memories,
+press play and let the music tell our story. ❤️🎵
+</div>
+
+<button id="musicBtn" class="music-btn">🎵</button>
+
   <p class="hero-sub">
     <span class="hin">Ek story reply se shuru hui baat...</span>
     Pune ki mulaqaton se guzri, Banaras ki yaadon mein basi,<br>
@@ -1130,6 +1173,20 @@ setInterval(updateCountdown, 1000);
 
 
 
+
+
+<script>
+const musicBtn=document.getElementById('musicBtn');
+const bgMusic=document.getElementById('bgMusic');
+if(musicBtn && bgMusic){
+ musicBtn.addEventListener('click', async ()=>{
+   try{
+     await bgMusic.play();
+     musicBtn.innerHTML='🎶 Now Playing';
+   }catch(e){console.log(e);}
+ });
+}
+</script>
 
 </body>
 </html>
