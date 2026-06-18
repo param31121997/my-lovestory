@@ -1190,3 +1190,14 @@ if(musicBtn && bgMusic){
 
 </body>
 </html>
+<style>
+.beat{align-items:center;gap:70px;position:relative;z-index:5}
+.beat-text{background:rgba(36,19,19,.7);padding:35px;border-radius:28px;backdrop-filter:blur(10px);box-shadow:0 10px 40px rgba(0,0,0,.45)}
+.beat-title{font-size:3rem;color:#fff8ee;text-shadow:0 0 20px rgba(216,167,83,.25)}
+.beat-copy{color:#e5d4c0}
+.beat-node,.diya,.spine{z-index:1}
+.beat-media{z-index:6}
+.beat-media img{border-radius:24px}
+body:before{content:'';position:fixed;inset:0;background:linear-gradient(135deg,#120708,#241113);pointer-events:none}
+@media(max-width:760px){.beat{gap:30px}.beat-text{padding:25px}.beat-title{font-size:2.2rem}}
+</style>
