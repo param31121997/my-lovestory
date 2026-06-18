@@ -536,6 +536,13 @@ a{ color:inherit; }
 
 /* ===================== COUNTDOWN ===================== */
 .countdown-section{
+scroll-margin-top:0;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+
   position:relative;
   z-index:3;
   text-align:center;
@@ -759,42 +766,75 @@ background:linear-gradient(180deg,#170b0d,#2b1013,#120708)!important;
 
 <style>
 .music-card{
-margin-top:15px;
-display:inline-flex;
-flex-direction:column;
-gap:12px;
-padding:18px 22px;
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(18px);
-border-radius:25px;
-border:1px solid rgba(216,167,83,.3);
-box-shadow:0 10px 35px rgba(0,0,0,.3);
+    margin-top:15px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:18px;
+    padding:20px 24px;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(18px);
+    border-radius:25px;
+    border:1px solid rgba(216,167,83,.3);
+    box-shadow:0 10px 35px rgba(0,0,0,.3);
 }
-.now-playing{color:#efc97e;font-weight:bold}
-.music-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-#songSelect,.music-btn{
-border:none;
-border-radius:30px;
-padding:12px 20px;
-background:rgba(216,167,83,.15);
-color:#fff4df;
+
+.now-playing{
+    color:#efc97e;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.music-controls{
+    display:flex;
+    flex-direction:column;   /* IMPORTANT */
+    align-items:center;
+    gap:16px;
+    width:100%;
+}
+
+.music-btn,
+#songSelect{
+    width:240px;
+    border:none;
+    border-radius:30px;
+    padding:14px 20px;
+    font-size:15px;
+    text-align:center;
+}
+
+.music-btn{
+    background:rgba(216,167,83,.15);
+    color:#fff4df;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.music-btn:hover{
+    transform:translateY(-3px);
+    background:rgba(216,167,83,.25);
 }
 
 #songSelect{
-    background: rgba(36,19,19,.95);
-    color: #fff4df;
-    border: 1px solid rgba(216,167,83,.4);
-    border-radius: 30px;
-    padding: 12px 12px;
-    font-size: 15px;
-    cursor: pointer;
+    background:rgba(36,19,19,.95);
+    color:#fff4df;
+    border:1px solid rgba(216,167,83,.4);
 }
 
 #songSelect option{
-    background: #2b1013;
-    color: #fff4df;
-    padding: 12px;
+    background:#2b1013;
+    color:#fff4df;
 }
+</style>
+
+<style>
+.song-menu{display:none;flex-direction:column;gap:12px;width:240px}
+.song-menu.show{display:flex}
+.song-item{
+padding:14px;border-radius:20px;
+background:#2b1013;color:#fff4df;
+border:1px solid rgba(216,167,83,.3);
+text-align:center;cursor:pointer}
 </style>
 </head>
 <body>
@@ -832,21 +872,36 @@ press play and let the music tell our story. ❤️🎵
 
 
 <div class="music-card">
-<div class="now-playing">🎶 Now Playing</div>
-<div id="songTitle">Tum Tak ❤️</div>
-<div class="music-controls">
-<button id="musicBtn" class="music-btn">▶ Play</button>
-<select id="songSelect">
-<option value="tum-tak.mp3">❤️ Tum Tak</option>
-<option value="channa-ve.mp3">✨ Chann Ve</option>
-<option value="chainsmokers-closer.mp3">🌸 ChainSmokers</option>
-<option value="mast-magan.mp3">🌸 Mast Magan</option>
-<option value="o-rangrez.mp3">❤️ O-Rangrez</option>
-<option value="wedding-love-mashup.mp3">✨ Wedding-mashup</option>
-</select>
-</div>
+
+    <div class="now-playing">
+        🎶 Now Playing
+    </div>
+
+    <div id="songTitle">
+        Tum Tak ❤️
+    </div>
+
+    <div class="music-controls">
+
+        <button id="musicBtn" class="music-btn">
+            ▶ Play
+        </button>
+
+        
+<button id="changeMusicBtn" class="music-btn">💿 Change Music</button>
+<div id="songMenu" class="song-menu">
+<div class="song-item" data-src="tum-tak.mp3">❤️ Tum Tak</div>
+<div class="song-item" data-src="channa-ve.mp3">✨ Chann Ve</div>
+<div class="song-item" data-src="chainsmokers-closer.mp3">🌸 ChainSmokers</div>
+<div class="song-item" data-src="mast-magan.mp3">🌸 Mast Magan</div>
+<div class="song-item" data-src="o-rangrez.mp3">❤️ O Rangrez</div>
+<div class="song-item" data-src="wedding-love-mashup.mp3">✨ Wedding Mashup</div>
 </div>
 
+
+    </div>
+
+</div>
 
   <p class="hero-sub">
     <span class="hin">Ek story reply se shuru hui baat...</span>
@@ -1156,19 +1211,30 @@ press play and let the music tell our story. ❤️🎵
       span.style.animationDelay = (Math.random()*0.25) + 's';
       confettiWrap.appendChild(span);
     }
-    setTimeout(()=>{ confettiWrap.innerHTML = ''; }, 2200);
+    setTimeout(()=>{ confettiWrap.innerHTML = ''; }, 1500);
   }
 
   btnYes.addEventListener('click', ()=>{
-    askBlock.style.display = 'none';
+
+    askBlock.style.display='none';
+
     celebration.classList.add('show');
+
     spawnConfetti();
+
     gated.classList.add('unlocked');
 
     setTimeout(()=>{
-      gated.scrollIntoView({ behavior:'smooth', block:'start' });
-    }, 1400);
-  });
+
+        document.querySelector('.countdown-section')
+        .scrollIntoView({
+            behavior:'smooth',
+            block:'center'
+        });
+
+    },2500);
+
+});
 })();
 
 // ---------- intersection observer reveals ----------
@@ -1271,7 +1337,8 @@ setInterval(updateCountdown, 1000);
 <script>
 const musicBtn=document.getElementById('musicBtn');
 const bgMusic=document.getElementById('bgMusic');
-const songSelect=document.getElementById('songSelect');
+const changeMusicBtn=document.getElementById('changeMusicBtn');
+const songMenu=document.getElementById('songMenu');
 const songTitle=document.getElementById('songTitle');
 
 musicBtn.onclick=()=>{
@@ -1279,14 +1346,20 @@ if(bgMusic.paused){bgMusic.play();musicBtn.innerText='⏸ Pause';}
 else{bgMusic.pause();musicBtn.innerText='▶ Play';}
 };
 
-songSelect.onchange=()=>{
+
+changeMusicBtn.onclick=()=>songMenu.classList.toggle('show');
+document.querySelectorAll('.song-item').forEach(item=>{
+item.onclick=()=>{
 bgMusic.pause();
-bgMusic.src=songSelect.value;
+bgMusic.src=item.dataset.src;
 bgMusic.load();
 bgMusic.play();
-songTitle.innerText=songSelect.options[songSelect.selectedIndex].text;
+songTitle.innerText=item.innerText;
 musicBtn.innerText='⏸ Pause';
+songMenu.classList.remove('show');
 };
+});
+
 </script>
 
 </body>
