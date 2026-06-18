@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Param &amp; Ruchira</title>
+<title>Param &amp; Rucha</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Caveat:wght@500;600&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -719,6 +719,83 @@ box-shadow:0 8px 24px rgba(0,0,0,.25);
 }
 
 </style>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@500;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<style>
+.hero-eyebrow,.beat-marker,.countdown-eyebrow,.footer{
+font-family:'Great Vibes',cursive!important;
+color:#ffb7c5!important;
+font-size:1.5rem!important;
+}
+
+.hero-names,.beat-title,.proposal-question,.countdown-title{
+font-family:'Playfair Display',serif!important;
+color:#fff6df!important;
+text-shadow:0 0 25px rgba(255,210,140,.35)!important;
+}
+
+.beat-copy,.proposal-sub,.countdown-note{
+font-family:'Cormorant Garamond',serif!important;
+font-size:1.3rem!important;
+line-height:1.9!important;
+color:#f0dfca!important;
+}
+
+.beat-text{
+background:rgba(255,255,255,.08)!important;
+border:1px solid rgba(255,210,140,.15)!important;
+}
+
+.beat-title{
+background:linear-gradient(90deg,#fff4d2,#ffb0c4);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+body{
+background:linear-gradient(180deg,#170b0d,#2b1013,#120708)!important;
+}
+</style>
+
+<style>
+.music-card{
+margin-top:15px;
+display:inline-flex;
+flex-direction:column;
+gap:12px;
+padding:18px 22px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(18px);
+border-radius:25px;
+border:1px solid rgba(216,167,83,.3);
+box-shadow:0 10px 35px rgba(0,0,0,.3);
+}
+.now-playing{color:#efc97e;font-weight:bold}
+.music-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#songSelect,.music-btn{
+border:none;
+border-radius:30px;
+padding:12px 20px;
+background:rgba(216,167,83,.15);
+color:#fff4df;
+}
+
+#songSelect{
+    background: rgba(36,19,19,.95);
+    color: #fff4df;
+    border: 1px solid rgba(216,167,83,.4);
+    border-radius: 30px;
+    padding: 12px 18px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#songSelect option{
+    background: #2b1013;
+    color: #fff4df;
+    padding: 12px;
+}
+</style>
 </head>
 <body>
 
@@ -741,7 +818,7 @@ box-shadow:0 8px 24px rgba(0,0,0,.25);
 <!-- ===================== HERO ===================== -->
 <section class="hero">
   <div class="hero-eyebrow">a story that found its way home</div>
-  <h1 class="hero-names">Param <span class="amp">&amp;</span> Ruchira</h1>
+  <h1 class="hero-names">Param <span class="amp">&amp;</span> Rucha</h1>
 <audio id="bgMusic" loop>
 <source src="tum-tak.mp3" type="audio/mpeg">
 </audio>
@@ -753,7 +830,23 @@ Before you scroll through our memories,
 press play and let the music tell our story. ❤️🎵
 </div>
 
-<button id="musicBtn" class="music-btn">🎵</button>
+
+<div class="music-card">
+<div class="now-playing">🎶 Now Playing</div>
+<div id="songTitle">Tum Tak ❤️</div>
+<div class="music-controls">
+<button id="musicBtn" class="music-btn">▶ Play</button>
+<select id="songSelect">
+<option value="tum-tak.mp3">❤️ Tum Tak</option>
+<option value="channa-ve.mp3">✨ Chann Ve</option>
+<option value="chainsmokers-closer.mp3">🌸 ChainSmokers</option>
+<option value="mast-magan.mp3">🌸 Mast Magan</option>
+<option value="o-rangrez.mp3">❤️ O-Rangrez</option>
+<option value="wedding-love-mashup.mp3">✨ Wedding-mashup</option>
+</select>
+</div>
+</div>
+
 
   <p class="hero-sub">
     <span class="hin">Ek story reply se shuru hui baat...</span>
@@ -785,8 +878,8 @@ press play and let the music tell our story. ❤️🎵
     </div>
     <div class="beat-text">
       <p class="beat-marker"><span class="ic">📱</span> Where it began</p>
-      <h2 class="beat-title">One reply to a story</h2>
-      <p class="beat-copy">A small reply to a small story — neither of us knew it was the opening line of something that would last a lifetime.</p>
+      <h2 class="beat-title">Ek Random Reply... Aur Phir Roz Ka Scene 😂</h2>
+      <p class="beat-copy">Ek story pe bas reply kiya tha... us waqt kaha pata tha ki ye ladki meri daily routine ban jayegi 😂❤️</p>
     </div>
   </div>
 
@@ -794,12 +887,12 @@ press play and let the music tell our story. ❤️🎵
   <div class="beat right" data-beat>
     <div class="beat-node"></div>
     <div class="beat-media">
-      <img src="images/real-collage-1.png" alt="Param and Ruchira on a boat at sunset in Banaras, and Ruchira enjoying kachori chaat">
+      <img src="images/real-collage-1.png" alt="Param and Rucha on a boat at sunset in Banaras, and Rucha enjoying kachori chaat">
     </div>
     <div class="beat-text">
       <p class="beat-marker"><span class="ic">☕</span> The in-between days</p>
-      <h2 class="beat-title">Daily conversations</h2>
-      <p class="beat-copy">Good mornings turned into good nights. Somewhere between the everyday texts, talking to each other became the best part of the day.</p>
+      <h2 class="beat-title">Roz Roz Ki Bakbak 😆</h2>
+      <p class="beat-copy">Pehle 2-4 messages hote the... phir pata hi nahi chala kab poora din ek dusre ko pareshaan karne mein nikalne laga 😂❤️</p>
     </div>
   </div>
 
@@ -807,12 +900,12 @@ press play and let the music tell our story. ❤️🎵
   <div class="beat" data-beat>
     <div class="beat-node"></div>
     <div class="beat-media">
-      <img src="images/real-bouquet.jpeg" alt="Ruchira holding a bouquet of red roses with Param in Pune">
+      <img src="images/real-bouquet.jpeg" alt="Rucha holding a bouquet of red roses with Param in Pune">
     </div>
     <div class="beat-text">
       <p class="beat-marker"><span class="ic">🌆</span> Pune</p>
-      <h2 class="beat-title">When the screen became real</h2>
-      <p class="beat-copy">The first time "talking" turned into actually being in the same room. Pune gave us our first real meetings — and a bouquet that meant more than its flowers.</p>
+      <h2 class="beat-title">Screen Se Samne Tak ✨</h2>
+      <p class="beat-copy">Video call mein sab hero lagte hain, lekin jab saamne mile toh laga haan yaar, yehi hai meri permanent headache 😂❤️</p>
     </div>
   </div>
 
@@ -820,7 +913,7 @@ press play and let the music tell our story. ❤️🎵
   <div class="beat right" data-beat>
     <div class="beat-node"></div>
     <div class="beat-media">
-      <img src="images/real-collage-2.jpeg" alt="Collage of Param and Ruchira together — ice cream, hugging by the water, holding hands">
+      <img src="images/real-collage-2.jpeg" alt="Collage of Param and Rucha together — ice cream, hugging by the water, holding hands">
     </div>
     <div class="beat-text">
       <p class="beat-marker"><span class="ic">❤️</span> Pune memories</p>
@@ -833,7 +926,7 @@ press play and let the music tell our story. ❤️🎵
   <div class="beat" data-beat>
     <div class="beat-node"></div>
     <div class="beat-media">
-      <img src="images/scene2-ghat-a.png" alt="Illustration of Param and Ruchira sitting together at a Banaras ghat at sunset">
+      <img src="images/scene2-ghat-a.png" alt="Illustration of Param and Rucha sitting together at a Banaras ghat at sunset">
     </div>
     <div class="beat-text">
       <p class="beat-marker"><span class="ic">🌅</span> Banaras diaries</p>
@@ -846,7 +939,7 @@ press play and let the music tell our story. ❤️🎵
   <div class="beat right" data-beat>
     <div class="beat-node"></div>
     <div class="beat-media">
-      <img src="images/scene3-kachori.png" alt="Illustration of Param feeding Ruchira kachori chaat at a Banaras street stall">
+      <img src="images/scene3-kachori.png" alt="Illustration of Param feeding Rucha kachori chaat at a Banaras street stall">
     </div>
     <div class="beat-text">
       <p class="beat-marker"><span class="ic">🥟</span> Kachori date</p>
@@ -859,12 +952,12 @@ press play and let the music tell our story. ❤️🎵
   <div class="beat" data-beat>
     <div class="beat-node"></div>
     <div class="beat-media">
-      <img src="images/scene4-icecream.png" alt="Illustration of Param and Ruchira sharing ice cream by the river at sunset in Banaras">
+      <img src="images/scene4-icecream.png" alt="Illustration of Param and Rucha sharing ice cream by the river at sunset in Banaras">
     </div>
     <div class="beat-text">
       <p class="beat-marker"><span class="ic">🍦</span> Sweet evenings</p>
-      <h2 class="beat-title">Two cones, one sunset</h2>
-      <p class="beat-copy">Vanilla for you, strawberry for me, and the whole sky turning gold behind us. Some evenings don't need an occasion to be unforgettable.</p>
+      <h2 class="beat-title">Shopping Se Zyada Maza Tumhare Saath Tha ❤️</h2>
+      <p class="beat-copy">Plan toh bas thoda shopping karne ka tha... lekin tumhare saath har showroom aur har choti si baat bhi yaadgar ban gayi ❤️😂</p>
     </div>
   </div>
 
@@ -872,7 +965,7 @@ press play and let the music tell our story. ❤️🎵
   <div class="beat right" data-beat>
     <div class="beat-node"></div>
     <div class="beat-media">
-      <img src="images/scene5-boatride.png" alt="Illustration of Param and Ruchira holding hands in a boat on the Ganges at sunset">
+      <img src="images/scene5-boatride.png" alt="Illustration of Param and Rucha holding hands in a boat on the Ganges at sunset">
     </div>
     <div class="beat-text">
       <p class="beat-marker"><span class="ic">🚣</span> On the Ganga</p>
@@ -885,12 +978,12 @@ press play and let the music tell our story. ❤️🎵
   <div class="beat" data-beat>
     <div class="beat-node"></div>
     <div class="beat-media">
-      <img src="images/scene7-lastwalk.png" alt="Illustration of Param and Ruchira walking hand in hand through a lit-up Banaras street">
+      <img src="images/scene7-lastwalk.png" alt="Illustration of Param and Rucha walking hand in hand through a lit-up Banaras street">
     </div>
     <div class="beat-text">
       <p class="beat-marker"><span class="ic">🪔</span> Last walk of the trip</p>
-      <h2 class="beat-title">Down the lantern-lit lane</h2>
-      <p class="beat-copy">Ganga aarti behind us, fairy lights ahead, your hand never letting go. Every trip ends — but this feeling didn't have to.</p>
+      <h2 class="beat-title">Vrindavan Ki Galiyan ❤️</h2>
+      <p class="beat-copy">Vrindavan ki un pyaari galiyon mein hum dono ki bakbak aur hasi mazaak hi sabse khoobsurat yaad ban gayi ❤️✨</p>
     </div>
   </div>
 
@@ -900,7 +993,7 @@ press play and let the music tell our story. ❤️🎵
 <section class="proposal-section reveal" data-reveal id="proposal">
 
   <div id="proposal-ask">
-    <p class="proposal-eyebrow">one last question, Ruchira</p>
+    <p class="proposal-eyebrow">one last question, Rucha</p>
     <h2 class="proposal-question">Will you marry me?</h2>
     <p class="proposal-sub">Every chapter above led here. There's only one button that actually works 😊</p>
     <div class="proposal-buttons" id="proposal-buttons">
@@ -942,7 +1035,7 @@ press play and let the music tell our story. ❤️🎵
     <div class="cd-box"><span class="cd-num" id="cd-secs">--</span><span class="cd-label">seconds</span></div>
   </div>
 
-  <img class="countdown-img reveal" data-reveal src="images/scene4-wedding.png" alt="Illustration of Param and Ruchira at their wedding ceremony, holding hands by the sacred fire">
+  <img class="countdown-img reveal" data-reveal src="images/scene4-wedding.png" alt="Illustration of Param and Rucha at their wedding ceremony, holding hands by the sacred fire">
 
   <p class="countdown-note reveal" data-reveal>
     Every memory before this was a chapter. November 16th is where our story becomes a forever.
@@ -953,7 +1046,7 @@ press play and let the music tell our story. ❤️🎵
 
 <!-- ===================== FOOTER ===================== -->
 <footer class="footer">
-  Param <span class="heart">&hearts;</span> Ruchira — our forever begins 16.11.2026
+  Param <span class="heart">&hearts;</span> Rucha — our forever begins 16.11.2026
 </footer>
 
 <script>
@@ -1178,14 +1271,22 @@ setInterval(updateCountdown, 1000);
 <script>
 const musicBtn=document.getElementById('musicBtn');
 const bgMusic=document.getElementById('bgMusic');
-if(musicBtn && bgMusic){
- musicBtn.addEventListener('click', async ()=>{
-   try{
-     await bgMusic.play();
-     musicBtn.innerHTML='🎶 Now Playing';
-   }catch(e){console.log(e);}
- });
-}
+const songSelect=document.getElementById('songSelect');
+const songTitle=document.getElementById('songTitle');
+
+musicBtn.onclick=()=>{
+if(bgMusic.paused){bgMusic.play();musicBtn.innerText='⏸ Pause';}
+else{bgMusic.pause();musicBtn.innerText='▶ Play';}
+};
+
+songSelect.onchange=()=>{
+bgMusic.pause();
+bgMusic.src=songSelect.value;
+bgMusic.load();
+bgMusic.play();
+songTitle.innerText=songSelect.options[songSelect.selectedIndex].text;
+musicBtn.innerText='⏸ Pause';
+};
 </script>
 
 </body>
