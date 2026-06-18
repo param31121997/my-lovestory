@@ -113,10 +113,7 @@ a{ color:inherit; }
 @media (max-width:760px){
   .diya{ left:28px; width:26px; height:26px; }
 }
-.diya .flame{
-  animation:flicker 1.6s ease-in-out infinite;
-  transform-origin:50% 90%;
-}
+
 @keyframes flicker{
   0%,100%{ transform:scaleY(1) scaleX(1) rotate(0deg); opacity:1; }
   25%{ transform:scaleY(1.08) scaleX(0.94) rotate(-2deg); opacity:0.92; }
@@ -844,16 +841,14 @@ text-align:center;cursor:pointer}
 <div class="spine"></div>
 
 <!-- diya that travels down the spine -->
-<div class="diya" id="diya">
-  <svg viewBox="0 0 40 40" width="100%" height="100%">
-    <ellipse cx="20" cy="30" rx="14" ry="6" fill="#8a5a2b"/>
-    <ellipse cx="20" cy="28" rx="11" ry="4.2" fill="#c9842f"/>
-    <g class="flame">
-      <path d="M20 10 C 24 16, 25 21, 20 26 C 15 21, 16 16, 20 10 Z" fill="#f7b955"/>
-      <path d="M20 15 C 22 18, 22.5 21, 20 24 C 17.5 21, 18 18, 20 15 Z" fill="#fde2a0"/>
-    </g>
-  </svg>
+
+
+<div class="diya" id="diya"
+style="font-size:28px;display:flex;align-items:center;justify-content:center;">
+💍
 </div>
+
+
 
 <!-- ===================== HERO ===================== -->
 <section class="hero">
@@ -1374,4 +1369,22 @@ songMenu.classList.remove('show');
 .beat-media img{border-radius:24px}
 body:before{content:'';position:fixed;inset:0;background:linear-gradient(135deg,#120708,#241113);pointer-events:none}
 @media(max-width:760px){.beat{gap:30px}.beat-text{padding:25px}.beat-title{font-size:2.2rem}}
+</style>
+<style>
+
+.diya{
+  filter:drop-shadow(0 0 12px rgba(255,215,0,.8));
+  animation:ringGlow 1.8s ease-in-out infinite;
+}
+@keyframes ringGlow{
+0%,100%{
+transform:translate(-50%,-50%) scale(1);
+filter:drop-shadow(0 0 8px rgba(255,215,0,.6));
+}
+50%{
+transform:translate(-50%,-50%) scale(1.12);
+filter:drop-shadow(0 0 20px rgba(255,255,255,.9));
+}
+}
+
 </style>
