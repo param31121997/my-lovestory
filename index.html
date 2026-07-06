@@ -1185,6 +1185,39 @@ display:block;
  .family-slider{height:420px;}
 }
 
+
+.family-track{
+display:flex;
+gap:30px;
+overflow-x:auto;
+scroll-snap-type:x mandatory;
+padding:30px 10px;
+scrollbar-width:none;
+}
+.family-track::-webkit-scrollbar{display:none;}
+.family-card{
+flex:0 0 75%;
+scroll-snap-align:center;
+transition:.4s ease;
+}
+.family-card img{
+width:100%;
+height:600px;
+object-fit:contain;
+display:block;
+border-radius:24px;
+}
+@media(max-width:768px){
+.family-card{flex:0 0 92%;}
+.family-card img{height:350px;}
+}
+
+
+.family-wrapper{position:relative;display:flex;align-items:center;}
+.family-nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border:none;border-radius:50%;cursor:pointer;background:rgba(255,255,255,.95);color:#a1596a;font-size:26px;font-weight:bold;box-shadow:0 8px 20px rgba(0,0,0,.15);z-index:20;}
+.family-nav.prev{left:-20px;}
+.family-nav.next{right:-20px;}
+@media(max-width:768px){.family-nav{display:none;}}
 </style>
 
 <style id="chatgpt-mobile-fixes">
@@ -1544,17 +1577,18 @@ display:block;
 <section class="gallery-section reveal" data-reveal>
   <p class="gallery-eyebrow">families becoming one ❤️</p>
   <h2 class="gallery-title">The Day Our Worlds Met</h2>
-  <div class="family-slider" id="familySlider">
-<div class="family-slide active"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM.jpeg"></div>
-<div class="family-slide"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (1).jpeg"></div>
-<div class="family-slide"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (2).jpeg"></div>
-<div class="family-slide"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (3).jpeg"></div>
-<div class="family-slide"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (4).jpeg"></div>
-<div class="family-slide"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (5).jpeg"></div>
-<div class="family-slide"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (7).jpeg"></div>
-</div>
-<p style=<p style="max-width:700px;margin:30px auto 0;line-height:1.8;">
-We started as two people with a beautiful story. Then came the day our families met. Smiles turned into blessings, introductions turned into connections, and suddenly our future felt more real than ever. ❤️
+  <div class="family-wrapper"><button class="family-nav prev" onclick="scrollFamily(-1)">❮</button><div class="family-track" id="familyTrack">
+<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM.jpeg"></div>
+<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (1).jpeg"></div>
+<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (2).jpeg"></div>
+<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (3).jpeg"></div>
+<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (4).jpeg"></div>
+<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (5).jpeg"></div>
+<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (7).jpeg"></div>
+</div><button class="family-nav next" onclick="scrollFamily(1)">❯</button></div>
+<p style="max-width:700px;margin:30px auto 0;line-height:1.8;">
+We started as two people with a beautiful story. Then came the day our families met.
+Smiles turned into blessings, introductions turned into connections, and suddenly our future felt more real than ever. ❤️
 </p>
 </section>
 
@@ -2002,5 +2036,5 @@ slides[current].classList.add('active');
 },3000);
 });
 </script>
-</body>
+<script>function scrollFamily(direction){const track=document.getElementById('familyTrack');const card=track.querySelector('.family-card');if(!card)return;const amount=card.offsetWidth+30;track.scrollBy({left:amount*direction,behavior:'smooth'});}</script></body>
 </html>
