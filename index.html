@@ -6,25 +6,25 @@
 <title>Param &amp; Rucha</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Jost:wght@300;400;500;600&family=Homemade+Apple&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Jost:wght@300;400;500;600&family=Parisienne&display=swap" rel="stylesheet">
 <style>
 
 /* ===================== TOKENS ===================== */
 :root{
   --cream:      #fdf8f2;     /* linen-ivory page background */
-  --cream-2:    #f7eee3;     /* slightly deeper panel */
-  --blush:      #f3dfe1;     /* soft pink wash */
-  --rose:       #c17b87;     /* dusty rose accent */
-  --rose-deep:  #a1596a;     /* deeper rose for emphasis */
-  --sage:       #869a76;     /* leaf green */
-  --sage-deep:  #5f7350;     /* deep vine green */
-  --gold:       #cda76b;     /* soft antique gold */
-  --ink:        #4a3b3c;     /* warm plum-brown, main text */
-  --ink-dim:    #8a7674;     /* dimmer warm text */
+  --cream-2:    #f5e9dc;     /* slightly deeper panel */
+  --blush:      #f1d9dc;     /* soft pink wash */
+  --rose:       #ba6d7a;     /* dusty rose accent */
+  --rose-deep:  #94465a;     /* deeper rose for emphasis */
+  --sage:       #7c9169;     /* leaf green */
+  --sage-deep:  #4d6140;     /* deep vine green */
+  --gold:       #c99c58;     /* soft antique gold */
+  --ink:        #43312f;     /* warm plum-brown, main text */
+  --ink-dim:    #82675f;     /* dimmer warm text */
   --white:      #fffdfb;
 
   --serif:  'Fraunces', serif;
-  --script: 'Homemade Apple', cursive;
+  --script: 'Parisienne', cursive;
   --body:   'Jost', sans-serif;
 }
 
@@ -276,17 +276,12 @@ a{ color:inherit; }
 .beat-media img{
   width:100%;
   height:auto;
-  max-height:480px;
-  object-fit:contain;
   display:block;
   border-radius:14px;
   box-shadow:0 18px 40px rgba(74,59,60,0.18), 0 0 0 8px var(--white), 0 0 0 9px rgba(193,123,135,0.25);
   opacity:0;
   transform:translateY(28px);
   transition:opacity 0.9s ease, transform 0.9s ease, box-shadow 0.4s ease;
-}
-@media (max-width:760px){
-  .beat-media img{ max-height:360px; }
 }
 .beat.is-visible .beat-media img{ opacity:1; transform:translateY(0); }
 @media (hover:hover){
@@ -654,10 +649,10 @@ line-height:1.8;
   top:0;
   width:52%;
   height:82%;
-  background:var(--white);
-  border:1px solid rgba(193,123,135,0.35);
+  background:linear-gradient(160deg, var(--white) 0%, var(--blush) 100%);
+  border:1px solid rgba(193,123,135,0.4);
   border-radius:50px 50px 0 0;
-  box-shadow:0 8px 20px rgba(74,59,60,0.1);
+  box-shadow:0 10px 22px rgba(74,59,60,0.14);
 }
 .cd-box::before{
   left:50%;
@@ -687,24 +682,11 @@ line-height:1.8;
   display:block;
   line-height:1;
   position:relative;
-  overflow:hidden;
 }
 .cd-num.tick{ animation:tick-pulse 0.5s ease; }
-.cd-num.tick::after{
-  content:'';
-  position:absolute;
-  inset:-6px -12px;
-  background:linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.95) 48%, rgba(255,255,255,0.95) 58%, transparent 76%);
-  animation:eraser-wipe 0.5s ease;
-  pointer-events:none;
-}
-@keyframes eraser-wipe{
-  0%{ transform:translateX(-140%); }
-  100%{ transform:translateX(140%); }
-}
 @keyframes tick-pulse{
   0%{ transform:scale(1); }
-  30%{ transform:scale(1.18); color:var(--sage-deep); }
+  30%{ transform:scale(1.22); color:var(--sage-deep); text-shadow:0 0 10px rgba(205,167,107,0.5); }
   100%{ transform:scale(1); }
 }
 .cd-label{
@@ -777,6 +759,7 @@ line-height:1.8;
   margin:0 -18px;
   border-radius:14px;
   overflow:hidden;
+  background:var(--cream-2);
   box-shadow:0 14px 30px rgba(74,59,60,0.22), 0 0 0 6px var(--white);
   transform:scale(0.85) rotate(0deg);
   opacity:0.7;
@@ -790,7 +773,7 @@ line-height:1.8;
 .gallery-item img{
   width:100%;
   height:100%;
-  object-fit:cover;
+  object-fit:contain;
   display:block;
 }
 .gallery-item:hover,
@@ -1170,7 +1153,8 @@ transform:scale(1);
 .family-slide img{
 width:100%;
 height:100%;
-object-fit:cover;
+object-fit:contain;
+background:var(--cream-2);
 display:block;
 }
 @media(max-width:768px){
