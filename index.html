@@ -430,8 +430,8 @@ line-height:1.8;
   margin-bottom:8px;
 }
 
-/* ===================== PROPOSAL ===================== */
-.proposal-section{
+/* ===================== WEDDING INVITATION ===================== */
+.invitation-section{
   position:relative;
   z-index:3;
   min-height:100vh;
@@ -443,28 +443,32 @@ line-height:1.8;
   padding:100px 24px;
   overflow:hidden;
 }
-#proposal-ask{
+.invitation-section.invitation-closed{
+  min-height:0;
+  padding:0;
+}
+#invitation-ask{
   transition:opacity 0.5s ease, transform 0.5s ease;
 }
-#proposal-ask.fading-out{
+#invitation-ask.fading-out{
   opacity:0;
   transform:scale(0.96) translateY(-10px);
   pointer-events:none;
 }
-.proposal-eyebrow{
+.invitation-eyebrow{
   font-family:var(--script);
   font-size:1.5rem;
   color:var(--rose-deep);
   margin-bottom:14px;
 }
-.proposal-question{
+.invitation-question{
   font-family:var(--serif);
   font-weight:500;
   font-size:clamp(2.2rem, 6vw, 4rem);
   color:var(--ink);
   margin:0 0 18px;
 }
-.proposal-sub{
+.invitation-sub{
   font-family:var(--body);
   font-weight:300;
   font-style:italic;
@@ -474,27 +478,28 @@ line-height:1.8;
   margin:0 0 56px;
   line-height:1.6;
 }
-.proposal-buttons{
+.invitation-buttons{
   position:relative;
   width:100%;
-  max-width:480px;
-  height:160px;
+  max-width:560px;
+  min-height:120px;
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:28px;
+  flex-wrap:wrap;
+  gap:16px;
 }
-.btn-yes, .btn-no{
+.invitation-button{
   font-family:var(--body);
   font-weight:600;
-  font-size:1.1rem;
-  padding:16px 38px;
+  font-size:1rem;
+  padding:16px 28px;
   border-radius:50px;
   border:none;
   cursor:pointer;
   letter-spacing:0.02em;
 }
-.btn-yes{
+.invitation-button.primary{
   background:linear-gradient(135deg, var(--rose), var(--rose-deep));
   color:var(--white);
   box-shadow:0 10px 30px rgba(193,123,135,0.4);
@@ -502,23 +507,21 @@ line-height:1.8;
   position:relative;
   z-index:2;
 }
-.btn-yes:hover{
+.invitation-button.primary:hover{
   transform:translateY(-3px) scale(1.04);
   box-shadow:0 14px 40px rgba(193,123,135,0.55);
 }
-.btn-no{
+.invitation-button.secondary{
   background:var(--white);
   color:var(--ink-dim);
   border:1.5px solid rgba(138,118,116,0.35);
-  position:relative;
-  transition:transform 0.25s ease, opacity 0.25s ease;
-  z-index:3;
+  transition:transform 0.25s ease, box-shadow 0.25s ease;
 }
-.btn-no.dodging{
-  position:absolute;
-  transition:left 0.25s ease, top 0.25s ease, transform 0.25s ease, opacity 0.25s ease;
+.invitation-button.secondary:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 24px rgba(74,59,60,0.12);
 }
-.proposal-hint{
+.invitation-hint{
   margin-top:34px;
   font-size:0.82rem;
   color:var(--ink-dim);
@@ -527,53 +530,7 @@ line-height:1.8;
   min-height:1.2em;
 }
 
-/* celebration burst after yes */
-.celebration{
-  display:none;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-}
-.celebration.show{ display:flex; animation:celebrate-in 0.7s ease forwards; }
-@keyframes celebrate-in{
-  from{ opacity:0; transform:scale(0.85); }
-  to{ opacity:1; transform:scale(1); }
-}
-.celebration-title{
-  font-family:var(--serif);
-  font-weight:500;
-  font-size:clamp(2.4rem, 6vw, 4.2rem);
-  color:var(--rose-deep);
-  margin:0 0 14px;
-}
-.celebration-sub{
-  font-family:var(--body);
-  font-weight:300;
-  font-style:italic;
-  font-size:1.2rem;
-  color:var(--ink-dim);
-  max-width:480px;
-}
-
-.confetti-burst{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  overflow:visible;
-}
-.confetti-piece{
-  position:absolute;
-  top:50%; left:50%;
-  font-size:1.4rem;
-  opacity:0;
-  animation:confetti-fly 1.4s ease-out forwards;
-}
-@keyframes confetti-fly{
-  0%{ transform:translate(-50%,-50%) scale(0.3) rotate(0deg); opacity:1; }
-  100%{ transform:translate(var(--cx), var(--cy)) scale(1) rotate(var(--cr)); opacity:0; }
-}
-
-/* gate: hide what comes after the proposal until she says yes */
+/* Keep the wedding details tucked away until a guest opens the invitation. */
 .gated{
   max-height:0;
   overflow:hidden;
@@ -583,7 +540,7 @@ line-height:1.8;
 .gated.unlocked{
   max-height:none;
   opacity:1;
-  transition:opacity 1.2s ease 0.3s;
+  transition:none;
 }
 
 /* ===================== COUNTDOWN ===================== */
@@ -597,7 +554,7 @@ line-height:1.8;
   position:relative;
   z-index:3;
   text-align:center;
-  padding:60px 20px;
+  padding:32px 20px 60px;
   box-sizing:border-box;
   gap:0;
   background:linear-gradient(180deg, var(--cream) 0%, var(--blush) 50%, var(--cream) 100%);
@@ -809,7 +766,6 @@ line-height:1.8;
   box-shadow:0 10px 26px rgba(74,59,60,0.18);
   transition:opacity 0.8s ease, transform 0.4s ease;
 }
-.floating-music.gate-hidden{ opacity:0; pointer-events:none; }
 .fm-btn{
   width:34px;
   height:34px;
@@ -885,135 +841,6 @@ line-height:1.8;
 @keyframes mascot-wink{
   0%,92%,100%{ transform:scaleY(1); }
   95%{ transform:scaleY(0.1); }
-}
-
-.love-gate{
-  position:fixed;
-  inset:0;
-  z-index:999;
-  background:linear-gradient(160deg, var(--cream) 0%, var(--blush) 60%, var(--cream) 100%);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:24px;
-  transition:opacity 0.8s ease, visibility 0.8s ease;
-}
-.love-gate.unlocking{
-  opacity:0;
-  visibility:hidden;
-  pointer-events:none;
-}
-body.gate-locked{ overflow:hidden; }
-.love-gate-card{
-  background:var(--white);
-  border-radius:22px;
-  padding:48px 36px;
-  max-width:420px;
-  width:100%;
-  text-align:center;
-  box-shadow:0 30px 70px rgba(74,59,60,0.25);
-  position:relative;
-}
-.gate-icon{
-  font-size:3.2rem;
-  display:inline-block;
-  margin-bottom:6px;
-  animation:gate-float 3s ease-in-out infinite;
-  transform-origin:center;
-}
-@keyframes gate-float{
-  0%,100%{ transform:translateY(0) rotate(-3deg); }
-  50%{ transform:translateY(-8px) rotate(3deg); }
-}
-.gate-title{
-  font-family:var(--serif);
-  font-weight:500;
-  font-size:1.5rem;
-  color:var(--ink);
-  margin:6px 0 6px;
-}
-.gate-sub{
-  font-family:var(--body);
-  font-weight:300;
-  font-style:italic;
-  color:var(--ink-dim);
-  font-size:0.95rem;
-  margin:0 0 26px;
-  line-height:1.6;
-}
-.gate-input{
-  width:100%;
-  padding:14px 18px;
-  border-radius:40px;
-  border:1.5px solid rgba(193,123,135,0.35);
-  font-family:var(--body);
-  font-size:1.05rem;
-  text-align:center;
-  letter-spacing:0.12em;
-  color:var(--ink);
-  background:var(--cream);
-  outline:none;
-  transition:border-color 0.25s ease, transform 0.25s ease;
-}
-.gate-input:focus{ border-color:var(--rose-deep); }
-.gate-input.shake{ animation:gate-shake 0.5s ease; }
-@keyframes gate-shake{
-  0%,100%{ transform:translateX(0); }
-  20%{ transform:translateX(-10px); }
-  40%{ transform:translateX(10px); }
-  60%{ transform:translateX(-8px); }
-  80%{ transform:translateX(8px); }
-}
-.gate-btn{
-  margin-top:16px;
-  width:100%;
-  padding:14px 20px;
-  border:none;
-  border-radius:40px;
-  background:linear-gradient(135deg, var(--rose), var(--rose-deep));
-  color:var(--white);
-  font-family:var(--body);
-  font-weight:600;
-  font-size:1rem;
-  cursor:pointer;
-  transition:transform 0.25s ease, box-shadow 0.25s ease;
-  box-shadow:0 10px 26px rgba(193,123,135,0.4);
-}
-.gate-btn:hover{ transform:translateY(-2px); box-shadow:0 14px 34px rgba(193,123,135,0.55); }
-.gate-message{
-  min-height:1.4em;
-  margin-top:16px;
-  font-family:var(--body);
-  font-style:italic;
-  font-size:0.88rem;
-  color:var(--rose-deep);
-}
-.gate-hint{
-  margin-top:10px;
-  font-size:0.8rem;
-  color:var(--ink-dim);
-  opacity:0;
-  max-height:0;
-  overflow:hidden;
-  transition:opacity 0.5s ease;
-}
-.gate-hint.show{ opacity:0.85; max-height:60px; }
-.gate-hearts{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:1000;
-}
-.gate-heart-piece{
-  position:absolute;
-  top:50%; left:50%;
-  font-size:1.6rem;
-  opacity:0;
-  animation:gate-heart-fly 1.3s ease-out forwards;
-}
-@keyframes gate-heart-fly{
-  0%{ transform:translate(-50%,-50%) scale(0.3); opacity:1; }
-  100%{ transform:translate(var(--gx), var(--gy)) scale(1); opacity:0; }
 }
 
 .footer{
@@ -1222,121 +1049,15 @@ border-radius:24px;
 </style>
 
 </head>
-<body class="gate-locked">
-
-<!-- ===================== LOVE GATE ===================== -->
-<div class="love-gate" id="loveGate">
-  <div class="love-gate-card">
-    <span class="gate-icon" id="gateIcon">💌</span>
-    <h2 class="gate-title">Sirf tumhare liye, Rucha</h2>
-    <p class="gate-sub">Ek chhota sa password hai... tumhe zaroor pata hoga 😉</p>
-    <input type="text" inputmode="numeric" class="gate-input" id="gateInput" placeholder="• • • • • • • •" autocomplete="off">
-    <button class="gate-btn" id="gateBtn">Unlock our story 🔓</button>
-    <p class="gate-message" id="gateMessage">&nbsp;</p>
-    <p class="gate-hint" id="gateHint">Hint: it's a date that means everything — DDMMYYYY 💗</p>
-  </div>
-</div>
-<div class="gate-hearts" id="gateHearts"></div>
+<body>
 
 <!-- ===================== FLOATING MUSIC WIDGET ===================== -->
-<div class="floating-music gate-hidden" id="floatingMusic">
+<div class="floating-music" id="floatingMusic">
   <button class="fm-btn" id="fmPrev" title="Previous song">⏮</button>
   <button class="fm-btn fm-main" id="fmPlayPause" title="Play / Pause">▶</button>
   <button class="fm-btn" id="fmNext" title="Next song">⏭</button>
   <span class="fm-title" id="fmTitle">Piyu Bole</span>
 </div>
-
-<script>
-(function loveGate(){
-  const CORRECT_PASSCODE = "04101997"; // change this to update the password
-  const STORAGE_KEY = "paramRuchaGateUnlocked";
-
-  const gate = document.getElementById('loveGate');
-  const input = document.getElementById('gateInput');
-  const btn = document.getElementById('gateBtn');
-  const message = document.getElementById('gateMessage');
-  const hint = document.getElementById('gateHint');
-  const heartsWrap = document.getElementById('gateHearts');
-  const body = document.body;
-
-  let wrongCount = 0;
-
-  const teases = [
-    "hmm, not quite 🤔",
-    "close, but no ❤️ nope",
-    "try again jaan 😄",
-    "so close... maybe 😏",
-    "aur socho 💭"
-  ];
-
-  function alreadyUnlocked(){
-    try{ return sessionStorage.getItem(STORAGE_KEY) === "yes"; }
-    catch(e){ return false; }
-  }
-
-  function rememberUnlock(){
-    try{ sessionStorage.setItem(STORAGE_KEY, "yes"); }
-    catch(e){}
-  }
-
-  function burstHearts(){
-    const pieces = ['❤️','💕','💗','✨','💍'];
-    for(let i=0;i<24;i++){
-      const span = document.createElement('span');
-      span.className = 'gate-heart-piece';
-      span.textContent = pieces[Math.floor(Math.random()*pieces.length)];
-      const angle = Math.random() * Math.PI * 2;
-      const dist = 140 + Math.random()*220;
-      span.style.setProperty('--gx', Math.cos(angle)*dist + 'px');
-      span.style.setProperty('--gy', Math.sin(angle)*dist + 'px');
-      span.style.animationDelay = (Math.random()*0.3) + 's';
-      heartsWrap.appendChild(span);
-    }
-    setTimeout(()=>{ heartsWrap.innerHTML = ''; }, 1600);
-  }
-
-  function unlock(){
-    message.textContent = "Yesss 💖 come on in...";
-    document.getElementById('gateIcon').textContent = '💖';
-    burstHearts();
-    rememberUnlock();
-    setTimeout(()=>{
-      gate.classList.add('unlocking');
-      body.classList.remove('gate-locked');
-      const fm = document.getElementById('floatingMusic');
-      if(fm) fm.classList.remove('gate-hidden');
-    }, 700);
-  }
-
-  function tryUnlock(){
-    const val = input.value.trim();
-    if(val === CORRECT_PASSCODE){
-      unlock();
-    } else {
-      wrongCount++;
-      input.classList.remove('shake');
-      void input.offsetWidth;
-      input.classList.add('shake');
-      message.textContent = teases[Math.min(wrongCount-1, teases.length-1)];
-      if(wrongCount >= 3){
-        hint.classList.add('show');
-      }
-    }
-  }
-
-  btn.addEventListener('click', tryUnlock);
-  input.addEventListener('keydown', (e)=>{
-    if(e.key === 'Enter') tryUnlock();
-  });
-
-  if(alreadyUnlocked()){
-    gate.style.display = 'none';
-    body.classList.remove('gate-locked');
-    const fm = document.getElementById('floatingMusic');
-    if(fm) fm.classList.remove('gate-hidden');
-  }
-})();
-</script>
 
 <div class="bg-glow"></div>
 <div class="petals" id="petals"></div>
@@ -1441,16 +1162,16 @@ border-radius:24px;
     </div>
   </div>
 
-  <!-- BEAT 2 : daily conversations -->
+  <!-- BEAT 2 : the little moments that brought them closer -->
   <div class="beat right" data-beat>
     <div class="beat-node"></div>
     <div class="beat-media">
-      <img src="images/real-collage-1.jpg" alt="Param and Rucha together, sharing an easy afternoon">
+      <img src="images/me_and_u.png" alt="Black-and-white collage of Param and Rucha sharing affectionate everyday moments">
     </div>
     <div class="beat-text">
       <p class="beat-marker"><span class="ic">☕</span> The in-between days</p>
       <h2 class="beat-title">Roz Roz Ki Bakbak 😆</h2>
-      <p class="beat-copy">Pehle 2-4 messages hote the... phir pata hi nahi chala kab poora din ek dusre ko pareshaan karne mein nikalne laga 😂❤️</p>
+      <p class="beat-copy">Pehle 2-4 messages hote the... phir pata hi nahi chala kab chhoti chhoti baatein, hasi aur saath bitaye pal poore din ka hissa ban gaye 😂❤️</p>
     </div>
   </div>
 
@@ -1458,7 +1179,7 @@ border-radius:24px;
   <div class="beat" data-beat>
     <div class="beat-node"></div>
     <div class="beat-media">
-      <img src="images/real-bouquet.jpg" alt="Rucha holding a bouquet of red roses with Param in Pune">
+      <img src="images/first_meet.png" alt="Illustration of Param and Rucha together with a bouquet of red roses">
     </div>
     <div class="beat-text">
       <p class="beat-marker"><span class="ic">🌆</span> Pune</p>
@@ -1467,11 +1188,11 @@ border-radius:24px;
     </div>
   </div>
 
-  <!-- BEAT 4 : Pune memories collage -->
+  <!-- BEAT 4 : everyday memories -->
   <div class="beat right" data-beat>
     <div class="beat-node"></div>
     <div class="beat-media">
-      <img src="images/real-collage-2.jpg" alt="Collage of Param and Rucha together — ice cream, hugging by the water, holding hands">
+      <img src="images/scene2-ghat-a.jpg" alt="Photo collage of Param and Rucha sharing ice cream and other sweet moments together">
     </div>
     <div class="beat-text">
       <p class="beat-marker"><span class="ic">❤️</span> Everyday us</p>
@@ -1480,11 +1201,11 @@ border-radius:24px;
     </div>
   </div>
 
-  <!-- BEAT 5 : a trip together, no city named -->
+  <!-- BEAT 5 : a trip together -->
   <div class="beat" data-beat>
     <div class="beat-node"></div>
     <div class="beat-media">
-      <img src="images/moment-together.jpg" alt="Param and Rucha standing close together by the water at sunset">
+      <img src="images/real-collage-2.jpg" alt="Param and Rucha standing together by the river among boats">
     </div>
     <div class="beat-text">
       <p class="beat-marker"><span class="ic">🧳</span> A trip that felt like a storybook</p>
@@ -1493,57 +1214,42 @@ border-radius:24px;
     </div>
   </div>
 
-  <!-- BEAT 6 : street food date -->
+  <!-- BEAT 6 : street food and a boat ride -->
   <div class="beat right" data-beat>
     <div class="beat-node"></div>
     <div class="beat-media">
-      <img src="images/kids.jpeg" alt="Placeholder — replace with a photo from your street food date">
-      <p class="beat-caption">placeholder — swap for your own photo</p>
+      <img src="images/real-collage-1.jpg" alt="Photo collage of Param and Rucha on a boat and enjoying kachori together">
     </div>
     <div class="beat-text">
       <p class="beat-marker"><span class="ic">🥟</span> Street food date</p>
-      <h2 class="beat-title">Paper Plates, Real Feelings</h2>
-      <p class="beat-copy">Street lights, a paper plate, and you feeding me the first bite. Some of our best dates didn't need a reservation — just good food and chaos.</p>
+      <h2 class="beat-title">Kachori, Boat Rides &amp; You ❤️</h2>
+      <p class="beat-copy">Ek taraf boat ride, doosri taraf garma-garam kachori... tumhare saath har chhota plan ek yaadgaar date ban gaya ❤️</p>
     </div>
   </div>
 
-  <!-- BEAT 7 : Ice cream / shopping evening -->
+  <!-- BEAT 7 : shopping evening -->
   <div class="beat" data-beat>
     <div class="beat-node"></div>
     <div class="beat-media">
       <img src="images/shopping-evening.jpg" alt="Param and Rucha taking a mirror selfie together after shopping">
     </div>
     <div class="beat-text">
-      <p class="beat-marker"><span class="ic">🍦</span> Sweet evenings</p>
+      <p class="beat-marker"><span class="ic">🛍️</span> Shopping evenings</p>
       <h2 class="beat-title">Shopping Se Zyada Maza Tumhare Saath Tha ❤️</h2>
       <p class="beat-copy">Plan toh bas thoda shopping karne ka tha... lekin tumhare saath har showroom aur har choti si baat bhi yaadgar ban gayi ❤️😂</p>
     </div>
   </div>
 
-  <!-- BEAT 8 : quiet moment together -->
+  <!-- BEAT 8 : a birthday celebration -->
   <div class="beat right" data-beat>
     <div class="beat-node"></div>
     <div class="beat-media">
-      <img src="images/quiet-moment.jpg" alt="Param and Rucha sitting close together, smiling, with hand-drawn hearts">
+      <img src="images/file_00000000d17c8211b0d7a2fd8b92c0b7.png" alt="Param surprising Rucha with a birthday celebration under a heart-shaped light display">
     </div>
     <div class="beat-text">
-      <p class="beat-marker"><span class="ic">🌙</span> Just us, no plans</p>
-      <h2 class="beat-title">Drifting, hand in hand</h2>
-      <p class="beat-copy">No destination, no rush — just the two of us letting the evening take its own time with us.</p>
-    </div>
-  </div>
-
-  <!-- BEAT 9 : golden hour walk -->
-  <div class="beat" data-beat>
-    <div class="beat-node"></div>
-    <div class="beat-media">
-      <img src="images/me_and_u.jpeg" alt="Placeholder — replace with a photo of a walk together">
-      <p class="beat-caption">placeholder — swap for your own photo</p>
-    </div>
-    <div class="beat-text">
-      <p class="beat-marker"><span class="ic">🌸</span> A walk to remember</p>
-      <h2 class="beat-title">Har Gali Apni Lagi ❤️</h2>
-      <p class="beat-copy">Un galiyon mein hum dono ki bakbak aur hasi mazaak hi sabse khoobsurat yaad ban gayi ❤️✨</p>
+      <p class="beat-marker"><span class="ic">🎂</span> A night to remember</p>
+      <h2 class="beat-title">Tumhara Birthday, Hamari Yaadgaar Raat ❤️</h2>
+      <p class="beat-copy">Lights, cake, surprises aur tumhari smile — woh raat hamesha hamari favourite yaadon mein rahegi ✨</p>
     </div>
   </div>
 
@@ -1569,24 +1275,18 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
 </p>
 </section>
 
-<!-- ===================== PROPOSAL ===================== -->
-<section class="proposal-section reveal" data-reveal id="proposal">
+<!-- ===================== WEDDING INVITATION ===================== -->
+<section class="invitation-section reveal" data-reveal id="invitation">
 
-  <div id="proposal-ask">
-    <p class="proposal-eyebrow">one last question, Rucha</p>
-    <h2 class="proposal-question">Will you marry me?</h2>
-    <p class="proposal-sub">Every chapter above led here. There's only one button that actually works 😊</p>
-    <div class="proposal-buttons" id="proposal-buttons">
-      <button class="btn-yes" id="btn-yes">Yes, forever 💍</button>
-      <button class="btn-no" id="btn-no">No</button>
+  <div id="invitation-ask">
+    <p class="invitation-eyebrow">with love, Param &amp; Rucha</p>
+    <h2 class="invitation-question">We&rsquo;re getting married! 💍</h2>
+    <p class="invitation-sub">Humari shaadi mein aapko aana hi padega... aaoge na? ❤️</p>
+    <div class="invitation-buttons" id="invitation-buttons">
+      <button class="invitation-button primary" id="btn-attend">Haan, zaroor aayenge! 💌</button>
+      <button class="invitation-button secondary" id="btn-join">Aana toh padega 😄</button>
     </div>
-    <p class="proposal-hint" id="proposal-hint">&nbsp;</p>
-  </div>
-
-  <div class="celebration" id="celebration">
-    <div class="confetti-burst" id="confetti"></div>
-    <h2 class="celebration-title">She said yes! 🎉</h2>
-    <p class="celebration-sub">Param, your forever just said yes. <br>Now let's count down to it.</p>
+    <p class="invitation-hint">Aapke saath milkar is din ko aur khaas banayenge ✨</p>
   </div>
 
 </section>
@@ -1597,8 +1297,8 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
 <div class="divider reveal" data-reveal>
   <div class="divider-mark"><span class="mascot">💗</span></div>
   <p class="divider-text">
-    <span class="hin">Aur ab hamesha ke liye hamari ho gayi.</span>
-    And now, it's ours — forever.
+    <span class="hin">Aapke aane se hamari khushi hogi dugni.</span>
+    We can't wait to celebrate our special day with you.
   </p>
 </div>
 
@@ -1618,7 +1318,7 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
   <img class="countdown-img reveal" data-reveal src="images/wedding-illustration.jpg" alt="Illustration of Param and Rucha at their wedding ceremony, holding hands by the sacred fire">
 
   <p class="countdown-note reveal" data-reveal>
-    Every memory before this was a chapter. November 16th is where our story becomes a forever.
+    16 November ko hamari nayi zindagi ka aaghaz hai. Aapke saath is khushi ko celebrate karne ka intezaar rahega!
   </p>
 </section>
 
@@ -1675,97 +1375,33 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
   }
 })();
 
-// ---------- proposal: No button dodges, Yes unlocks everything ----------
-(function proposalLogic(){
-  const wrap = document.getElementById('proposal-buttons');
-  const btnNo = document.getElementById('btn-no');
-  const btnYes = document.getElementById('btn-yes');
-  const hint = document.getElementById('proposal-hint');
-  const askBlock = document.getElementById('proposal-ask');
-  const celebration = document.getElementById('celebration');
+// ---------- wedding invitation: open the details and countdown ----------
+(function invitationLogic(){
+  const buttons = document.querySelectorAll('#invitation-buttons button');
+  const askBlock = document.getElementById('invitation-ask');
+  const invitation = document.getElementById('invitation');
   const gated = document.getElementById('gated-content');
-  const confettiWrap = document.getElementById('confetti');
+  const countdown = document.querySelector('.countdown-section');
 
-  if(!wrap || !btnNo || !btnYes) return;
+  if(!buttons.length || !askBlock || !invitation || !gated || !countdown) return;
 
-  const hints = [
-    "nice try 😄",
-    "she's not going anywhere, but neither is that button",
-    "okay that one's just rude to chase",
-    "the universe really wants you to click yes",
-    "I promise yes is the easier option",
-    "you can keep trying, the button can keep running"
-  ];
-  let dodgeCount = 0;
-  let yesScale = 1;
-
-  function dodge(){
-    dodgeCount++;
-    if (!btnNo.classList.contains('dodging')){
-      btnNo.classList.add('dodging');
-    }
-    const cRect = wrap.getBoundingClientRect();
-    const eRect = btnNo.getBoundingClientRect();
-    const maxLeft = Math.max(cRect.width - eRect.width, 0);
-    const maxTop = Math.max(cRect.height - eRect.height, 0);
-    const left = Math.random() * maxLeft;
-    const top = Math.random() * maxTop;
-    btnNo.style.left = left + 'px';
-    btnNo.style.top = top + 'px';
-    const scale = Math.max(1 - dodgeCount * 0.12, 0);
-    if (scale <= 0.05){
-      btnNo.style.display = 'none';
-    } else {
-      btnNo.style.transform = `scale(${scale})`;
-      btnNo.style.opacity = String(Math.max(1 - dodgeCount * 0.1, 0.3));
-    }
-    yesScale = Math.min(1 + dodgeCount * 0.05, 1.35);
-    btnYes.style.transform = `scale(${yesScale})`;
-    hint.textContent = hints[Math.min(dodgeCount - 1, hints.length - 1)];
-  }
-
-  btnNo.addEventListener('mouseenter', dodge);
-  btnNo.addEventListener('touchstart', (e)=>{ e.preventDefault(); dodge(); }, { passive:false });
-  btnNo.addEventListener('click', (e)=>{ e.preventDefault(); dodge(); });
-  btnNo.addEventListener('focus', dodge);
-
-  function spawnConfetti(){
-    const pieces = ['❤️','🌸','✨','💍','🌷','💫'];
-    const count = 26;
-    for(let i=0;i<count;i++){
-      const span = document.createElement('span');
-      span.className = 'confetti-piece';
-      span.textContent = pieces[Math.floor(Math.random()*pieces.length)];
-      const angle = Math.random() * Math.PI * 2;
-      const dist = 120 + Math.random()*180;
-      const cx = Math.cos(angle) * dist + 'px';
-      const cy = Math.sin(angle) * dist - 60 + 'px';
-      const rot = (Math.random()*360 - 180) + 'deg';
-      span.style.setProperty('--cx', cx);
-      span.style.setProperty('--cy', cy);
-      span.style.setProperty('--cr', rot);
-      span.style.animationDelay = (Math.random()*0.25) + 's';
-      confettiWrap.appendChild(span);
-    }
-    setTimeout(()=>{ confettiWrap.innerHTML = ''; }, 1500);
-  }
-
-  btnYes.addEventListener('click', ()=>{
+  function openInvitation(){
+    if(gated.classList.contains('unlocked')) return;
     askBlock.classList.add('fading-out');
-    setTimeout(()=>{
-      askBlock.style.display='none';
-      celebration.classList.add('show');
-    }, 480);
-    spawnConfetti();
     gated.classList.add('unlocked');
     gated.querySelectorAll('[data-reveal], [data-beat]').forEach(el=>{
       el.classList.add('is-visible');
     });
     setTimeout(()=>{
-        document.querySelector('.countdown-section')
-        .scrollIntoView({ behavior:'smooth', block:'start' });
-    },2500);
-  });
+      askBlock.style.display='none';
+      invitation.classList.add('invitation-closed');
+      requestAnimationFrame(()=>{
+        countdown.scrollIntoView({ behavior:'instant', block:'start' });
+      });
+    },500);
+  }
+
+  buttons.forEach(button=>button.addEventListener('click', openInvitation));
 })();
 
 // ---------- intersection observer reveals ----------
