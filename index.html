@@ -272,6 +272,7 @@ a{ color:inherit; }
 .beat-media{
   flex:0 0 42%;
   position:relative;
+  width:100%;
 }
 .beat-media img{
   width:100%;
@@ -282,6 +283,22 @@ a{ color:inherit; }
   opacity:0;
   transform:translateY(28px);
   transition:opacity 0.9s ease, transform 0.9s ease, box-shadow 0.4s ease;
+}
+.beat-media.portrait{
+  aspect-ratio:4 / 5;
+  box-sizing:border-box;
+  padding:10px;
+  overflow:hidden;
+  border:1px solid rgba(193,123,135,0.28);
+  border-radius:16px;
+  background:var(--white);
+  box-shadow:0 18px 40px rgba(74,59,60,0.18);
+}
+.beat-media.portrait img{
+  height:100%;
+  object-fit:contain;
+  border-radius:8px;
+  box-shadow:none;
 }
 .beat.is-visible .beat-media img{ opacity:1; transform:translateY(0); }
 @media (hover:hover){
@@ -312,6 +329,11 @@ background:#fffdfb;
 padding:28px;
 border-radius:20px;
 box-shadow:0 10px 25px rgba(0,0,0,.06);
+align-self:stretch;
+box-sizing:border-box;
+display:flex;
+flex-direction:column;
+justify-content:center;
 }
 .beat-marker .ic{ font-size:1.05rem; }
 
@@ -448,6 +470,11 @@ line-height:1.8;
   padding:0;
 }
 #invitation-ask{
+  width:100%;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
   transition:opacity 0.5s ease, transform 0.5s ease;
 }
 #invitation-ask.fading-out{
@@ -480,9 +507,9 @@ line-height:1.8;
 }
 .invitation-buttons{
   position:relative;
-  width:100%;
-  max-width:560px;
+  width:min(100%, 650px);
   min-height:120px;
+  margin:0 auto;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -674,6 +701,71 @@ line-height:1.8;
   padding:0 8px;
 }
 
+/* ===================== WEDDING DETAILS ===================== */
+.event-details{
+  position:relative;
+  z-index:3;
+  max-width:880px;
+  margin:0 auto;
+  padding:54px 24px 28px;
+  text-align:center;
+}
+.event-details-eyebrow{
+  margin:0 0 4px;
+  color:var(--rose-deep);
+  font-family:var(--script);
+  font-size:clamp(1.1rem, 2.5vw, 1.45rem);
+}
+.event-details-title{
+  margin:0 0 28px;
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:clamp(1.6rem, 3.6vw, 2.3rem);
+  font-weight:500;
+}
+.event-details-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:18px;
+}
+.event-detail{
+  min-height:180px;
+  box-sizing:border-box;
+  padding:28px 24px;
+  border:1px solid rgba(193,123,135,0.32);
+  border-radius:8px;
+  background:rgba(255,253,251,0.82);
+  box-shadow:0 10px 28px rgba(74,59,60,0.1);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.event-detail-icon{
+  color:var(--rose-deep);
+  font-size:1.5rem;
+  line-height:1;
+  margin-bottom:12px;
+}
+.event-detail h3{
+  margin:0 0 10px;
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:1.2rem;
+  font-weight:500;
+}
+.event-detail p{
+  margin:0;
+  color:var(--ink-dim);
+  font-size:0.95rem;
+  line-height:1.65;
+}
+@media (max-width:600px){
+  .event-details{ padding:42px 16px 18px; }
+  .event-details-grid{ grid-template-columns:1fr; gap:14px; }
+  .event-detail{ min-height:0; padding:24px 18px; }
+}
+
 /* ===================== COVERFLOW GALLERY ===================== */
 .gallery-section{
   position:relative;
@@ -696,59 +788,6 @@ line-height:1.8;
   color:var(--ink);
   margin:0 0 40px;
 }
-.gallery-track{
-  display:flex;
-  align-items:center;
-  justify-content:flex-start;
-  gap:0;
-  overflow-x:auto;
-  overflow-y:visible;
-  padding:40px 10vw 50px;
-  scroll-snap-type:x proximity;
-  -webkit-overflow-scrolling:touch;
-}
-.gallery-track::-webkit-scrollbar{ height:6px; }
-.gallery-track::-webkit-scrollbar-thumb{ background:rgba(193,123,135,0.35); border-radius:10px; }
-.gallery-item{
-  flex:0 0 auto;
-  width:200px;
-  height:260px;
-  margin:0 -18px;
-  border-radius:14px;
-  overflow:hidden;
-  background:var(--cream-2);
-  box-shadow:0 14px 30px rgba(74,59,60,0.22), 0 0 0 6px var(--white);
-  transform:scale(0.85) rotate(0deg);
-  opacity:0.7;
-  transition:transform 0.4s cubic-bezier(.2,.8,.2,1), opacity 0.4s ease, z-index 0s;
-  cursor:pointer;
-  position:relative;
-  scroll-snap-align:center;
-}
-.gallery-item:nth-child(odd){ transform:scale(0.85) rotate(-3deg); }
-.gallery-item:nth-child(even){ transform:scale(0.85) rotate(3deg); }
-.gallery-item img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  display:block;
-}
-.gallery-item:hover,
-.gallery-item.active{
-  transform:scale(1.12) rotate(0deg) translateY(-14px);
-  opacity:1;
-  z-index:5;
-  box-shadow:0 26px 50px rgba(74,59,60,0.32), 0 0 0 6px var(--white);
-}
-.gallery-track.is-hovering .gallery-item:not(:hover){
-  opacity:0.5;
-}
-@media (max-width:760px){
-  .gallery-item{ width:150px; height:200px; margin:0 -14px; }
-  .gallery-track{ padding:30px 20vw 40px; }
-}
-
-/* ===================== LOVE GATE ===================== */
 /* ===================== FLOATING MUSIC WIDGET ===================== */
 .floating-music{
   position:fixed;
@@ -781,6 +820,7 @@ line-height:1.8;
   transition:transform 0.2s ease, background 0.2s ease;
 }
 .fm-btn:hover{ transform:scale(1.08); background:var(--rose); color:var(--white); }
+.fm-btn.is-active{ background:var(--rose-deep); color:var(--white); }
 .fm-btn.fm-main{
   width:38px; height:38px;
   background:linear-gradient(135deg, var(--rose), var(--rose-deep));
@@ -958,37 +998,6 @@ line-height:1.8;
 }
 
 
-.family-slider{
-max-width:800px;
-margin:20px auto;
-position:relative;
-height:520px;
-overflow:hidden;
-border-radius:24px;
-}
-.family-slide{
-position:absolute;
-inset:0;
-opacity:0;
-transform:scale(0.92);
-transition:all .8s ease;
-}
-.family-slide.active{
-opacity:1;
-transform:scale(1);
-}
-.family-slide img{
-width:100%;
-height:100%;
-object-fit:contain;
-background:var(--cream-2);
-display:block;
-}
-@media(max-width:768px){
- .family-slider{height:420px;}
-}
-
-
 .family-track{
 display:flex;
 gap:30px;
@@ -1005,14 +1014,15 @@ transition:.4s ease;
 }
 .family-card img{
 width:100%;
-height:600px;
+height:clamp(320px, 65vw, 600px);
 object-fit:contain;
 display:block;
-border-radius:24px;
+border-radius:8px;
+background:var(--cream-2);
 }
 @media(max-width:768px){
 .family-card{flex:0 0 92%;}
-.family-card img{height:350px;}
+.family-card img{height:min(68vh, 480px);}
 }
 
 
@@ -1033,18 +1043,6 @@ border-radius:24px;
     margin-left:0!important;
   }
   .beat-text,.beat-media{width:100%!important;}
-  .gallery-track{
-    padding:0!important;
-    scroll-snap-type:x mandatory!important;
-  }
-  .gallery-item{
-    flex:0 0 100%!important;
-    width:90vw!important;
-    height:70vh!important;
-    margin:0!important;
-    opacity:1!important;
-    transform:none!important;
-  }
 }
 </style>
 
@@ -1056,6 +1054,7 @@ border-radius:24px;
   <button class="fm-btn" id="fmPrev" title="Previous song">⏮</button>
   <button class="fm-btn fm-main" id="fmPlayPause" title="Play / Pause">▶</button>
   <button class="fm-btn" id="fmNext" title="Next song">⏭</button>
+  <button class="fm-btn" id="autoScrollToggle" type="button" title="Start automatic scrolling" aria-label="Start automatic scrolling">&#8595;</button>
   <span class="fm-title" id="fmTitle">Piyu Bole</span>
 </div>
 
@@ -1165,7 +1164,7 @@ border-radius:24px;
   <!-- BEAT 2 : the little moments that brought them closer -->
   <div class="beat right" data-beat>
     <div class="beat-node"></div>
-    <div class="beat-media">
+    <div class="beat-media portrait">
       <img src="images/me_and_u.png" alt="Black-and-white collage of Param and Rucha sharing affectionate everyday moments">
     </div>
     <div class="beat-text">
@@ -1178,7 +1177,7 @@ border-radius:24px;
   <!-- BEAT 3 : Pune meetings -->
   <div class="beat" data-beat>
     <div class="beat-node"></div>
-    <div class="beat-media">
+    <div class="beat-media portrait">
       <img src="images/first_meet.png" alt="Illustration of Param and Rucha together with a bouquet of red roses">
     </div>
     <div class="beat-text">
@@ -1191,7 +1190,7 @@ border-radius:24px;
   <!-- BEAT 4 : everyday memories -->
   <div class="beat right" data-beat>
     <div class="beat-node"></div>
-    <div class="beat-media">
+    <div class="beat-media portrait">
       <img src="images/scene2-ghat-a.jpg" alt="Photo collage of Param and Rucha sharing ice cream and other sweet moments together">
     </div>
     <div class="beat-text">
@@ -1240,16 +1239,42 @@ border-radius:24px;
     </div>
   </div>
 
-  <!-- BEAT 8 : a birthday celebration -->
+  <!-- BEAT 8 : proposal -->
   <div class="beat right" data-beat>
     <div class="beat-node"></div>
     <div class="beat-media">
-      <img src="images/file_00000000d17c8211b0d7a2fd8b92c0b7.png" alt="Param surprising Rucha with a birthday celebration under a heart-shaped light display">
+      <img src="images/file_00000000d17c8211b0d7a2fd8b92c0b7.png" alt="Param and Rucha celebrating their proposal under a heart-shaped light display">
     </div>
     <div class="beat-text">
-      <p class="beat-marker"><span class="ic">🎂</span> A night to remember</p>
-      <h2 class="beat-title">Tumhara Birthday, Hamari Yaadgaar Raat ❤️</h2>
-      <p class="beat-copy">Lights, cake, surprises aur tumhari smile — woh raat hamesha hamari favourite yaadon mein rahegi ✨</p>
+      <p class="beat-marker"><span class="ic">&#10084;</span> The proposal</p>
+      <h2 class="beat-title">The Start of Their Forever</h2>
+      <p class="beat-copy">A simple question, a joyful yes, and the beginning of Param and Rucha's forever.</p>
+    </div>
+  </div>
+
+  <!-- BEAT 9 : childhood memories -->
+  <div class="beat" data-beat>
+    <div class="beat-node"></div>
+    <div class="beat-media">
+      <img src="images/kids.jpeg" alt="A treasured childhood photograph">
+    </div>
+    <div class="beat-text">
+      <p class="beat-marker"><span class="ic">&#10024;</span> The beginnings</p>
+      <h2 class="beat-title">The Little Moments That Made Us</h2>
+      <p class="beat-copy">Every beautiful forever begins with a lifetime of little memories. We are bringing those stories with us as we begin our next chapter together.</p>
+    </div>
+  </div>
+
+  <!-- BEAT 10 : birthday memories -->
+  <div class="beat right" data-beat>
+    <div class="beat-node"></div>
+    <div class="beat-media portrait">
+      <img src="images/birthday_photos_collage.png" alt="A collage of birthday celebration memories">
+    </div>
+    <div class="beat-text">
+      <p class="beat-marker"><span class="ic">&#10024;</span> More reasons to celebrate</p>
+      <h2 class="beat-title">A Collection of Happy Days</h2>
+      <p class="beat-copy">The laughter, the surprises, and all the celebrations along the way have made every memory feel a little more special.</p>
     </div>
   </div>
 
@@ -1260,13 +1285,13 @@ border-radius:24px;
   <p class="gallery-eyebrow">families becoming one ❤️</p>
   <h2 class="gallery-title">The Day Our Worlds Met</h2>
   <div class="family-wrapper"><button class="family-nav prev" onclick="scrollFamily(-1)">❮</button><div class="family-track" id="familyTrack">
-<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM.jpeg"></div>
-<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (1).jpeg"></div>
-<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (7).jpeg"></div>
-<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (2).jpeg"></div>
-<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (3).jpeg"></div>
-<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (4).jpeg"></div>
-<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (5).jpeg"></div>
+<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM.jpeg" alt="Family celebration photo 1" loading="lazy"></div>
+<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (1).jpeg" alt="Family celebration photo 2" loading="lazy"></div>
+<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (7).jpeg" alt="Family celebration photo 3" loading="lazy"></div>
+<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (2).jpeg" alt="Family celebration photo 4" loading="lazy"></div>
+<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (3).jpeg" alt="Family celebration photo 5" loading="lazy"></div>
+<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (4).jpeg" alt="Family celebration photo 6" loading="lazy"></div>
+<div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (5).jpeg" alt="Family celebration photo 7" loading="lazy"></div>
 
 </div><button class="family-nav next" onclick="scrollFamily(1)">❯</button></div>
 <p style="max-width:700px;margin:30px auto 0;line-height:1.8;">
@@ -1322,6 +1347,20 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
   </p>
 </section>
 
+<!-- ===================== WEDDING DETAILS ===================== -->
+<section class="event-details reveal" data-reveal id="event-details">
+  <p class="event-details-eyebrow">join us for our wedding</p>
+  <h2 class="event-details-title">Wedding Details</h2>
+  <div class="event-details-grid">
+    <article class="event-detail">
+      <div class="event-detail-icon" aria-hidden="true">&#128205;</div>
+      <p>Monday, 16 November 2026<br>11:30 AM</p>
+      <h3>Venue</h3>
+      <p>Telai Celebration Hall<br>Shegaon to Rahatgaon Road, near Deshmukh Lawn<br>Arjun Nagar, Amravati</p>
+    </article>
+  </div>
+</section>
+
 </div>
 
 <!-- ===================== FOOTER ===================== -->
@@ -1330,17 +1369,6 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
 </footer>
 
 <script>
-// ---------- coverflow gallery hover ----------
-(function galleryHover(){
-  const track = document.getElementById('galleryTrack');
-  if(!track) return;
-  const items = track.querySelectorAll('.gallery-item');
-  items.forEach(item=>{
-    item.addEventListener('mouseenter', ()=> track.classList.add('is-hovering'));
-    item.addEventListener('mouseleave', ()=> track.classList.remove('is-hovering'));
-  });
-})();
-
 // ---------- ambient falling petals ----------
 (function spawnPetals(){
   const container = document.getElementById('petals');
@@ -1487,7 +1515,7 @@ drawVine();
 positionBloom();
 
 // ---------- wedding countdown ----------
-const weddingDate = new Date('2026-11-16T00:00:00');
+const weddingDate = new Date('2026-11-16T11:30:00+05:30');
 let lastValues = { days:null, hours:null, mins:null, secs:null };
 
 function setIfChanged(el, value, key){
@@ -1550,6 +1578,53 @@ const fmPrev = document.getElementById('fmPrev');
 const fmPlayPause = document.getElementById('fmPlayPause');
 const fmNext = document.getElementById('fmNext');
 const fmTitle = document.getElementById('fmTitle');
+const autoScrollToggle = document.getElementById('autoScrollToggle');
+
+let autoScrollActive = false;
+let autoScrollFrame = null;
+let autoScrollLastTime = 0;
+const autoScrollSpeed = 360;
+
+function updateAutoScrollControl(){
+  if(!autoScrollToggle) return;
+  autoScrollToggle.innerHTML = autoScrollActive ? '&#10074;&#10074;' : '&#8595;';
+  const label = autoScrollActive ? 'Pause automatic scrolling' : 'Start automatic scrolling';
+  autoScrollToggle.title = label;
+  autoScrollToggle.setAttribute('aria-label', label);
+  autoScrollToggle.classList.toggle('is-active', autoScrollActive);
+}
+
+function stopAutoScroll(){
+  autoScrollActive = false;
+  if(autoScrollFrame) cancelAnimationFrame(autoScrollFrame);
+  autoScrollFrame = null;
+  updateAutoScrollControl();
+}
+
+function runAutoScroll(now){
+  if(!autoScrollActive) return;
+  const elapsed = Math.min(now - autoScrollLastTime, 50);
+  autoScrollLastTime = now;
+  window.scrollBy(0, autoScrollSpeed * elapsed / 1000);
+
+  const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+  if(atBottom){
+    stopAutoScroll();
+    return;
+  }
+  autoScrollFrame = requestAnimationFrame(runAutoScroll);
+}
+
+function toggleAutoScroll(){
+  if(autoScrollActive){
+    stopAutoScroll();
+    return;
+  }
+  autoScrollActive = true;
+  autoScrollLastTime = performance.now();
+  updateAutoScrollControl();
+  autoScrollFrame = requestAnimationFrame(runAutoScroll);
+}
 
 const playlist = [
   { src:'piyu-bole.mp3', name:'🌿 Piyu Bole' },
@@ -1595,6 +1670,15 @@ if(musicBtn) musicBtn.onclick = togglePlay;
 if(fmPlayPause) fmPlayPause.onclick = togglePlay;
 if(fmNext) fmNext.onclick = ()=> loadTrack(currentIndex + 1, true);
 if(fmPrev) fmPrev.onclick = ()=> loadTrack(currentIndex - 1, true);
+if(autoScrollToggle) autoScrollToggle.onclick = toggleAutoScroll;
+
+window.addEventListener('wheel', stopAutoScroll, { passive:true });
+window.addEventListener('touchstart', stopAutoScroll, { passive:true });
+window.addEventListener('keydown', event=>{
+  if(['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)){
+    stopAutoScroll();
+  }
+});
 
 if(changeMusicBtn) changeMusicBtn.onclick = ()=> songMenu.classList.toggle('show');
 document.querySelectorAll('.song-item').forEach((item, idx)=>{
@@ -1613,41 +1697,5 @@ updatePlayIcons();
 </script>
 
 
-<script>
-document.addEventListener('DOMContentLoaded',()=>{
- const slider=document.querySelector('.gallery-track');
- if(!slider) return;
- let index=0;
- let timer;
- const slides=slider.querySelectorAll('.gallery-item');
-
- function move(){
-   if(slides.length===0) return;
-   index=(index+1)%slides.length;
-   slider.scrollTo({left:slides[index].offsetLeft,behavior:'smooth'});
- }
- timer=setInterval(move,3000);
-
- slider.addEventListener('touchstart',()=>clearInterval(timer));
- slider.addEventListener('touchend',()=>{
-   clearInterval(timer);
-   timer=setInterval(move,3000);
- });
-});
-</script>
-
-
-<script>
-document.addEventListener('DOMContentLoaded',function(){
-const slides=document.querySelectorAll('#familySlider .family-slide');
-if(!slides.length)return;
-let current=0;
-setInterval(()=>{
-slides[current].classList.remove('active');
-current=(current+1)%slides.length;
-slides[current].classList.add('active');
-},3000);
-});
-</script>
 <script>function scrollFamily(direction){const track=document.getElementById('familyTrack');const card=track.querySelector('.family-card');if(!card)return;const amount=card.offsetWidth+30;track.scrollBy({left:amount*direction,behavior:'smooth'});}</script></body>
 </html>
