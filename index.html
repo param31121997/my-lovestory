@@ -92,7 +92,7 @@ a{ color:inherit; }
   z-index:1;
   overflow:visible;
 }
-@media (max-width:760px){
+@media (max-width:760px) and (orientation:portrait){
   .spine-svg{ left:28px; }
 }
 .spine-line{
@@ -127,7 +127,7 @@ a{ color:inherit; }
   font-size:12px;
   animation:sparkle-pulse 1.4s ease-in-out infinite;
 }
-@media (max-width:760px){
+@media (max-width:760px) and (orientation:portrait){
   .bloom{ left:28px; width:26px; height:26px; }
 }
 @keyframes ring-glow{
@@ -258,7 +258,7 @@ a{ color:inherit; }
 .beat.right > .beat-media{ grid-column:3; }
 .beat.right > .beat-text{ grid-column:1; }
 
-@media (max-width:760px){
+@media (max-width:760px) and (orientation:portrait){
   .beat, .beat.right{
     display:flex;
     flex-direction:column;
@@ -375,7 +375,7 @@ line-height:1.8;
   border-color:var(--rose-deep);
   box-shadow:0 0 0 5px var(--cream), 0 0 14px rgba(193,123,135,0.6);
 }
-@media (max-width:760px){
+@media (max-width:760px) and (orientation:portrait){
   .beat-node{ left:-56px; top:8px; }
 }
 
@@ -397,7 +397,7 @@ line-height:1.8;
   transition:opacity 0.9s ease, transform 0.9s ease;
 }
 .beat.is-visible .dm-card{ opacity:1; transform:translateY(0); }
-@media (max-width:760px){
+@media (max-width:760px) and (orientation:portrait){
   .dm-card{ height:300px; }
 }
 .dm-bubble{
@@ -1034,7 +1034,7 @@ background:var(--cream-2);
 </style>
 
 <style id="chatgpt-mobile-fixes">
-@media (max-width:768px){
+@media (max-width:768px) and (orientation:portrait){
   .spine-svg,.bloom{display:none!important;}
   .beat,.beat.right{
     display:flex!important;
@@ -1043,6 +1043,28 @@ background:var(--cream-2);
     margin-left:0!important;
   }
   .beat-text,.beat-media{width:100%!important;}
+}
+
+/* Keep the desktop story layout when a phone is rotated sideways. */
+@media (orientation:landscape) and (max-width:1200px){
+  .story{ padding:28px 24px 56px; }
+  .beat,.beat.right{
+    display:grid!important;
+    grid-template-columns:minmax(0, 1fr) 44px minmax(0, 1fr);
+    align-items:start;
+    gap:0!important;
+    margin-left:0!important;
+    margin-bottom:54px;
+  }
+  .beat > .beat-media{ grid-column:1; }
+  .beat > .beat-text{ grid-column:3; }
+  .beat > .beat-media,.beat > .beat-text{ grid-row:1; }
+  .beat.right > .beat-media{ grid-column:3; }
+  .beat.right > .beat-text{ grid-column:1; }
+  .beat-text,.beat-media{ width:auto!important; }
+  .beat-text{ padding:22px; }
+  .beat-title{ font-size:clamp(1.35rem, 3vw, 1.8rem); }
+  .beat-copy{ font-size:0.92rem; }
 }
 </style>
 
@@ -1143,7 +1165,7 @@ background:var(--cream-2);
 </section>
 
 <!-- ===================== STORY BEATS ===================== -->
-<div class="story">
+<div class="story" id="story">
 
   <!-- BEAT 1 : Instagram story reply -->
   <div class="beat" data-beat>
