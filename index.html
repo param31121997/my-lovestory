@@ -257,6 +257,9 @@ a{ color:inherit; }
 .beat > .beat-text{ grid-column:3; }
 .beat.right > .beat-media{ grid-column:3; }
 .beat.right > .beat-text{ grid-column:1; }
+/* Keep both halves of every desktop story beat on the same grid row. */
+.beat > .beat-media,
+.beat > .beat-text{ grid-row:1; }
 
 @media (max-width:760px) and (orientation:portrait){
   .beat, .beat.right{
@@ -728,6 +731,11 @@ line-height:1.8;
   grid-template-columns:repeat(2, minmax(0, 1fr));
   gap:18px;
 }
+.event-detail:only-child{
+  grid-column:1 / -1;
+  width:min(100%, 420px);
+  justify-self:center;
+}
 .event-detail{
   min-height:180px;
   box-sizing:border-box;
@@ -1066,6 +1074,7 @@ background:var(--cream-2);
   .beat-title{ font-size:clamp(1.35rem, 3vw, 1.8rem); }
   .beat-copy{ font-size:0.92rem; }
 }
+
 </style>
 
 </head>
