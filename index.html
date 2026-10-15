@@ -79,65 +79,28 @@ body{
   100%{ transform:translate(var(--drift), 112vh) rotate(var(--spin)); opacity:0; }
 }
 
-a{ color:inherit; }
-
-/* ===================== VINE SPINE (signature element) ===================== */
-.spine-svg{
-  position:absolute;
-  left:50%;
-  top:100vh;
-  width:26px;
-  height:calc(100% - 100vh);
-  transform:translateX(-50%);
+/* Slow blossoms at the edges add life without covering the story. */
+.floating-blooms{
+  position:fixed;
+  inset:0;
   z-index:1;
-  overflow:visible;
+  pointer-events:none;
+  overflow:hidden;
 }
-@media (max-width:760px) and (orientation:portrait){
-  .spine-svg{ left:28px; }
+.bloomlet{
+  position:absolute;
+  color:var(--bloom-color, var(--rose));
+  opacity:0.42;
+  text-shadow:0 4px 12px rgba(148,70,90,0.16);
+  animation:bloomlet-drift var(--bloom-duration, 9s) ease-in-out infinite alternate;
 }
-.spine-line{
-  stroke:var(--sage);
-  stroke-width:2;
-  fill:none;
-  opacity:0.45;
+@keyframes bloomlet-drift{
+  0%{ transform:translate3d(0, 0, 0) rotate(-8deg) scale(0.92); }
+  50%{ transform:translate3d(var(--bloom-x, 10px), var(--bloom-y, -18px), 0) rotate(12deg) scale(1.08); }
+  100%{ transform:translate3d(2px, -4px, 0) rotate(-4deg) scale(0.96); }
 }
 
-.bloom{
-  position:absolute;
-  left:50%;
-  top:100vh;
-  width:34px;
-  height:34px;
-  transform:translate(-50%,-50%);
-  z-index:2;
-  pointer-events:none;
-  transition:top 0.05s linear, opacity 0.4s ease;
-  opacity:0;
-}
-.bloom svg{
-  width:100%;
-  height:100%;
-  animation:ring-glow 2.6s ease-in-out infinite;
-  filter:drop-shadow(0 0 6px rgba(205,167,107,0.55));
-}
-.bloom .sparkle{
-  position:absolute;
-  top:-6px;
-  right:-8px;
-  font-size:12px;
-  animation:sparkle-pulse 1.4s ease-in-out infinite;
-}
-@media (max-width:760px) and (orientation:portrait){
-  .bloom{ left:28px; width:26px; height:26px; }
-}
-@keyframes ring-glow{
-  0%,100%{ transform:scale(1) rotate(-3deg); filter:drop-shadow(0 0 6px rgba(205,167,107,0.5)); }
-  50%{ transform:scale(1.08) rotate(3deg); filter:drop-shadow(0 0 14px rgba(205,167,107,0.85)); }
-}
-@keyframes sparkle-pulse{
-  0%,100%{ opacity:0.3; transform:scale(0.8); }
-  50%{ opacity:1; transform:scale(1.25); }
-}
+a{ color:inherit; }
 
 /* ===================== HERO ===================== */
 .hero{
@@ -357,29 +320,6 @@ line-height:1.8;
   color:var(--rose-deep);
   display:block;
   margin-bottom:6px;
-}
-
-/* node dot on the spine for each beat */
-.beat-node{
-  position:absolute;
-  left:50%;
-  top:6px;
-  transform:translate(-50%,0);
-  width:14px; height:14px;
-  border-radius:50%;
-  background:var(--cream);
-  border:2px solid var(--sage);
-  z-index:2;
-  box-shadow:0 0 0 5px var(--cream);
-  transition:background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
-}
-.beat.is-visible .beat-node{
-  background:var(--rose);
-  border-color:var(--rose-deep);
-  box-shadow:0 0 0 5px var(--cream), 0 0 14px rgba(193,123,135,0.6);
-}
-@media (max-width:760px) and (orientation:portrait){
-  .beat-node{ left:-56px; top:8px; }
 }
 
 /* ===================== INSTAGRAM DM MOMENT ===================== */
@@ -692,17 +632,6 @@ line-height:1.8;
   box-shadow:0 14px 34px rgba(74,59,60,0.2);
   display:block;
 }
-.countdown-note{
-  font-family:var(--body);
-  font-weight:300;
-  font-style:italic;
-  color:var(--ink-dim);
-  max-width:420px;
-  margin:20px auto 0;
-  font-size:clamp(0.8rem, 1.6vw, 0.92rem);
-  line-height:1.6;
-  padding:0 8px;
-}
 
 /* ===================== WEDDING DETAILS ===================== */
 .event-details{
@@ -748,6 +677,14 @@ line-height:1.8;
   flex-direction:column;
   align-items:center;
   justify-content:center;
+  transition:transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+@media (hover:hover){
+  .event-detail:hover{
+    transform:translateY(-6px);
+    border-color:rgba(148,70,90,0.58);
+    box-shadow:0 18px 34px rgba(74,59,60,0.15);
+  }
 }
 .event-detail-icon{
   color:var(--rose-deep);
@@ -768,10 +705,29 @@ line-height:1.8;
   font-size:0.95rem;
   line-height:1.65;
 }
+.wedding-frame.event-detail:only-child{width:100%;max-width:none;}
+.wedding-frame{
+  display:grid;
+  grid-template-columns:1.1fr 1fr;
+  align-items:stretch;
+  text-align:left;
+  padding:0;
+  min-height:300px;
+  overflow:hidden;
+  border-radius:20px;
+}
+.wedding-frame-photo{width:100%;height:100%;min-height:300px;object-fit:contain;background:var(--cream-2);padding:12px;box-sizing:border-box;}
+.wedding-frame-copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:28px clamp(20px,4vw,42px);}
+.wedding-frame-copy .event-details-eyebrow{font-family:var(--body);font-size:.9rem;font-style:italic;}
+.wedding-frame-copy .event-detail-icon{margin:16px 0 10px;}
+.wedding-frame-copy h3{font-size:clamp(1.3rem,2.5vw,1.8rem);margin-bottom:10px;}
 @media (max-width:600px){
   .event-details{ padding:42px 16px 18px; }
   .event-details-grid{ grid-template-columns:1fr; gap:14px; }
   .event-detail{ min-height:0; padding:24px 18px; }
+  .wedding-frame{grid-template-columns:1fr;padding:0;}
+  .wedding-frame-photo{height:240px;min-height:240px;padding:10px;}
+  .wedding-frame-copy{padding:20px 22px 24px;}
 }
 
 /* ===================== COVERFLOW GALLERY ===================== */
@@ -780,7 +736,7 @@ line-height:1.8;
   z-index:3;
   max-width:1200px;
   margin:0 auto;
-  padding:20px 24px 90px;
+  padding:8px 24px 46px;
   text-align:center;
 }
 .gallery-eyebrow{
@@ -794,7 +750,7 @@ line-height:1.8;
   font-weight:500;
   font-size:clamp(1.6rem, 3.4vw, 2.3rem);
   color:var(--ink);
-  margin:0 0 40px;
+  margin:0 0 18px;
 }
 /* ===================== FLOATING MUSIC WIDGET ===================== */
 .floating-music{
@@ -828,7 +784,6 @@ line-height:1.8;
   transition:transform 0.2s ease, background 0.2s ease;
 }
 .fm-btn:hover{ transform:scale(1.08); background:var(--rose); color:var(--white); }
-.fm-btn.is-active{ background:var(--rose-deep); color:var(--white); }
 .fm-btn.fm-main{
   width:38px; height:38px;
   background:linear-gradient(135deg, var(--rose), var(--rose-deep));
@@ -854,20 +809,6 @@ line-height:1.8;
 
 /* ===================== FLOATING MUSIC WIDGET END ===================== */
 /* ===================== JOYFUL MICRO ANIMATIONS ===================== */
-.node-heart{
-  position:absolute;
-  font-size:14px;
-  opacity:0;
-  pointer-events:none;
-  z-index:4;
-  animation:node-heart-pop 1.4s ease-out forwards;
-}
-@keyframes node-heart-pop{
-  0%{ opacity:0; transform:translate(-50%,-50%) scale(0.4); }
-  15%{ opacity:1; }
-  100%{ opacity:0; transform:translate(calc(-50% + var(--hx)), calc(-50% + var(--hy))) scale(1.1) rotate(var(--hr)); }
-}
-
 .mascot{
   display:inline-block;
   font-size:2.6rem;
@@ -919,6 +860,8 @@ line-height:1.8;
   transition:opacity 0.8s ease, transform 0.8s ease;
 }
 .reveal.is-visible{ opacity:1; transform:translateY(0); }
+
+.event-detail{ will-change:transform; }
 
 /* ===================== MUSIC PLAYER ===================== */
 .music-message{
@@ -1008,73 +951,202 @@ line-height:1.8;
 
 .family-track{
 display:flex;
-gap:30px;
+gap:0;
 overflow-x:auto;
 scroll-snap-type:x mandatory;
-padding:30px 10px;
+padding:18px 0;
 scrollbar-width:none;
 }
 .family-track::-webkit-scrollbar{display:none;}
 .family-card{
-flex:0 0 75%;
+flex:0 0 100%;
 scroll-snap-align:center;
-transition:.4s ease;
+opacity:1;
 }
 .family-card img{
 width:100%;
-height:clamp(320px, 65vw, 600px);
+height:clamp(280px, 48vw, 520px);
 object-fit:contain;
 display:block;
-border-radius:8px;
+border-radius:14px;
 background:var(--cream-2);
 }
 @media(max-width:768px){
-.family-card{flex:0 0 92%;}
-.family-card img{height:min(68vh, 480px);}
+.family-card img{height:min(64vh, 440px);}
 }
+@media(max-width:480px){.family-card{flex-basis:100%;}.family-card img{height:300px;}}
 
 
 .family-wrapper{position:relative;display:flex;align-items:center;}
 .family-nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border:none;border-radius:50%;cursor:pointer;background:rgba(255,255,255,.95);color:#a1596a;font-size:26px;font-weight:bold;box-shadow:0 8px 20px rgba(0,0,0,.15);z-index:20;}
 .family-nav.prev{left:-20px;}
 .family-nav.next{right:-20px;}
-@media(max-width:768px){.family-nav{display:none;}}
+@media(max-width:768px){.family-nav{width:40px;height:40px;font-size:20px;}.family-nav.prev{left:-8px;}.family-nav.next{right:-8px;}}
+
+/* Compact memory cards keep the story easy to browse. */
+.story{
+  position:relative;
+  max-width:1180px;
+  margin:0 auto;
+  padding:8px 24px 34px;
+  display:block;
+}
+.story-carousel{position:relative;}
+.story-viewport{overflow:hidden;border-radius:22px;}
+.story-slides{display:flex;transition:transform .75s cubic-bezier(.2,.75,.25,1);}
+.story-slide{flex:0 0 100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:minmax(280px,auto);gap:44px;padding:4px;box-sizing:border-box;}
+.story-slide>.beat{width:100%;max-width:none;min-height:280px;margin:0!important;}
+.story-scroll-line{position:absolute;left:calc(50% - 16px);top:0;bottom:0;width:32px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 120' preserveAspectRatio='none'%3E%3Cpath d='M16 0 C2 18 30 42 16 60 S2 102,16 120' fill='none' stroke='%23869a76' stroke-width='2' stroke-opacity='.68'/%3E%3C/svg%3E");background-size:32px 120px;background-repeat:repeat-y;opacity:.8;}
+.story-scroll-ring{
+  position:absolute;
+  left:50%;
+  top:0;
+  width:40px;
+  height:40px;
+  box-sizing:border-box;
+  transform:translate(-50%,-50%);
+  z-index:8;
+  pointer-events:none;
+  opacity:0;
+  transition:top .08s linear,opacity .25s ease;
+}
+.story-scroll-ring svg{width:100%;height:100%;overflow:visible;animation:ring-glow 2.6s ease-in-out infinite;filter:drop-shadow(0 0 6px rgba(205,167,107,.55));}
+.story-scroll-ring .ring-sparkle{position:absolute;top:-6px;right:-8px;font-size:12px;animation:sparkle-pulse 1.4s ease-in-out infinite;}
+.story-scroll-ring.is-sparkling svg{animation:ring-glow .65s ease-in-out 2;}
+.scroll-ring-spark{
+  position:absolute;
+  left:50%;top:50%;
+  color:var(--gold);
+  font-size:13px;
+  animation:scroll-ring-spark .85s ease-out forwards;
+}
+@keyframes ring-glow{0%,100%{transform:scale(1) rotate(-3deg);filter:drop-shadow(0 0 6px rgba(205,167,107,.5));}50%{transform:scale(1.08) rotate(3deg);filter:drop-shadow(0 0 14px rgba(205,167,107,.85));}}
+@keyframes sparkle-pulse{0%,100%{opacity:.45;transform:scale(.8) rotate(-12deg);}50%{opacity:1;transform:scale(1.2) rotate(12deg);}}
+@keyframes scroll-ring-spark{0%{opacity:0;transform:translate(-50%,-50%) scale(.3);}25%{opacity:1;}100%{opacity:0;transform:translate(calc(-50% + var(--spark-x)),calc(-50% + var(--spark-y))) scale(1.25) rotate(35deg);}}
+.story-controls{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:10px;}
+.story-arrow{width:38px;height:38px;border:0;border-radius:50%;background:var(--white);color:var(--rose-deep);box-shadow:0 4px 14px rgba(74,59,60,.14);font-size:20px;cursor:pointer;}
+.story-dots{display:flex;gap:7px;}
+.story-dot{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:rgba(161,89,106,.3);cursor:pointer;transition:transform .2s,background .2s;}
+.story-dot.is-active{background:var(--rose-deep);transform:scale(1.3);}
+.story .beat,.story .beat.right{
+  position:relative;
+  inset:auto;
+  width:auto;
+  min-height:0;
+  margin:0;
+  padding:0;
+  display:flex;
+  flex-direction:row;
+  gap:0;
+  align-items:stretch;
+  text-align:left;
+  opacity:0;
+  transform:translateY(16px) scale(.985);
+  transition:opacity .8s ease,transform .8s cubic-bezier(.2,.75,.25,1);
+}
+.story .beat.is-visible{opacity:1;transform:translateY(0) scale(1);}
+.story .beat-media,.story .beat-media.portrait{
+  flex:0 0 55%;
+  width:55%;
+  height:100%;
+  min-height:160px;
+  min-height:0;
+  margin:0;
+  overflow:hidden;
+  border-radius:16px 0 0 16px;
+  background:var(--cream-2);
+  box-shadow:none;
+}
+.story .beat-media img{width:100%;height:100%;object-fit:contain;display:block;background:var(--cream-2);}
+.story .dm-card{height:100%;min-height:160px;border-radius:16px 0 0 16px;box-shadow:none;padding:12px;}
+.story .beat-text{
+  width:45%;
+  flex:1;
+  align-self:stretch;
+  min-width:0;
+  padding:12px 14px;
+  border-radius:0 16px 16px 0;
+  box-shadow:0 10px 25px rgba(0,0,0,.07);
+}
+.story .beat-marker{margin:0 0 4px;font-size:.8rem;letter-spacing:.04em;text-transform:uppercase;color:var(--rose-deep);}
+.story .beat-title{font-size:1rem;line-height:1.2;margin:0 0 4px;}
+.story .beat-copy{font-size:.78rem;line-height:1.4;margin:0;}
+@media(max-width:900px){.story{padding:8px 16px 28px;}.story-slide{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(240px,auto);gap:10px;}.story-slide>.beat{min-height:240px;}.story .beat-title{font-size:1rem;}.story .beat-copy{font-size:.82rem;}}
+@media(max-width:540px){.story-slide{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(210px,auto);gap:8px;padding:2px;}.story-slide>.beat{min-height:210px;}.story .beat-media,.story .beat-media.portrait{min-height:210px;}.story .dm-card{min-height:210px;}.story .beat-text{padding:10px 12px;}.story .beat-marker{font-size:.68rem;}.story .beat-title{font-size:.95rem;}.story .beat-copy{font-size:.78rem;line-height:1.35;}}
+@media(max-width:900px){.story-slide>.beat{width:calc(100% - 22px)!important;margin-left:22px!important;margin-right:0!important;}.story-scroll-line{left:1px;width:12px;background-size:12px 120px;}.story-scroll-ring{left:7px;width:36px;height:36px;}}
+@media(prefers-reduced-motion:reduce){.story .beat{transition:none;}}
 </style>
 
-<style id="chatgpt-mobile-fixes">
-@media (max-width:768px) and (orientation:portrait){
-  .spine-svg,.bloom{display:none!important;}
-  .beat,.beat.right{
-    display:flex!important;
-    flex-direction:column!important;
-    gap:20px!important;
-    margin-left:0!important;
-  }
-  .beat-text,.beat-media{width:100%!important;}
+<style id="compact-story-layout-fixes">
+@media(max-width:768px) and (orientation:portrait){
+  .story{display:block!important;padding:8px 16px 28px!important;}
+  .story .beat,.story .beat.right{display:flex!important;flex-direction:row!important;gap:0!important;margin:0!important;}
+  .story-slide{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(210px,auto)!important;}
+  .story .beat-media,.story .dm-card{width:55%!important;flex-basis:55%!important;}
+  .story .beat-text{width:45%!important;}
 }
-
-/* Keep the desktop story layout when a phone is rotated sideways. */
-@media (orientation:landscape) and (max-width:1200px){
-  .story{ padding:28px 24px 56px; }
-  .beat,.beat.right{
-    display:grid!important;
-    grid-template-columns:minmax(0, 1fr) 44px minmax(0, 1fr);
-    align-items:start;
-    gap:0!important;
-    margin-left:0!important;
-    margin-bottom:54px;
-  }
-  .beat > .beat-media{ grid-column:1; }
-  .beat > .beat-text{ grid-column:3; }
-  .beat > .beat-media,.beat > .beat-text{ grid-row:1; }
-  .beat.right > .beat-media{ grid-column:3; }
-  .beat.right > .beat-text{ grid-column:1; }
-  .beat-text,.beat-media{ width:auto!important; }
-  .beat-text{ padding:22px; }
-  .beat-title{ font-size:clamp(1.35rem, 3vw, 1.8rem); }
-  .beat-copy{ font-size:0.92rem; }
+@media(orientation:landscape) and (max-width:1200px){
+  .story{display:block!important;padding:8px 18px 28px!important;}
+  .story .beat,.story .beat.right{display:flex!important;grid-template-columns:none!important;gap:0!important;margin:0!important;}
 }
+@media(max-width:900px){.story-slide>.beat{width:calc(100% - 22px)!important;margin-left:22px!important;margin-right:0!important;}}
+</style>
 
+<style id="single-wedding-details-frame">
+.wedding-invite-frame{
+  position:relative;
+  z-index:3;
+  width:min(900px,calc(100% - 32px));
+  margin:0 auto 36px;
+  overflow:hidden;
+  border:1px solid rgba(193,123,135,.28);
+  border-radius:24px;
+  background:rgba(255,253,251,.9);
+  box-shadow:0 16px 42px rgba(74,59,60,.12);
+}
+.wedding-invite-frame .countdown-section{
+  min-height:0;
+  padding:30px 24px 14px;
+  background:transparent;
+}
+.wedding-invite-frame .countdown-title{margin-bottom:6px;}
+.wedding-invite-frame .countdown-date{margin:8px 0 18px;}
+.wedding-invite-frame .countdown-section{padding-bottom:8px;}
+.wedding-invite-frame .event-details{
+  max-width:none;
+  margin:0;
+  padding:16px 24px 28px;
+}
+.wedding-invite-frame .event-details-title{margin-bottom:14px;}
+.wedding-invite-frame .event-details-grid{display:block;}
+.wedding-invite-frame .event-detail.wedding-frame{
+  width:100%;
+  max-width:none;
+  min-height:260px;
+  border:0;
+  border-top:1px solid rgba(193,123,135,.2);
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  transform:none;
+}
+.wedding-invite-frame .wedding-frame-photo{min-height:260px;}
+.wedding-invite-frame .wedding-frame-copy{padding:22px clamp(20px,4vw,40px);}
+@media(max-width:600px){
+  .wedding-invite-frame{width:calc(100% - 24px);margin-bottom:24px;border-radius:20px;}
+  .wedding-invite-frame .countdown-section{padding:24px 14px 10px;}
+  .wedding-invite-frame .countdown-title{font-size:1.15rem;padding-bottom:5px;}
+  .wedding-invite-frame .countdown-date{margin:6px 0 12px;}
+  .wedding-invite-frame .cd-box{width:clamp(54px,17vw,68px);height:clamp(54px,17vw,68px);}
+  .wedding-invite-frame .cd-content{padding-top:0;}
+  .wedding-invite-frame .cd-label{margin-top:2px;}
+  .wedding-invite-frame .event-details-eyebrow{font-size:1rem;}
+  .wedding-invite-frame .event-details-title{font-size:1.55rem;margin-bottom:8px;}
+  .wedding-invite-frame .event-details{padding:14px 14px 20px;}
+  .wedding-invite-frame .event-detail.wedding-frame{min-height:0;}
+  .wedding-invite-frame .wedding-frame-photo{height:220px;min-height:220px;}
+  .wedding-invite-frame .wedding-frame-copy{padding:18px 18px 20px;}
+}
 </style>
 
 </head>
@@ -1085,31 +1157,12 @@ background:var(--cream-2);
   <button class="fm-btn" id="fmPrev" title="Previous song">⏮</button>
   <button class="fm-btn fm-main" id="fmPlayPause" title="Play / Pause">▶</button>
   <button class="fm-btn" id="fmNext" title="Next song">⏭</button>
-  <button class="fm-btn" id="autoScrollToggle" type="button" title="Start automatic scrolling" aria-label="Start automatic scrolling">&#8595;</button>
   <span class="fm-title" id="fmTitle">Piyu Bole</span>
 </div>
 
 <div class="bg-glow"></div>
 <div class="petals" id="petals"></div>
-<svg class="spine-svg" id="spineSvg" preserveAspectRatio="none"><path class="spine-line" id="spinePath" d=""></path></svg>
-
-<!-- ring that travels down the spine -->
-<div class="bloom" id="bloom">
-  <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="ringGold" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#efd9ae"/>
-        <stop offset="50%" stop-color="#cda76b"/>
-        <stop offset="100%" stop-color="#a9834e"/>
-      </linearGradient>
-    </defs>
-    <circle cx="20" cy="24" r="11" fill="none" stroke="url(#ringGold)" stroke-width="4"/>
-    <path d="M20 6 L24 13 L20 16 L16 13 Z" fill="#f3dfe1" stroke="#c17b87" stroke-width="1"/>
-    <path d="M20 8 L22.5 13 L20 14.5 L17.5 13 Z" fill="#ffffff" opacity="0.6"/>
-  </svg>
-  <span class="sparkle">✨</span>
-</div>
-
+<div class="floating-blooms" id="floatingBlooms" aria-hidden="true"></div>
 <!-- ===================== HERO ===================== -->
 <section class="hero">
 
@@ -1132,7 +1185,7 @@ background:var(--cream-2);
   <h1 class="hero-names">Param <span class="amp">&amp;</span> Rucha</h1>
 
   <audio id="bgMusic">
-    <source src="piyu-bole.mp3" type="audio/mpeg">
+    <source src="tum-tak.mp3" type="audio/mpeg">
   </audio>
 
   <div class="music-message">
@@ -1178,7 +1231,6 @@ background:var(--cream-2);
 
   <!-- BEAT 1 : Instagram story reply -->
   <div class="beat" data-beat>
-    <div class="beat-node"></div>
     <div class="beat-media">
       <div class="dm-card">
         <div class="dm-bubble">Hello... kya chal raha hai? 😊</div>
@@ -1194,7 +1246,6 @@ background:var(--cream-2);
 
   <!-- BEAT 2 : the little moments that brought them closer -->
   <div class="beat right" data-beat>
-    <div class="beat-node"></div>
     <div class="beat-media portrait">
       <img src="images/me_and_u.png" alt="Black-and-white collage of Param and Rucha sharing affectionate everyday moments">
     </div>
@@ -1207,7 +1258,6 @@ background:var(--cream-2);
 
   <!-- BEAT 3 : Pune meetings -->
   <div class="beat" data-beat>
-    <div class="beat-node"></div>
     <div class="beat-media portrait">
       <img src="images/first_meet.png" alt="Illustration of Param and Rucha together with a bouquet of red roses">
     </div>
@@ -1218,22 +1268,8 @@ background:var(--cream-2);
     </div>
   </div>
 
-  <!-- BEAT 4 : everyday memories -->
-  <div class="beat right" data-beat>
-    <div class="beat-node"></div>
-    <div class="beat-media portrait">
-      <img src="images/scene2-ghat-a.jpg" alt="Photo collage of Param and Rucha sharing ice cream and other sweet moments together">
-    </div>
-    <div class="beat-text">
-      <p class="beat-marker"><span class="ic">❤️</span> Everyday us</p>
-      <h2 class="beat-title">Better together</h2>
-      <p class="beat-copy">Ice cream shared off one spoon, shoulders to lean on, hands that fit. The small ordinary moments that quietly became our favourites.</p>
-    </div>
-  </div>
-
   <!-- BEAT 5 : a trip together -->
   <div class="beat" data-beat>
-    <div class="beat-node"></div>
     <div class="beat-media">
       <img src="images/real-collage-2.jpg" alt="Param and Rucha standing together by the river among boats">
     </div>
@@ -1246,7 +1282,6 @@ background:var(--cream-2);
 
   <!-- BEAT 6 : street food and a boat ride -->
   <div class="beat right" data-beat>
-    <div class="beat-node"></div>
     <div class="beat-media">
       <img src="images/real-collage-1.jpg" alt="Photo collage of Param and Rucha on a boat and enjoying kachori together">
     </div>
@@ -1259,7 +1294,6 @@ background:var(--cream-2);
 
   <!-- BEAT 7 : shopping evening -->
   <div class="beat" data-beat>
-    <div class="beat-node"></div>
     <div class="beat-media">
       <img src="images/shopping-evening.jpg" alt="Param and Rucha taking a mirror selfie together after shopping">
     </div>
@@ -1270,22 +1304,8 @@ background:var(--cream-2);
     </div>
   </div>
 
-  <!-- BEAT 8 : proposal -->
-  <div class="beat right" data-beat>
-    <div class="beat-node"></div>
-    <div class="beat-media">
-      <img src="images/file_00000000d17c8211b0d7a2fd8b92c0b7.png" alt="Param and Rucha celebrating their proposal under a heart-shaped light display">
-    </div>
-    <div class="beat-text">
-      <p class="beat-marker"><span class="ic">&#10084;</span> The proposal</p>
-      <h2 class="beat-title">The Start of Their Forever</h2>
-      <p class="beat-copy">A simple question, a joyful yes, and the beginning of Param and Rucha's forever.</p>
-    </div>
-  </div>
-
-  <!-- BEAT 9 : childhood memories -->
+  <!-- Childhood memories -->
   <div class="beat" data-beat>
-    <div class="beat-node"></div>
     <div class="beat-media">
       <img src="images/kids.jpeg" alt="A treasured childhood photograph">
     </div>
@@ -1296,9 +1316,8 @@ background:var(--cream-2);
     </div>
   </div>
 
-  <!-- BEAT 10 : birthday memories -->
+  <!-- Birthday memories -->
   <div class="beat right" data-beat>
-    <div class="beat-node"></div>
     <div class="beat-media portrait">
       <img src="images/birthday_photos_collage.png" alt="A collage of birthday celebration memories">
     </div>
@@ -1315,7 +1334,7 @@ background:var(--cream-2);
 <section class="gallery-section reveal" data-reveal>
   <p class="gallery-eyebrow">families becoming one ❤️</p>
   <h2 class="gallery-title">The Day Our Worlds Met</h2>
-  <div class="family-wrapper"><button class="family-nav prev" onclick="scrollFamily(-1)">❮</button><div class="family-track" id="familyTrack">
+  <div class="family-wrapper"><button class="family-nav prev" aria-label="Previous family photos" onclick="scrollFamily(-1)">❮</button><div class="family-track" id="familyTrack">
 <div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM.jpeg" alt="Family celebration photo 1" loading="lazy"></div>
 <div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (1).jpeg" alt="Family celebration photo 2" loading="lazy"></div>
 <div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (7).jpeg" alt="Family celebration photo 3" loading="lazy"></div>
@@ -1324,8 +1343,8 @@ background:var(--cream-2);
 <div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (4).jpeg" alt="Family celebration photo 6" loading="lazy"></div>
 <div class="family-card"><img src="family/WhatsApp Image 2026-07-06 at 6.44.06 PM (5).jpeg" alt="Family celebration photo 7" loading="lazy"></div>
 
-</div><button class="family-nav next" onclick="scrollFamily(1)">❯</button></div>
-<p style="max-width:700px;margin:30px auto 0;line-height:1.8;">
+</div><button class="family-nav next" aria-label="Next family photos" onclick="scrollFamily(1)">❯</button></div>
+<p style="max-width:700px;margin:12px auto 0;line-height:1.65;">
 We started as two people with a beautiful story. Then came the day our families met.
 Smiles turned into blessings, introductions turned into connections, and suddenly our future felt more real than ever. ❤️
 </p>
@@ -1358,6 +1377,7 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
   </p>
 </div>
 
+<div class="wedding-invite-frame" id="weddingInviteFrame">
 <!-- ===================== WEDDING COUNTDOWN ===================== -->
 <section class="countdown-section">
   <p class="countdown-eyebrow reveal" data-reveal>our forever begins</p>
@@ -1371,11 +1391,6 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
     <div class="cd-box"><div class="cd-content"><span class="cd-num" id="cd-secs">--</span><span class="cd-label">seconds</span></div></div>
   </div>
 
-  <img class="countdown-img reveal" data-reveal src="images/wedding-illustration.jpg" alt="Illustration of Param and Rucha at their wedding ceremony, holding hands by the sacred fire">
-
-  <p class="countdown-note reveal" data-reveal>
-    16 November ko hamari nayi zindagi ka aaghaz hai. Aapke saath is khushi ko celebrate karne ka intezaar rahega!
-  </p>
 </section>
 
 <!-- ===================== WEDDING DETAILS ===================== -->
@@ -1383,14 +1398,19 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
   <p class="event-details-eyebrow">join us for our wedding</p>
   <h2 class="event-details-title">Wedding Details</h2>
   <div class="event-details-grid">
-    <article class="event-detail">
-      <div class="event-detail-icon" aria-hidden="true">&#128205;</div>
-      <p>Monday, 16 November 2026<br>11:30 AM</p>
-      <h3>Venue</h3>
-      <p>Telai Celebration Hall<br>Shegaon to Rahatgaon Road, near Deshmukh Lawn<br>Arjun Nagar, Amravati</p>
+    <article class="event-detail wedding-frame">
+      <img class="wedding-frame-photo" src="images/wedding-illustration.jpg" alt="Param and Rucha at their wedding ceremony, holding hands by the sacred fire" loading="lazy">
+      <div class="wedding-frame-copy">
+        <p class="event-details-eyebrow">Monday, 16 November 2026 · 11:30 AM</p>
+        <div class="event-detail-icon" aria-hidden="true">&#128205;</div>
+        <h3>Telai Celebration Hall</h3>
+        <p>Shegaon to Rahatgaon Road, near Deshmukh Lawn<br>Arjun Nagar, Amravati</p>
+      </div>
     </article>
   </div>
 </section>
+
+</div>
 
 </div>
 
@@ -1434,15 +1454,39 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
   }
 })();
 
+// ---------- softly floating floral accents ----------
+(function spawnFloatingBlooms(){
+  const container = document.getElementById('floatingBlooms');
+  if(!container) return;
+  const count = window.innerWidth < 760 ? 5 : 9;
+  const flowers = ['✿', '❀', '✦', '❁'];
+  const colors = ['#c17b87', '#cda76b', '#869a76', '#d98e9b'];
+
+  for(let i=0; i<count; i++){
+    const bloom = document.createElement('span');
+    bloom.className = 'bloomlet';
+    bloom.textContent = flowers[i % flowers.length];
+    bloom.style.left = (i % 2 ? 3 + Math.random() * 11 : 86 + Math.random() * 10) + 'vw';
+    bloom.style.top = (6 + Math.random() * 88) + 'vh';
+    bloom.style.fontSize = (13 + Math.random() * 13) + 'px';
+    bloom.style.setProperty('--bloom-color', colors[i % colors.length]);
+    bloom.style.setProperty('--bloom-x', (Math.random() * 24 - 12) + 'px');
+    bloom.style.setProperty('--bloom-y', (Math.random() * 28 - 14) + 'px');
+    bloom.style.setProperty('--bloom-duration', (7 + Math.random() * 6) + 's');
+    bloom.style.animationDelay = '-' + (Math.random() * 8) + 's';
+    container.appendChild(bloom);
+  }
+})();
+
 // ---------- wedding invitation: open the details and countdown ----------
 (function invitationLogic(){
   const buttons = document.querySelectorAll('#invitation-buttons button');
   const askBlock = document.getElementById('invitation-ask');
   const invitation = document.getElementById('invitation');
   const gated = document.getElementById('gated-content');
-  const countdown = document.querySelector('.countdown-section');
+  const weddingFrame = document.getElementById('weddingInviteFrame');
 
-  if(!buttons.length || !askBlock || !invitation || !gated || !countdown) return;
+  if(!buttons.length || !askBlock || !invitation || !gated || !weddingFrame) return;
 
   function openInvitation(){
     if(gated.classList.contains('unlocked')) return;
@@ -1455,7 +1499,7 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
       askBlock.style.display='none';
       invitation.classList.add('invitation-closed');
       requestAnimationFrame(()=>{
-        countdown.scrollIntoView({ behavior:'instant', block:'start' });
+        weddingFrame.scrollIntoView({ behavior:'instant', block:'start' });
       });
     },500);
   }
@@ -1467,83 +1511,16 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
 const beats = document.querySelectorAll('[data-beat]');
 const reveals = document.querySelectorAll('[data-reveal]');
 
-function popHeartsFromNode(beatEl){
-  const node = beatEl.querySelector('.beat-node');
-  if(!node) return;
-  const glyphs = ['❤️','💕','✨'];
-  for(let i=0;i<5;i++){
-    const h = document.createElement('span');
-    h.className = 'node-heart';
-    h.textContent = glyphs[Math.floor(Math.random()*glyphs.length)];
-    h.style.left = '50%';
-    h.style.top = '6px';
-    const angle = (Math.random()*140 - 70) * (Math.PI/180);
-    const dist = 30 + Math.random()*26;
-    h.style.setProperty('--hx', Math.sin(angle)*dist + 'px');
-    h.style.setProperty('--hy', (-Math.cos(angle)*dist - 10) + 'px');
-    h.style.setProperty('--hr', (Math.random()*50 - 25) + 'deg');
-    h.style.animationDelay = (i*0.08) + 's';
-    node.appendChild(h);
-    setTimeout(()=> h.remove(), 1600);
-  }
-}
-
 const io = new IntersectionObserver((entries)=>{
   entries.forEach(entry=>{
     if(entry.isIntersecting){
-      const alreadyVisible = entry.target.classList.contains('is-visible');
       entry.target.classList.add('is-visible');
-      if(!alreadyVisible && entry.target.hasAttribute('data-beat')){
-        popHeartsFromNode(entry.target);
-      }
     }
   });
 },{ threshold:0.25 });
 
 beats.forEach(b=>io.observe(b));
 reveals.forEach(r=>io.observe(r));
-
-// ---------- vine + bloom travel down the spine as user scrolls ----------
-const bloom = document.getElementById('bloom');
-const spinePath = document.getElementById('spinePath');
-const spineSvg = document.getElementById('spineSvg');
-const storyEl = document.querySelector('.story');
-
-function drawVine(){
-  const w = spineSvg.clientWidth || 26;
-  const h = storyEl.offsetHeight;
-  spineSvg.setAttribute('viewBox', `0 0 ${w} ${h}`);
-  let d = `M ${w/2} 0`;
-  const step = 60;
-  let dir = 1;
-  for(let y = step; y < h; y += step){
-    const cx = w/2 + dir * (w/2 - 2);
-    d += ` Q ${cx} ${y - step/2}, ${w/2} ${y}`;
-    dir *= -1;
-  }
-  spinePath.setAttribute('d', d);
-}
-
-function positionBloom(){
-  const rect = storyEl.getBoundingClientRect();
-  const storyTop = rect.top + window.scrollY;
-  const storyHeight = storyEl.offsetHeight;
-  const viewportCenter = window.scrollY + window.innerHeight * 0.4;
-
-  let progress = (viewportCenter - storyTop) / storyHeight;
-  progress = Math.max(0, Math.min(1, progress));
-
-  const top = storyTop + progress * storyHeight;
-  const fadeZone = 120;
-
-  bloom.style.top = top + 'px';
-  bloom.style.opacity = (viewportCenter < storyTop - fadeZone || viewportCenter > storyTop + storyHeight + fadeZone) ? '0' : '1';
-}
-
-window.addEventListener('scroll', positionBloom, { passive:true });
-window.addEventListener('resize', ()=>{ drawVine(); positionBloom(); });
-drawVine();
-positionBloom();
 
 // ---------- wedding countdown ----------
 const weddingDate = new Date('2026-11-16T11:30:00+05:30');
@@ -1609,53 +1586,6 @@ const fmPrev = document.getElementById('fmPrev');
 const fmPlayPause = document.getElementById('fmPlayPause');
 const fmNext = document.getElementById('fmNext');
 const fmTitle = document.getElementById('fmTitle');
-const autoScrollToggle = document.getElementById('autoScrollToggle');
-
-let autoScrollActive = false;
-let autoScrollFrame = null;
-let autoScrollLastTime = 0;
-const autoScrollSpeed = 360;
-
-function updateAutoScrollControl(){
-  if(!autoScrollToggle) return;
-  autoScrollToggle.innerHTML = autoScrollActive ? '&#10074;&#10074;' : '&#8595;';
-  const label = autoScrollActive ? 'Pause automatic scrolling' : 'Start automatic scrolling';
-  autoScrollToggle.title = label;
-  autoScrollToggle.setAttribute('aria-label', label);
-  autoScrollToggle.classList.toggle('is-active', autoScrollActive);
-}
-
-function stopAutoScroll(){
-  autoScrollActive = false;
-  if(autoScrollFrame) cancelAnimationFrame(autoScrollFrame);
-  autoScrollFrame = null;
-  updateAutoScrollControl();
-}
-
-function runAutoScroll(now){
-  if(!autoScrollActive) return;
-  const elapsed = Math.min(now - autoScrollLastTime, 50);
-  autoScrollLastTime = now;
-  window.scrollBy(0, autoScrollSpeed * elapsed / 1000);
-
-  const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
-  if(atBottom){
-    stopAutoScroll();
-    return;
-  }
-  autoScrollFrame = requestAnimationFrame(runAutoScroll);
-}
-
-function toggleAutoScroll(){
-  if(autoScrollActive){
-    stopAutoScroll();
-    return;
-  }
-  autoScrollActive = true;
-  autoScrollLastTime = performance.now();
-  updateAutoScrollControl();
-  autoScrollFrame = requestAnimationFrame(runAutoScroll);
-}
 
 const playlist = [
   { src:'piyu-bole.mp3', name:'🌿 Piyu Bole' },
@@ -1665,7 +1595,7 @@ const playlist = [
   { src:'o-rangrez.mp3', name:'🌸 O Rangrez' },
   { src:'wedding-love-mashup.mp3', name:'✨ Wedding Mashup' }
 ];
-let currentIndex = 0;
+let currentIndex = 2;
 
 function updatePlayIcons(){
   const playing = !bgMusic.paused;
@@ -1701,16 +1631,6 @@ if(musicBtn) musicBtn.onclick = togglePlay;
 if(fmPlayPause) fmPlayPause.onclick = togglePlay;
 if(fmNext) fmNext.onclick = ()=> loadTrack(currentIndex + 1, true);
 if(fmPrev) fmPrev.onclick = ()=> loadTrack(currentIndex - 1, true);
-if(autoScrollToggle) autoScrollToggle.onclick = toggleAutoScroll;
-
-window.addEventListener('wheel', stopAutoScroll, { passive:true });
-window.addEventListener('touchstart', stopAutoScroll, { passive:true });
-window.addEventListener('keydown', event=>{
-  if(['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)){
-    stopAutoScroll();
-  }
-});
-
 if(changeMusicBtn) changeMusicBtn.onclick = ()=> songMenu.classList.toggle('show');
 document.querySelectorAll('.song-item').forEach((item, idx)=>{
   item.onclick = ()=>{
@@ -1727,6 +1647,131 @@ updateTitles();
 updatePlayIcons();
 </script>
 
+<script>
+// Build the story carousel and its single scroll-following ring.
+const story = document.getElementById('story');
+if(story){
+  const memories=Array.from(story.querySelectorAll('.beat'));
+  const memoryCaptions=[
+    ['The first message','It started with a reply','One reply to an Instagram story turned into conversations that became part of every day.'],
+    ['The everyday stuff','A lot to talk about','Calls, little updates and long chats slowly became our favourite part of the day.'],
+    ['A little preview','Us in our wedding outfits','A small illustration of the two of us dressed for the day ahead.'],
+    ['Dates and little moments','Our kind of day','A night out, a few photos together, and stopping for ice cream.'],
+    ['By the river','Boat ride and kachori','A boat ride together, followed by hot kachori. A very good day out.'],
+    ['An evening out','One more photo together','We went out shopping and came back with another photo we both liked.'],
+    ['Before we met','Our younger selves','A glimpse of the little people we were, long before this story began.'],
+    ['Celebrations','Birthday memories','Birthday surprises, cake and photos from the celebrations we shared.']
+  ];
+  memories.forEach((card,index)=>{
+    const [markerText,titleText,copyText]=memoryCaptions[index]||[];
+    if(!markerText)return;
+    const marker=card.querySelector('.beat-marker');
+    const icon=marker&&marker.querySelector('.ic');
+    if(marker&&icon)marker.replaceChildren(icon,document.createTextNode(` ${markerText}`));
+    const title=card.querySelector('.beat-title');if(title)title.textContent=titleText;
+    const copy=card.querySelector('.beat-copy');if(copy)copy.textContent=copyText;
+  });
+  const familyCaption=document.querySelector('.gallery-section > p:last-child');
+  if(familyCaption)familyCaption.textContent='The day our families met was a big moment for both of us. We’re glad to have these photos to remember it by.';
+  const carousel=document.createElement('div');
+  carousel.className='story-carousel';
+  carousel.setAttribute('aria-label','Our story memories');
+  const viewport=document.createElement('div');viewport.className='story-viewport';
+  const slides=document.createElement('div');slides.className='story-slides';
+  viewport.appendChild(slides);carousel.appendChild(viewport);
+  const controls=document.createElement('div');controls.className='story-controls';
+  const previous=document.createElement('button');previous.className='story-arrow';previous.type='button';previous.textContent='‹';previous.setAttribute('aria-label','Previous story memories');
+  const dots=document.createElement('div');dots.className='story-dots';dots.setAttribute('aria-label','Story slide selection');
+  const next=document.createElement('button');next.className='story-arrow';next.type='button';next.textContent='›';next.setAttribute('aria-label','Next story memories');
+  controls.append(previous,dots,next);carousel.appendChild(controls);
+  const ringLine=document.createElement('span');ringLine.className='story-scroll-line';ringLine.setAttribute('aria-hidden','true');
+  const ring=document.createElement('span');ring.className='story-scroll-ring';ring.setAttribute('aria-hidden','true');
+  ring.innerHTML='<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="storyRingGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#efd9ae"/><stop offset="50%" stop-color="#cda76b"/><stop offset="100%" stop-color="#a9834e"/></linearGradient></defs><circle cx="20" cy="24" r="11" fill="none" stroke="url(#storyRingGold)" stroke-width="4"/><path d="M20 6 24 13 20 16 16 13Z" fill="#f3dfe1" stroke="#c17b87" stroke-width="1"/><path d="M20 8 22.5 13 20 14.5 17.5 13Z" fill="#fff" opacity=".6"/></svg><span class="ring-sparkle" aria-hidden="true">✦</span>';
+  story.replaceChildren(ringLine,carousel,ring);
+  let pageIndex=0;
+  let cardsPerPage=window.innerWidth>900?2:1;
+  let pageDots=[];
+  function buildPages(){
+    slides.replaceChildren();
+    for(let start=0;start<memories.length;start+=cardsPerPage){
+      const page=document.createElement('div');page.className='story-slide';
+      const end=Math.min(start+cardsPerPage,memories.length);
+      page.setAttribute('aria-label',`Memories ${start+1} to ${end} of ${memories.length}`);
+      memories.slice(start,end).forEach(card=>page.appendChild(card));
+      slides.appendChild(page);
+    }
+    dots.replaceChildren();
+    pageDots=Array.from(slides.children).map((_,index)=>{
+      const dot=document.createElement('button');dot.className='story-dot';dot.type='button';dot.setAttribute('aria-label',`Show story page ${index+1}`);
+      dot.onclick=()=>showPage(index);dots.appendChild(dot);return dot;
+    });
+    pageIndex=Math.min(pageIndex,slides.children.length-1);
+    showPage(pageIndex);
+  }
+  function showPage(index){
+    pageIndex=(index+slides.children.length)%slides.children.length;
+    slides.style.transform=`translateX(-${pageIndex*100}%)`;
+    pageDots.forEach((dot,i)=>dot.classList.toggle('is-active',i===pageIndex));
+    slides.querySelectorAll('.story-slide').forEach((page,i)=>{
+      page.setAttribute('aria-hidden',i===pageIndex?'false':'true');
+      page.querySelectorAll('.beat').forEach(card=>card.classList.toggle('is-current',i===pageIndex));
+    });
+    requestRingUpdate();
+  }
+  let ringFrame=0;
+  let ringSparkled=false;
+  function requestRingUpdate(){
+    if(!ringFrame)ringFrame=requestAnimationFrame(updateStoryRing);
+  }
+  function updateStoryRing(){
+    ringFrame=0;
+    const storyRect=story.getBoundingClientRect();
+    const markerY=window.innerHeight*.4;
+    const localY=markerY-storyRect.top;
+    const onStory=localY>=0&&localY<=storyRect.height;
+    ring.style.top=`${Math.max(0,Math.min(storyRect.height,localY))}px`;
+    ring.style.opacity=onStory?'1':'0';
+    const activeCard=slides.children[pageIndex]?.querySelector('.beat');
+    const cardRect=activeCard?.getBoundingClientRect();
+    const ringReachedCard=!!cardRect&&onStory&&Math.abs(cardRect.top+cardRect.height/2-markerY)<26;
+    if(ringReachedCard&&!ringSparkled){
+      ringSparkled=true;
+      ring.classList.remove('is-sparkling');
+      void ring.offsetWidth;
+      ring.classList.add('is-sparkling');
+      for(let i=0;i<4;i++){
+        const sparkle=document.createElement('span');sparkle.className='scroll-ring-spark';sparkle.textContent=i%2?'✧':'✦';
+        const angle=(i*90-45)*Math.PI/180; sparkle.style.setProperty('--spark-x',`${Math.cos(angle)*24}px`);sparkle.style.setProperty('--spark-y',`${Math.sin(angle)*24}px`);
+        ring.appendChild(sparkle);setTimeout(()=>sparkle.remove(),900);
+      }
+    }else if(!ringReachedCard){ringSparkled=false;ring.classList.remove('is-sparkling');}
+  }
+  window.addEventListener('scroll',requestRingUpdate,{passive:true});
+  window.addEventListener('resize',()=>{
+    const nextCardsPerPage=window.innerWidth>900?2:1;
+    if(nextCardsPerPage!==cardsPerPage){cardsPerPage=nextCardsPerPage;buildPages();}
+    else requestRingUpdate();
+  });
+  previous.onclick=()=>showPage(pageIndex-1);next.onclick=()=>showPage(pageIndex+1);buildPages();
+  if(slides.children.length>1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    setInterval(()=>showPage(pageIndex+1),7000);
+  }
+}
 
-<script>function scrollFamily(direction){const track=document.getElementById('familyTrack');const card=track.querySelector('.family-card');if(!card)return;const amount=card.offsetWidth+30;track.scrollBy({left:amount*direction,behavior:'smooth'});}</script></body>
+</script>
+
+<script>
+function scrollFamily(direction){
+  const track=document.getElementById('familyTrack');
+  if(!track)return;
+  const maxScroll=track.scrollWidth-track.clientWidth;
+  if(direction>0 && track.scrollLeft>=maxScroll-4){track.scrollTo({left:0,behavior:'smooth'});return;}
+  if(direction<0 && track.scrollLeft<=4){track.scrollTo({left:maxScroll,behavior:'smooth'});return;}
+  track.scrollBy({left:track.clientWidth*direction,behavior:'smooth'});
+}
+const familyGallery=document.querySelector('.family-wrapper');
+if(familyGallery && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  setInterval(()=>scrollFamily(1),5500);
+}
+</script></body>
 </html>
