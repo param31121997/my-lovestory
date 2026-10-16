@@ -61,7 +61,7 @@ body{
 
 /* ambient falling petals */
 .petals{
-  position:fixed; inset:0; z-index:1; pointer-events:none;
+  position:fixed; inset:0; z-index:6; pointer-events:none;
   overflow:hidden;
 }
 .petal{
@@ -365,47 +365,17 @@ line-height:1.8;
   text-align:center;
 }
 
-/* ===================== QUOTE / DIVIDER MOMENTS ===================== */
-.divider{
-  text-align:center;
-  margin:30px auto 50px;
-  max-width:640px;
-  position:relative;
-  z-index:3;
-  padding:0 24px;
-}
-.divider-mark{
-  font-size:1.5rem;
-  color:var(--rose);
-  margin-bottom:14px;
-}
-.divider-text{
-  font-family:var(--serif);
-  font-style:italic;
-  font-weight:400;
-  font-size:clamp(1.2rem, 2.6vw, 1.7rem);
-  line-height:1.6;
-  color:var(--ink);
-}
-.divider-text .hin{
-  display:block;
-  font-family:var(--script);
-  font-size:1.25em;
-  color:var(--rose-deep);
-  margin-bottom:8px;
-}
-
 /* ===================== WEDDING INVITATION ===================== */
 .invitation-section{
   position:relative;
   z-index:3;
-  min-height:100vh;
+  min-height:0;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
   text-align:center;
-  padding:100px 24px;
+  padding:32px 24px 18px;
   overflow:hidden;
 }
 .invitation-section.invitation-closed{
@@ -425,33 +395,10 @@ line-height:1.8;
   transform:scale(0.96) translateY(-10px);
   pointer-events:none;
 }
-.invitation-eyebrow{
-  font-family:var(--script);
-  font-size:1.5rem;
-  color:var(--rose-deep);
-  margin-bottom:14px;
-}
-.invitation-question{
-  font-family:var(--serif);
-  font-weight:500;
-  font-size:clamp(2.2rem, 6vw, 4rem);
-  color:var(--ink);
-  margin:0 0 18px;
-}
-.invitation-sub{
-  font-family:var(--body);
-  font-weight:300;
-  font-style:italic;
-  font-size:1.15rem;
-  color:var(--ink-dim);
-  max-width:480px;
-  margin:0 0 56px;
-  line-height:1.6;
-}
 .invitation-buttons{
   position:relative;
-  width:min(100%, 650px);
-  min-height:120px;
+  width:auto;
+  min-height:0;
   margin:0 auto;
   display:flex;
   align-items:center;
@@ -480,24 +427,6 @@ line-height:1.8;
 .invitation-button.primary:hover{
   transform:translateY(-3px) scale(1.04);
   box-shadow:0 14px 40px rgba(193,123,135,0.55);
-}
-.invitation-button.secondary{
-  background:var(--white);
-  color:var(--ink-dim);
-  border:1.5px solid rgba(138,118,116,0.35);
-  transition:transform 0.25s ease, box-shadow 0.25s ease;
-}
-.invitation-button.secondary:hover{
-  transform:translateY(-3px);
-  box-shadow:0 10px 24px rgba(74,59,60,0.12);
-}
-.invitation-hint{
-  margin-top:34px;
-  font-size:0.82rem;
-  color:var(--ink-dim);
-  opacity:0.7;
-  font-style:italic;
-  min-height:1.2em;
 }
 
 /* Keep the wedding details tucked away until a guest opens the invitation. */
@@ -633,102 +562,25 @@ line-height:1.8;
   display:block;
 }
 
-/* ===================== WEDDING DETAILS ===================== */
-.event-details{
-  position:relative;
-  z-index:3;
-  max-width:880px;
-  margin:0 auto;
-  padding:54px 24px 28px;
-  text-align:center;
-}
-.event-details-eyebrow{
-  margin:0 0 4px;
-  color:var(--rose-deep);
-  font-family:var(--script);
-  font-size:clamp(1.1rem, 2.5vw, 1.45rem);
-}
-.event-details-title{
-  margin:0 0 28px;
-  color:var(--ink);
-  font-family:var(--serif);
-  font-size:clamp(1.6rem, 3.6vw, 2.3rem);
-  font-weight:500;
-}
-.event-details-grid{
-  display:grid;
-  grid-template-columns:repeat(2, minmax(0, 1fr));
-  gap:18px;
-}
-.event-detail:only-child{
-  grid-column:1 / -1;
-  width:min(100%, 420px);
-  justify-self:center;
-}
-.event-detail{
-  min-height:180px;
-  box-sizing:border-box;
-  padding:28px 24px;
-  border:1px solid rgba(193,123,135,0.32);
-  border-radius:8px;
-  background:rgba(255,253,251,0.82);
-  box-shadow:0 10px 28px rgba(74,59,60,0.1);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  transition:transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
-}
-@media (hover:hover){
-  .event-detail:hover{
-    transform:translateY(-6px);
-    border-color:rgba(148,70,90,0.58);
-    box-shadow:0 18px 34px rgba(74,59,60,0.15);
-  }
-}
-.event-detail-icon{
-  color:var(--rose-deep);
-  font-size:1.5rem;
-  line-height:1;
-  margin-bottom:12px;
-}
-.event-detail h3{
-  margin:0 0 10px;
-  color:var(--ink);
-  font-family:var(--serif);
-  font-size:1.2rem;
-  font-weight:500;
-}
-.event-detail p{
-  margin:0;
-  color:var(--ink-dim);
-  font-size:0.95rem;
-  line-height:1.65;
-}
-.wedding-frame.event-detail:only-child{width:100%;max-width:none;}
-.wedding-frame{
-  display:grid;
-  grid-template-columns:1.1fr 1fr;
-  align-items:stretch;
-  text-align:left;
-  padding:0;
-  min-height:300px;
-  overflow:hidden;
-  border-radius:20px;
-}
-.wedding-frame-photo{width:100%;height:100%;min-height:300px;object-fit:contain;background:var(--cream-2);padding:12px;box-sizing:border-box;}
-.wedding-frame-copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:28px clamp(20px,4vw,42px);}
-.wedding-frame-copy .event-details-eyebrow{font-family:var(--body);font-size:.9rem;font-style:italic;}
-.wedding-frame-copy .event-detail-icon{margin:16px 0 10px;}
-.wedding-frame-copy h3{font-size:clamp(1.3rem,2.5vw,1.8rem);margin-bottom:10px;}
-@media (max-width:600px){
-  .event-details{ padding:42px 16px 18px; }
-  .event-details-grid{ grid-template-columns:1fr; gap:14px; }
-  .event-detail{ min-height:0; padding:24px 18px; }
-  .wedding-frame{grid-template-columns:1fr;padding:0;}
-  .wedding-frame-photo{height:240px;min-height:240px;padding:10px;}
-  .wedding-frame-copy{padding:20px 22px 24px;}
-}
+/* The wedding artwork gets its own animated photo frame. */
+.event-details{position:relative;z-index:3;width:min(900px,calc(100% - 40px));margin:0 auto;padding:0 0 4px;}
+.event-photo-frame{max-width:720px;margin:0 auto;overflow:hidden;border:1px solid rgba(193,123,135,.25);border-radius:22px;background:var(--cream-2);box-shadow:0 12px 28px rgba(74,59,60,.12);opacity:0;transform:translateY(18px) scale(.98);transition:opacity .9s ease,transform 1s cubic-bezier(.2,.75,.25,1);}
+.event-details.is-visible .event-photo-frame{opacity:1;transform:translateY(0) scale(1);}
+.wedding-couple-arrival{position:relative;width:min(540px,100%);height:clamp(210px,38vw,340px);margin:10px auto 14px;display:flex;align-items:flex-end;justify-content:center;gap:clamp(2px,1vw,14px);overflow:hidden;}
+.event-photo-frame .wedding-couple-arrival img{display:block;width:auto;height:100%;max-height:none;max-width:49%;object-fit:contain;object-position:bottom;}
+.wedding-couple-arrival img:first-child{opacity:0;transform:translateX(-140%);}
+.wedding-couple-arrival img:nth-child(2){opacity:0;transform:translateX(140%);}
+.wedding-couple-heart{position:absolute;left:50%;top:12%;color:var(--rose-deep);font-size:18px;opacity:0;transform:translate(-50%,8px) scale(.5);}
+.wedding-couple-arrival.is-animating img:first-child{animation:invitation-groom-arrive 3.6s cubic-bezier(.16,.72,.28,1) forwards;}
+.wedding-couple-arrival.is-animating img:nth-child(2){animation:invitation-bride-arrive 3.6s cubic-bezier(.16,.72,.28,1) forwards;}
+.wedding-couple-arrival.is-animating .wedding-couple-heart{animation:invitation-heart-pop .6s ease 3.4s forwards;}
+@keyframes invitation-groom-arrive{to{opacity:1;transform:translateX(0);}}
+@keyframes invitation-bride-arrive{to{opacity:1;transform:translateX(0);}}
+@keyframes invitation-heart-pop{55%{opacity:1;transform:translate(-50%,-4px) scale(1.25);}100%{opacity:.9;transform:translate(-50%,0) scale(1);}}
+.event-photo-frame img{display:block;width:100%;height:auto;max-height:56vh;object-fit:contain;transform:scale(1.025);transition:transform 1.3s cubic-bezier(.2,.75,.25,1);}
+.event-details.is-visible .event-photo-frame img{transform:scale(1);}
+.event-photo-date{margin:0;padding:9px 12px 11px;border-top:1px solid rgba(193,123,135,.16);background:rgba(255,253,251,.94);color:var(--rose-deep);font-family:var(--serif);font-size:1rem;font-style:italic;text-align:center;}
+@media(max-width:600px){.event-details{width:calc(100% - 24px);padding:0 0 2px;}.event-photo-frame{border-radius:18px;}.event-photo-frame img{max-height:42vh;}.event-photo-date{padding:8px 10px 10px;font-size:.94rem;}}
 
 /* ===================== COVERFLOW GALLERY ===================== */
 .gallery-section{
@@ -808,35 +660,11 @@ line-height:1.8;
 }
 
 /* ===================== FLOATING MUSIC WIDGET END ===================== */
-/* ===================== JOYFUL MICRO ANIMATIONS ===================== */
-.mascot{
-  display:inline-block;
-  font-size:2.6rem;
-  animation:mascot-bounce 1.8s ease-in-out infinite;
-  transform-origin:bottom center;
-  cursor:default;
-}
-@keyframes mascot-bounce{
-  0%,100%{ transform:translateY(0) rotate(-6deg); }
-  30%{ transform:translateY(-14px) rotate(4deg); }
-  50%{ transform:translateY(0) rotate(-2deg); }
-  70%{ transform:translateY(-8px) rotate(6deg); }
-}
-
-.mascot-wink{
-  display:inline-block;
-  animation:mascot-wink 3.4s ease-in-out infinite;
-}
-@keyframes mascot-wink{
-  0%,92%,100%{ transform:scaleY(1); }
-  95%{ transform:scaleY(0.1); }
-}
-
 .footer{
   position:relative;
   z-index:3;
   text-align:center;
-  padding:50px 24px 70px;
+  padding:12px 16px 20px;
   font-family:var(--script);
   font-size:1.4rem;
   color:var(--ink-dim);
@@ -996,7 +824,9 @@ background:var(--cream-2);
 .story-slides{display:flex;transition:transform .75s cubic-bezier(.2,.75,.25,1);}
 .story-slide{flex:0 0 100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:minmax(280px,auto);gap:44px;padding:4px;box-sizing:border-box;}
 .story-slide>.beat{width:100%;max-width:none;min-height:280px;margin:0!important;}
-.story-scroll-line{position:absolute;left:calc(50% - 16px);top:0;bottom:0;width:32px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 120' preserveAspectRatio='none'%3E%3Cpath d='M16 0 C2 18 30 42 16 60 S2 102,16 120' fill='none' stroke='%23869a76' stroke-width='2' stroke-opacity='.68'/%3E%3C/svg%3E");background-size:32px 120px;background-repeat:repeat-y;opacity:.8;}
+.story-scroll-line{position:absolute;left:calc(50% - 16px);top:0;bottom:0;width:32px;pointer-events:none;}
+.story-scroll-line svg{display:block;width:100%;height:100%;overflow:visible;}
+.story-scroll-line path{fill:none;stroke:#869a76;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.62;}
 .story-scroll-ring{
   position:absolute;
   left:50%;
@@ -1064,6 +894,9 @@ background:var(--cream-2);
   flex:1;
   align-self:stretch;
   min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
   padding:12px 14px;
   border-radius:0 16px 16px 0;
   box-shadow:0 10px 25px rgba(0,0,0,.07);
@@ -1073,17 +906,18 @@ background:var(--cream-2);
 .story .beat-copy{font-size:.78rem;line-height:1.4;margin:0;}
 @media(max-width:900px){.story{padding:8px 16px 28px;}.story-slide{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(240px,auto);gap:10px;}.story-slide>.beat{min-height:240px;}.story .beat-title{font-size:1rem;}.story .beat-copy{font-size:.82rem;}}
 @media(max-width:540px){.story-slide{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(210px,auto);gap:8px;padding:2px;}.story-slide>.beat{min-height:210px;}.story .beat-media,.story .beat-media.portrait{min-height:210px;}.story .dm-card{min-height:210px;}.story .beat-text{padding:10px 12px;}.story .beat-marker{font-size:.68rem;}.story .beat-title{font-size:.95rem;}.story .beat-copy{font-size:.78rem;line-height:1.35;}}
-@media(max-width:900px){.story-slide>.beat{width:calc(100% - 22px)!important;margin-left:22px!important;margin-right:0!important;}.story-scroll-line{left:1px;width:12px;background-size:12px 120px;}.story-scroll-ring{left:7px;width:36px;height:36px;}}
+@media(max-width:900px){.story-slide>.beat{width:calc(100% - 22px)!important;margin-left:22px!important;margin-right:0!important;}.story-scroll-line{left:1px;width:12px;}.story-scroll-ring{left:7px;width:36px;height:36px;}}
 @media(prefers-reduced-motion:reduce){.story .beat{transition:none;}}
 </style>
 
 <style id="compact-story-layout-fixes">
-@media(max-width:768px) and (orientation:portrait){
+@media(max-width:768px){
   .story{display:block!important;padding:8px 16px 28px!important;}
-  .story .beat,.story .beat.right{display:flex!important;flex-direction:row!important;gap:0!important;margin:0!important;}
+  .story .beat,.story .beat.right{display:flex!important;flex-direction:column!important;gap:0!important;width:calc(100% - 22px)!important;margin:0 0 0 22px!important;min-height:0!important;}
   .story-slide{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(210px,auto)!important;}
-  .story .beat-media,.story .dm-card{width:55%!important;flex-basis:55%!important;}
-  .story .beat-text{width:45%!important;}
+  .story .beat-media,.story .beat-media.portrait{order:2;width:100%!important;flex:0 0 auto!important;height:clamp(220px,64vw,340px)!important;min-height:0!important;border-radius:0 0 16px 16px!important;}
+  .story .dm-card{width:100%!important;height:100%!important;min-height:0!important;flex:1 1 auto!important;border-radius:0 0 16px 16px!important;}
+  .story .beat-text{order:1;display:flex!important;flex-direction:column!important;justify-content:center!important;width:100%!important;flex:1 1 auto!important;min-height:0;padding:14px 16px!important;border-radius:16px 16px 0 0!important;}
 }
 @media(orientation:landscape) and (max-width:1200px){
   .story{display:block!important;padding:8px 18px 28px!important;}
@@ -1097,7 +931,7 @@ background:var(--cream-2);
   position:relative;
   z-index:3;
   width:min(900px,calc(100% - 32px));
-  margin:0 auto 36px;
+  margin:0 auto 20px;
   overflow:hidden;
   border:1px solid rgba(193,123,135,.28);
   border-radius:24px;
@@ -1112,40 +946,15 @@ background:var(--cream-2);
 .wedding-invite-frame .countdown-title{margin-bottom:6px;}
 .wedding-invite-frame .countdown-date{margin:8px 0 18px;}
 .wedding-invite-frame .countdown-section{padding-bottom:8px;}
-.wedding-invite-frame .event-details{
-  max-width:none;
-  margin:0;
-  padding:16px 24px 28px;
-}
-.wedding-invite-frame .event-details-title{margin-bottom:14px;}
-.wedding-invite-frame .event-details-grid{display:block;}
-.wedding-invite-frame .event-detail.wedding-frame{
-  width:100%;
-  max-width:none;
-  min-height:260px;
-  border:0;
-  border-top:1px solid rgba(193,123,135,.2);
-  border-radius:0;
-  background:transparent;
-  box-shadow:none;
-  transform:none;
-}
-.wedding-invite-frame .wedding-frame-photo{min-height:260px;}
-.wedding-invite-frame .wedding-frame-copy{padding:22px clamp(20px,4vw,40px);}
+.wedding-invite-frame .countdown-grid{margin-bottom:8px;}
 @media(max-width:600px){
   .wedding-invite-frame{width:calc(100% - 24px);margin-bottom:24px;border-radius:20px;}
-  .wedding-invite-frame .countdown-section{padding:24px 14px 10px;}
+  .wedding-invite-frame .countdown-section{padding:20px 14px 4px;}
   .wedding-invite-frame .countdown-title{font-size:1.15rem;padding-bottom:5px;}
   .wedding-invite-frame .countdown-date{margin:6px 0 12px;}
   .wedding-invite-frame .cd-box{width:clamp(54px,17vw,68px);height:clamp(54px,17vw,68px);}
   .wedding-invite-frame .cd-content{padding-top:0;}
   .wedding-invite-frame .cd-label{margin-top:2px;}
-  .wedding-invite-frame .event-details-eyebrow{font-size:1rem;}
-  .wedding-invite-frame .event-details-title{font-size:1.55rem;margin-bottom:8px;}
-  .wedding-invite-frame .event-details{padding:14px 14px 20px;}
-  .wedding-invite-frame .event-detail.wedding-frame{min-height:0;}
-  .wedding-invite-frame .wedding-frame-photo{height:220px;min-height:220px;}
-  .wedding-invite-frame .wedding-frame-copy{padding:18px 18px 20px;}
 }
 </style>
 
@@ -1352,30 +1161,14 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
 
 <!-- ===================== WEDDING INVITATION ===================== -->
 <section class="invitation-section reveal" data-reveal id="invitation">
-
   <div id="invitation-ask">
-    <p class="invitation-eyebrow">with love, Param &amp; Rucha</p>
-    <h2 class="invitation-question">We&rsquo;re getting married! 💍</h2>
-    <p class="invitation-sub">Humari shaadi mein aapko aana hi padega... aaoge na? ❤️</p>
     <div class="invitation-buttons" id="invitation-buttons">
-      <button class="invitation-button primary" id="btn-attend">Haan, zaroor aayenge! 💌</button>
-      <button class="invitation-button secondary" id="btn-join">Aana toh padega 😄</button>
+      <button class="invitation-button primary" id="btn-attend" aria-label="Open wedding invitation">Open wedding invitation</button>
     </div>
-    <p class="invitation-hint">Aapke saath milkar is din ko aur khaas banayenge ✨</p>
   </div>
-
 </section>
 
 <div class="gated" id="gated-content">
-
-<!-- ===================== DIVIDER QUOTE ===================== -->
-<div class="divider reveal" data-reveal>
-  <div class="divider-mark"><span class="mascot">💗</span></div>
-  <p class="divider-text">
-    <span class="hin">Aapke aane se hamari khushi hogi dugni.</span>
-    We can't wait to celebrate our special day with you.
-  </p>
-</div>
 
 <div class="wedding-invite-frame" id="weddingInviteFrame">
 <!-- ===================== WEDDING COUNTDOWN ===================== -->
@@ -1393,20 +1186,16 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
 
 </section>
 
-<!-- ===================== WEDDING DETAILS ===================== -->
-<section class="event-details reveal" data-reveal id="event-details">
-  <p class="event-details-eyebrow">join us for our wedding</p>
-  <h2 class="event-details-title">Wedding Details</h2>
-  <div class="event-details-grid">
-    <article class="event-detail wedding-frame">
-      <img class="wedding-frame-photo" src="images/wedding-illustration.jpg" alt="Param and Rucha at their wedding ceremony, holding hands by the sacred fire" loading="lazy">
-      <div class="wedding-frame-copy">
-        <p class="event-details-eyebrow">Monday, 16 November 2026 · 11:30 AM</p>
-        <div class="event-detail-icon" aria-hidden="true">&#128205;</div>
-        <h3>Telai Celebration Hall</h3>
-        <p>Shegaon to Rahatgaon Road, near Deshmukh Lawn<br>Arjun Nagar, Amravati</p>
-      </div>
-    </article>
+<!-- Wedding artwork only; venue information is not displayed here. -->
+<section class="event-details reveal" data-reveal id="event-details" aria-label="Wedding photo">
+  <div class="event-photo-frame">
+    <div class="wedding-couple-arrival" role="img" aria-label="The groom approaches from the left as the bride approaches from the right">
+      <img src="images/wedding-groom-from-provided.png" alt="" aria-hidden="true">
+      <img src="images/wedding-bride-from-provided.png" alt="" aria-hidden="true">
+      <span class="wedding-couple-heart" aria-hidden="true">♥</span>
+    </div>
+    <img src="images/wedding-illustration.jpg" alt="Illustration of Param and Rucha at their wedding ceremony" loading="lazy">
+    <p class="event-photo-date">16 November 2026</p>
   </div>
 </section>
 
@@ -1416,29 +1205,25 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
 
 <!-- ===================== FOOTER ===================== -->
 <footer class="footer">
-  Param <span class="heart">&hearts;</span> Rucha — our forever begins 16.11.2026
+  Param <span class="heart">&hearts;</span> Rucha — our forever begins
 </footer>
 
 <script>
 // ---------- ambient falling petals ----------
 (function spawnPetals(){
   const container = document.getElementById('petals');
-  const count = window.innerWidth < 760 ? 6 : 12;
-  const viewportW = window.innerWidth;
-  const contentWidth = Math.min(1100, viewportW);
-  const marginW = (viewportW - contentWidth) / 2;
-  const safeMarginVW = Math.max((marginW / viewportW) * 100 - 3, 4);
-  const petalGlyphs = ['🌸','🌷','🌿'];
+  const isMobile = window.innerWidth < 760;
+  const count = isMobile ? 8 + Math.floor(Math.random()*3) : 12 + Math.floor(Math.random()*3);
+  const petalGlyphs = ['🌸','🌷','🌺','🌼','💮','🪷','🌻','🌹'];
 
   for(let i=0;i<count;i++){
     const el = document.createElement('div');
     el.className = 'petal';
     const size = 11 + Math.random()*8;
-    const inLeftMargin = Math.random() < 0.5;
-    const left = inLeftMargin
-      ? Math.random() * safeMarginVW * 0.7
-      : (100 - safeMarginVW * 0.7) + Math.random() * (safeMarginVW * 0.7);
-    const duration = 13 + Math.random()*12;
+    const left = Math.random() < 0.5
+      ? 1 + Math.random() * 7
+      : 92 + Math.random() * 7;
+    const duration = 12 + Math.random()*10;
     const delay = Math.random()*duration;
     const drift = (Math.random()*30 - 15) + 'px';
     const spin = (Math.random()*120 - 60) + 'deg';
@@ -1485,6 +1270,7 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
   const invitation = document.getElementById('invitation');
   const gated = document.getElementById('gated-content');
   const weddingFrame = document.getElementById('weddingInviteFrame');
+  const weddingCouple = document.querySelector('.wedding-couple-arrival');
 
   if(!buttons.length || !askBlock || !invitation || !gated || !weddingFrame) return;
 
@@ -1500,6 +1286,27 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
       invitation.classList.add('invitation-closed');
       requestAnimationFrame(()=>{
         weddingFrame.scrollIntoView({ behavior:'instant', block:'start' });
+        setTimeout(()=>{
+          if(!weddingCouple) return;
+          const [groom,bride]=weddingCouple.querySelectorAll('img');
+          if(groom?.animate && bride?.animate){
+            groom.animate([
+              {opacity:0,transform:'translateX(-140%)'},
+              {opacity:1,transform:'translateX(0)'}
+            ],{duration:3600,easing:'cubic-bezier(.16,.72,.28,1)',fill:'forwards'});
+            bride.animate([
+              {opacity:0,transform:'translateX(140%)'},
+              {opacity:1,transform:'translateX(0)'}
+            ],{duration:3600,easing:'cubic-bezier(.16,.72,.28,1)',fill:'forwards'});
+            weddingCouple.querySelector('.wedding-couple-heart')?.animate([
+              {opacity:0,transform:'translate(-50%,8px) scale(.5)'},
+              {opacity:1,transform:'translate(-50%,-4px) scale(1.25)',offset:.55},
+              {opacity:.9,transform:'translate(-50%,0) scale(1)'}
+            ],{duration:600,delay:3400,easing:'ease',fill:'forwards'});
+          }else{
+            weddingCouple.classList.add('is-animating');
+          }
+        },100);
       });
     },500);
   }
@@ -1652,15 +1459,21 @@ updatePlayIcons();
 const story = document.getElementById('story');
 if(story){
   const memories=Array.from(story.querySelectorAll('.beat'));
+  // Tell the story in time order: childhood, first message, shared days,
+  // outings and celebrations, then the wedding outfit illustration.
+  if(memories.length===8){
+    const storyOrder=[memories[6],memories[0],memories[1],memories[3],memories[4],memories[5],memories[7],memories[2]];
+    memories.splice(0,memories.length,...storyOrder);
+  }
   const memoryCaptions=[
-    ['The first message','It started with a reply','One reply to an Instagram story turned into conversations that became part of every day.'],
-    ['The everyday stuff','A lot to talk about','Calls, little updates and long chats slowly became our favourite part of the day.'],
-    ['A little preview','Us in our wedding outfits','A small illustration of the two of us dressed for the day ahead.'],
-    ['Dates and little moments','Our kind of day','A night out, a few photos together, and stopping for ice cream.'],
-    ['By the river','Boat ride and kachori','A boat ride together, followed by hot kachori. A very good day out.'],
-    ['An evening out','One more photo together','We went out shopping and came back with another photo we both liked.'],
-    ['Before we met','Our younger selves','A glimpse of the little people we were, long before this story began.'],
-    ['Celebrations','Birthday memories','Birthday surprises, cake and photos from the celebrations we shared.']
+    ['Before the story','Our younger days','These photos are from long before our paths crossed.'],
+    ['Where it began','The first message','A reply to an Instagram story became our first conversation.'],
+    ['Getting closer','Everyday moments','Calls, small updates and long conversations slowly became part of our days.'],
+    ['A day out','Dates and little moments','A night out, a few photos together, and stopping for ice cream.'],
+    ['A little trip','A trip together','We took a boat ride, stopped for hot kachori, and enjoyed the day together.'],
+    ['Another day together','An evening out','A shopping trip gave us one more day to remember.'],
+    ['Celebrations','Birthday memories','Birthday photos and celebrations shared along the way.'],
+    ['Our Sagai Day',"Now we're getting married",'A day with our families to celebrate our engagement and the wedding ahead.']
   ];
   memories.forEach((card,index)=>{
     const [markerText,titleText,copyText]=memoryCaptions[index]||[];
@@ -1691,6 +1504,20 @@ if(story){
   let pageIndex=0;
   let cardsPerPage=window.innerWidth>900?2:1;
   let pageDots=[];
+  function drawStoryVine(){
+    const width=ringLine.clientWidth||32;
+    const height=Math.max(1,story.offsetHeight);
+    const step=60;
+    let direction=1;
+    let path=`M ${width/2} 0`;
+    for(let y=step;y<height;y+=step){
+      const controlX=width/2+direction*(width/2-2);
+      path+=` Q ${controlX} ${y-step/2}, ${width/2} ${y}`;
+      direction*=-1;
+    }
+    path+=` L ${width/2} ${height}`;
+    ringLine.innerHTML=`<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true"><path d="${path}"/></svg>`;
+  }
   function buildPages(){
     slides.replaceChildren();
     for(let start=0;start<memories.length;start+=cardsPerPage){
@@ -1707,6 +1534,7 @@ if(story){
     });
     pageIndex=Math.min(pageIndex,slides.children.length-1);
     showPage(pageIndex);
+    drawStoryVine();
   }
   function showPage(index){
     pageIndex=(index+slides.children.length)%slides.children.length;
@@ -1750,7 +1578,7 @@ if(story){
   window.addEventListener('resize',()=>{
     const nextCardsPerPage=window.innerWidth>900?2:1;
     if(nextCardsPerPage!==cardsPerPage){cardsPerPage=nextCardsPerPage;buildPages();}
-    else requestRingUpdate();
+    else{drawStoryVine();requestRingUpdate();}
   });
   previous.onclick=()=>showPage(pageIndex-1);next.onclick=()=>showPage(pageIndex+1);buildPages();
   if(slides.children.length>1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
