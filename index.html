@@ -83,16 +83,17 @@ body{
 .floating-blooms{
   position:fixed;
   inset:0;
-  z-index:1;
+  z-index:7;
   pointer-events:none;
   overflow:hidden;
 }
 .bloomlet{
   position:absolute;
   color:var(--bloom-color, var(--rose));
-  opacity:0.42;
-  text-shadow:0 4px 12px rgba(148,70,90,0.16);
-  animation:bloomlet-drift var(--bloom-duration, 9s) ease-in-out infinite alternate;
+  opacity:.62;
+  text-shadow:0 1px 4px rgba(67,49,47,.18),0 0 8px rgba(255,253,251,.8);
+  filter:drop-shadow(0 1px 2px rgba(67,49,47,.12));
+  animation:bloomlet-drift var(--bloom-duration, 10s) cubic-bezier(.45,0,.55,1) infinite alternate;
 }
 @keyframes bloomlet-drift{
   0%{ transform:translate3d(0, 0, 0) rotate(-8deg) scale(0.92); }
@@ -484,6 +485,9 @@ line-height:1.8;
   font-size:clamp(0.85rem, 1.8vw, 1.05rem);
   margin:8px 0 20px;
 }
+.countdown-section .countdown-title.reveal{transition-delay:.14s;}
+.countdown-section .countdown-date.reveal{transition-delay:.28s;}
+.countdown-section .countdown-grid.reveal{transition-delay:.42s;}
 .countdown-grid{
   display:flex;
   justify-content:center;
@@ -491,6 +495,12 @@ line-height:1.8;
   flex-wrap:nowrap;
   margin:0 0 28px;
 }
+.countdown-grid .cd-box{opacity:0;transform:translateY(18px) scale(.86);}
+.countdown-grid.is-visible .cd-box{animation:countdown-box-arrive .72s cubic-bezier(.2,.75,.25,1) both;}
+.countdown-grid.is-visible .cd-box:nth-child(2){animation-delay:.12s;}
+.countdown-grid.is-visible .cd-box:nth-child(3){animation-delay:.24s;}
+.countdown-grid.is-visible .cd-box:nth-child(4){animation-delay:.36s;}
+@keyframes countdown-box-arrive{to{opacity:1;transform:translateY(0) scale(1);}}
 .cd-box{
   position:relative;
   width:clamp(64px, 13vw, 92px);
@@ -580,6 +590,12 @@ line-height:1.8;
 .event-photo-frame img{display:block;width:100%;height:auto;max-height:56vh;object-fit:contain;transform:scale(1.025);transition:transform 1.3s cubic-bezier(.2,.75,.25,1);}
 .event-details.is-visible .event-photo-frame img{transform:scale(1);}
 .event-photo-date{margin:0;padding:9px 12px 11px;border-top:1px solid rgba(193,123,135,.16);background:rgba(255,253,251,.94);color:var(--rose-deep);font-family:var(--serif);font-size:1rem;font-style:italic;text-align:center;}
+@media(min-width:900px){
+  .event-photo-frame{display:grid;grid-template-columns:minmax(250px,.82fr) minmax(0,1.18fr);grid-template-rows:minmax(0,1fr) auto;column-gap:20px;align-items:center;max-width:900px;padding:16px;}
+  .wedding-couple-arrival{grid-column:1;grid-row:1/3;width:100%;height:clamp(300px,30vw,380px);margin:0;}
+  .event-photo-frame>img{grid-column:2;grid-row:1;width:100%;max-height:56vh;}
+  .event-photo-date{grid-column:2;grid-row:2;}
+}
 @media(max-width:600px){.event-details{width:calc(100% - 24px);padding:0 0 2px;}.event-photo-frame{border-radius:18px;}.event-photo-frame img{max-height:42vh;}.event-photo-date{padding:8px 10px 10px;font-size:.94rem;}}
 
 /* ===================== COVERFLOW GALLERY ===================== */
@@ -688,11 +704,14 @@ line-height:1.8;
   transition:opacity 0.8s ease, transform 0.8s ease;
 }
 .reveal.is-visible{ opacity:1; transform:translateY(0); }
+.is-typing::after{content:"▏";display:inline-block;margin-left:.04em;color:var(--rose-deep);animation:typewriter-caret .7s steps(1,end) infinite;}
+@keyframes typewriter-caret{50%{opacity:0;}}
 
 .event-detail{ will-change:transform; }
 
 /* ===================== MUSIC PLAYER ===================== */
 .music-message{
+  position:relative;
   margin-top:26px;
   margin-bottom:18px;
   font-family:var(--body);
@@ -704,7 +723,16 @@ line-height:1.8;
   max-width:520px;
   margin-left:auto;
   margin-right:auto;
+  animation:copy-sparkle 4.8s ease-in-out infinite;
 }
+@keyframes copy-sparkle{
+  0%,100%{text-shadow:0 0 0 rgba(201,156,88,0);}
+  50%{text-shadow:0 0 12px rgba(201,156,88,.28);}
+}
+.music-message::before,.music-message::after{content:"✧";position:absolute;color:var(--gold);font-style:normal;font-size:1rem;opacity:.4;animation:copy-star 3.2s ease-in-out infinite;}
+.music-message::before{left:2px;top:5px;}
+.music-message::after{right:2px;bottom:5px;animation-delay:1.3s;}
+@keyframes copy-star{0%,100%{opacity:.25;transform:scale(.8) rotate(0deg);}50%{opacity:.9;transform:scale(1.2) rotate(35deg);}}
 .music-card{
   margin-top:8px;
   display:flex;
@@ -958,8 +986,100 @@ background:var(--cream-2);
 }
 </style>
 
+<style id="photo-viewer">
+.family-card img,#story .beat-media img{cursor:zoom-in;}
+.story-viewport{touch-action:pan-y;}
+.photo-lightbox{position:fixed;inset:0;z-index:120;display:none;place-items:center;padding:24px;background:rgba(28,20,24,.94);}
+.photo-lightbox.is-open{display:grid;}
+.photo-lightbox-stage{position:relative;width:min(100%,1500px);height:min(88vh,1000px);display:grid;place-items:center;touch-action:pan-y;}
+.photo-lightbox-image{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:8px;box-shadow:0 16px 54px rgba(0,0,0,.35);}
+.photo-lightbox-button{position:absolute;z-index:1;display:grid;place-items:center;width:46px;height:46px;border:1px solid rgba(255,255,255,.38);border-radius:50%;background:rgba(255,253,251,.94);color:var(--rose-deep);font-size:25px;line-height:1;cursor:pointer;box-shadow:0 5px 18px rgba(0,0,0,.2);}
+.photo-lightbox-close{top:10px;right:10px;font-size:28px;}
+.photo-lightbox-prev{left:10px;top:50%;transform:translateY(-50%);}
+.photo-lightbox-next{right:10px;top:50%;transform:translateY(-50%);}
+@media(max-width:600px){.photo-lightbox{padding:12px;}.photo-lightbox-stage{height:88vh;}.photo-lightbox-button{width:40px;height:40px;font-size:22px;}.photo-lightbox-close{top:4px;right:4px;}.photo-lightbox-prev{left:4px;}.photo-lightbox-next{right:4px;}}
+body.photo-viewer-open{overflow:hidden;}
+.envelope-intro{position:fixed;inset:0;z-index:220;display:grid;place-items:center;overflow:hidden;padding:24px;background:transparent;opacity:1;transform:scale(1);transition:opacity 1.15s cubic-bezier(.2,.7,.2,1),transform 1.15s cubic-bezier(.2,.7,.2,1),filter 1.15s ease,visibility 1.15s ease;}
+.envelope-intro::before{content:"";position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse at 50% 38%,#fffdfb 0%,var(--cream) 68%,#f3e7df 100%);opacity:1;transition:opacity 1.8s cubic-bezier(.2,.7,.2,1);pointer-events:none;}
+.envelope-intro.is-opening::before{opacity:1;}
+.envelope-intro.is-leaving::before{opacity:0;}
+.envelope-intro.is-leaving{opacity:0;transform:scale(1.09);filter:blur(3px);visibility:hidden;pointer-events:none;}
+.envelope-invitation{position:relative;z-index:1;text-align:center;width:min(460px,100%);height:auto;min-height:0;animation:invitation-arrive 1s cubic-bezier(.2,.75,.25,1) both;}
+@keyframes invitation-arrive{from{opacity:0;transform:translateY(20px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+.envelope-eyebrow{margin:0 0 7px;color:var(--rose-deep);font:1.65rem var(--script);}
+.envelope-title{margin:0 0 22px;color:var(--ink);font:500 clamp(1.3rem,5vw,1.8rem)/1.2 var(--serif);}
+.envelope-art{position:relative;z-index:0;width:min(400px,86vw);height:clamp(330px,90vw,420px);margin:0 auto;perspective:1200px;filter:drop-shadow(0 18px 22px rgba(74,59,60,.16));cursor:pointer;}
+.envelope-back{position:absolute;inset:0;border:1px solid rgba(148,70,90,.22);border-radius:12px;background:linear-gradient(145deg,#f1e4d7,#dfbfc0);}
+.envelope-letter{position:absolute;z-index:5;top:18%;left:7%;width:86%;height:53%;padding:22px 14px;border:1px solid rgba(193,123,135,.28);border-radius:10px;background:linear-gradient(145deg,#fffefd,#fffaf7);color:var(--ink-dim);box-shadow:0 10px 28px rgba(74,59,60,.16),inset 0 0 0 4px rgba(255,255,255,.7);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;}
+.envelope-letter::before{content:"";position:absolute;inset:7px;border:1px solid rgba(201,156,88,.24);border-radius:6px;pointer-events:none;}
+.envelope-letter > span:first-child{color:var(--ink-dim);font:1.35rem var(--script);}
+.envelope-letter strong{color:var(--rose-deep);font:400 clamp(1.85rem,7.3vw,2.55rem)/1.08 var(--script);white-space:nowrap;text-shadow:0 1px 0 rgba(255,255,255,.9);}
+.envelope-flourish{display:flex;align-items:center;gap:10px;margin-top:3px;color:var(--gold);font:1rem/1 var(--serif);}
+.envelope-flourish::before,.envelope-flourish::after{content:"";width:34px;height:1px;background:linear-gradient(90deg,transparent,currentColor);}
+.envelope-flourish::after{transform:scaleX(-1);}
+.envelope-front{position:absolute;z-index:3;inset:0;border-radius:12px;background:linear-gradient(145deg,#dfbfc0,#bd7882);clip-path:polygon(0 0,50% 58%,100% 0,100% 100%,0 100%);}
+.envelope-flap{position:absolute;z-index:4;inset:0;border-radius:12px;background:linear-gradient(155deg,#f6ecdf,#d8b5ad);clip-path:polygon(0 0,100% 0,50% 62%);transform-origin:50% 0;transition:transform 1.3s cubic-bezier(.2,.75,.25,1);backface-visibility:visible;}
+.envelope-open-button{position:absolute;z-index:6;left:50%;top:78%;transform:translate(-50%,-50%);width:58px;height:58px;border:2px solid rgba(255,253,251,.95);border-radius:50%;background:linear-gradient(145deg,#ead9b8,#c99c58);color:#7c394a;box-shadow:0 5px 18px rgba(74,59,60,.24);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;cursor:pointer;animation:seal-glow 2.8s ease-in-out infinite;transition:opacity .55s ease,transform .7s cubic-bezier(.2,.75,.25,1);}
+@keyframes seal-glow{0%,100%{box-shadow:0 5px 18px rgba(74,59,60,.2),0 0 0 0 rgba(148,70,90,.16);}50%{box-shadow:0 7px 24px rgba(74,59,60,.25),0 0 0 9px rgba(148,70,90,0);}}
+.envelope-open-button span{font-size:1.55rem;line-height:1;}
+.envelope-open-button small{font:600 .64rem/1.1 var(--body);letter-spacing:.03em;}
+.envelope-open-button:hover{transform:translate(-50%,-50%) scale(1.06);}
+.envelope-hint{margin:18px 0 0;color:var(--ink-dim);font-size:.9rem;letter-spacing:.04em;}
+.envelope-intro.is-opening .envelope-flap{transform:rotateX(180deg);}
+.envelope-intro.is-flap-open .envelope-flap{z-index:0;}
+.envelope-intro.is-opening .envelope-open-button{animation:none;opacity:0;transform:translate(-50%,-50%) scale(.45);pointer-events:none;}
+body.envelope-intro-open{overflow:hidden;}
+@media(max-width:480px){.envelope-intro{padding:18px;}.envelope-title{margin-bottom:18px;}.envelope-open-button{width:54px;height:54px;}.envelope-letter{gap:7px;padding:18px 10px;}.envelope-letter > span:first-child{font-size:1.2rem;}.envelope-flourish::before,.envelope-flourish::after{width:26px;}}
+@media(max-height:680px){.envelope-art{height:min(62vh,360px);}}
+@media(prefers-reduced-motion:reduce){.envelope-intro,.envelope-invitation,.envelope-flap,.envelope-open-button{animation:none!important;transition:none!important;}}
+</style>
+
 </head>
-<body>
+<body class="envelope-intro-open">
+
+<div class="envelope-intro" id="envelopeIntro" role="dialog" aria-modal="true" aria-labelledby="envelopeTitle">
+  <div class="envelope-invitation">
+    <p class="envelope-eyebrow">you are invited</p>
+    <h1 class="envelope-title" id="envelopeTitle">A wedding invitation for you</h1>
+    <div class="envelope-art" aria-label="A rose-colored wedding invitation envelope">
+      <div class="envelope-back" aria-hidden="true"></div>
+      <div class="envelope-letter" aria-hidden="true">
+        <span>With love,</span>
+        <strong>Param &amp; Rucha</strong>
+        <span class="envelope-flourish" aria-hidden="true">♥</span>
+      </div>
+      <div class="envelope-front" aria-hidden="true"></div>
+      <div class="envelope-flap" aria-hidden="true"></div>
+      <button class="envelope-open-button" id="openEnvelopeButton" type="button" aria-label="Open the wedding invitation">
+        <span aria-hidden="true">♥</span><small>OPEN</small>
+      </button>
+    </div>
+    <p class="envelope-hint">Tap the envelope to begin</p>
+  </div>
+</div>
+
+<script>
+(function openEnvelopeIntro(){
+  const intro=document.getElementById('envelopeIntro');
+  const button=document.getElementById('openEnvelopeButton');
+  const envelope=document.querySelector('.envelope-art');
+  if(!intro||!button||!envelope)return;
+  envelope.addEventListener('click',()=>{
+    if(button.disabled)return;
+    button.disabled=true;
+    if(window.startWeddingMusic) window.startWeddingMusic();
+    intro.classList.add('is-opening');
+    const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.setTimeout(()=>intro.classList.add('is-flap-open'),reducedMotion?0:1300);
+    window.setTimeout(()=>intro.classList.add('is-leaving'),reducedMotion?0:1300);
+    window.setTimeout(()=>{
+      intro.remove();
+      document.body.classList.remove('envelope-intro-open');
+      window.scrollTo(0,0);
+    },reducedMotion?0:2450);
+  },{once:true});
+})();
+</script>
 
 <!-- ===================== FLOATING MUSIC WIDGET ===================== -->
 <div class="floating-music" id="floatingMusic">
@@ -1000,8 +1120,8 @@ background:var(--cream-2);
   <div class="music-message">
     ✨ Wait... ✨<br>
     This isn't just a page, it's a little world we grew out of us.<br><br>
-    Before you scroll through our memories,
-    press play and let the music tell our story. 🌸🎵
+    Before you scroll through our memories, choose a song you love.
+    You can change it anytime from the music controls. 🌸🎵
   </div>
 
   <div class="music-card">
@@ -1208,6 +1328,16 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
   Param <span class="heart">&hearts;</span> Rucha — our forever begins
 </footer>
 
+
+<div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" aria-hidden="true">
+  <div class="photo-lightbox-stage">
+    <button class="photo-lightbox-button photo-lightbox-close" type="button" aria-label="Close photo viewer">&times;</button>
+    <button class="photo-lightbox-button photo-lightbox-prev" type="button" aria-label="Previous photo">&#8249;</button>
+    <img class="photo-lightbox-image" id="photoLightboxImage" alt="">
+    <button class="photo-lightbox-button photo-lightbox-next" type="button" aria-label="Next photo">&#8250;</button>
+  </div>
+</div>
+
 <script>
 // ---------- ambient falling petals ----------
 (function spawnPetals(){
@@ -1243,17 +1373,18 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
 (function spawnFloatingBlooms(){
   const container = document.getElementById('floatingBlooms');
   if(!container) return;
-  const count = window.innerWidth < 760 ? 5 : 9;
+    const isMobile = window.innerWidth < 760;
+    const count = isMobile ? 3 : 5;
   const flowers = ['✿', '❀', '✦', '❁'];
-  const colors = ['#c17b87', '#cda76b', '#869a76', '#d98e9b'];
+  const colors = ['#a94d63', '#ae7b32', '#667d52', '#cd617d'];
 
   for(let i=0; i<count; i++){
     const bloom = document.createElement('span');
     bloom.className = 'bloomlet';
     bloom.textContent = flowers[i % flowers.length];
-    bloom.style.left = (i % 2 ? 3 + Math.random() * 11 : 86 + Math.random() * 10) + 'vw';
-    bloom.style.top = (6 + Math.random() * 88) + 'vh';
-    bloom.style.fontSize = (13 + Math.random() * 13) + 'px';
+    bloom.style.left = (i % 2 ? 2 + Math.random() * 4 : 94 + Math.random() * 4) + 'vw';
+    bloom.style.top = (4 + Math.random() * 90) + 'vh';
+    bloom.style.fontSize = (isMobile ? 17 : 19) + Math.random() * 6 + 'px';
     bloom.style.setProperty('--bloom-color', colors[i % colors.length]);
     bloom.style.setProperty('--bloom-x', (Math.random() * 24 - 12) + 'px');
     bloom.style.setProperty('--bloom-y', (Math.random() * 28 - 14) + 'px');
@@ -1262,6 +1393,33 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
     container.appendChild(bloom);
   }
 })();
+
+// Type invitation copy a character at a time when its section is revealed.
+const typingTimers=new WeakMap();
+function typeText(element,speed=28,delay=0){
+  if(!element)return 0;
+  const previous=typingTimers.get(element);
+  if(previous)clearTimeout(previous);
+  const fullText=element.dataset.typeText??element.textContent;
+  const characters=Array.from(fullText);
+  element.dataset.typeText=fullText;
+  element.setAttribute('aria-label',fullText);
+  element.classList.add('is-typing');
+  element.textContent='';
+  let index=0;
+  const writeNext=()=>{
+    if(!element.isConnected)return;
+    if(index<characters.length){
+      element.textContent+=characters[index++];
+      typingTimers.set(element,setTimeout(writeNext,speed));
+    }else{
+      element.classList.remove('is-typing');
+      typingTimers.delete(element);
+    }
+  };
+  typingTimers.set(element,setTimeout(writeNext,delay));
+  return delay+characters.length*speed;
+}
 
 // ---------- wedding invitation: open the details and countdown ----------
 (function invitationLogic(){
@@ -1286,6 +1444,16 @@ Smiles turned into blessings, introductions turned into connections, and suddenl
       invitation.classList.add('invitation-closed');
       requestAnimationFrame(()=>{
         weddingFrame.scrollIntoView({ behavior:'instant', block:'start' });
+        requestAnimationFrame(()=>{
+          const countEyebrow=document.querySelector('.countdown-eyebrow');
+          const countTitle=document.querySelector('.countdown-title');
+          const countDate=document.querySelector('.countdown-date');
+          const countNums=Array.from(document.querySelectorAll('#countdown .cd-num'));
+          const eyebrowEnd=typeText(countEyebrow,34,120);
+          const titleEnd=typeText(countTitle,28,eyebrowEnd+120);
+          const dateEnd=typeText(countDate,28,titleEnd+120);
+          countNums.forEach((num,index)=>typeText(num,85,dateEnd+180+index*170));
+        });
         setTimeout(()=>{
           if(!weddingCouple) return;
           const [groom,bride]=weddingCouple.querySelectorAll('img');
@@ -1335,6 +1503,7 @@ let lastValues = { days:null, hours:null, mins:null, secs:null };
 
 function setIfChanged(el, value, key){
   if(!el) return;
+  if(el.classList.contains('is-typing'))return;
   const text = String(value);
   if (el.textContent !== text){
     el.textContent = text;
@@ -1434,6 +1603,10 @@ function togglePlay(){
   updatePlayIcons();
 }
 
+window.startWeddingMusic = function(){
+  if(bgMusic.paused) loadTrack(currentIndex, true);
+};
+
 if(musicBtn) musicBtn.onclick = togglePlay;
 if(fmPlayPause) fmPlayPause.onclick = togglePlay;
 if(fmNext) fmNext.onclick = ()=> loadTrack(currentIndex + 1, true);
@@ -1480,9 +1653,14 @@ if(story){
     if(!markerText)return;
     const marker=card.querySelector('.beat-marker');
     const icon=marker&&marker.querySelector('.ic');
-    if(marker&&icon)marker.replaceChildren(icon,document.createTextNode(` ${markerText}`));
-    const title=card.querySelector('.beat-title');if(title)title.textContent=titleText;
-    const copy=card.querySelector('.beat-copy');if(copy)copy.textContent=copyText;
+    if(marker&&icon){
+      const label=document.createElement('span');
+      label.className='beat-marker-label';
+      label.dataset.typeText=markerText;
+      marker.replaceChildren(icon,label);
+    }
+    const title=card.querySelector('.beat-title');if(title){title.textContent=titleText;title.dataset.typeText=titleText;}
+    const copy=card.querySelector('.beat-copy');if(copy){copy.textContent=copyText;copy.dataset.typeText=copyText;}
   });
   const familyCaption=document.querySelector('.gallery-section > p:last-child');
   if(familyCaption)familyCaption.textContent='The day our families met was a big moment for both of us. We’re glad to have these photos to remember it by.';
@@ -1504,6 +1682,27 @@ if(story){
   let pageIndex=0;
   let cardsPerPage=window.innerWidth>900?2:1;
   let pageDots=[];
+  let storyHasEntered=false;
+  function typeCurrentStoryPage(){
+    const page=slides.children[pageIndex];
+    if(!page)return;
+    page.querySelectorAll('.beat').forEach(card=>{
+      const marker=card.querySelector('.beat-marker-label');
+      const title=card.querySelector('.beat-title');
+      const copy=card.querySelector('.beat-copy');
+      const markerEnd=typeText(marker,28,80);
+      const titleEnd=typeText(title,27,markerEnd+100);
+      typeText(copy,20,titleEnd+100);
+    });
+  }
+  const storyTextObserver=new IntersectionObserver(entries=>{
+    if(entries.some(entry=>entry.isIntersecting)){
+      storyHasEntered=true;
+      typeCurrentStoryPage();
+      storyTextObserver.disconnect();
+    }
+  },{threshold:.2});
+  storyTextObserver.observe(story);
   function drawStoryVine(){
     const width=ringLine.clientWidth||32;
     const height=Math.max(1,story.offsetHeight);
@@ -1542,8 +1741,12 @@ if(story){
     pageDots.forEach((dot,i)=>dot.classList.toggle('is-active',i===pageIndex));
     slides.querySelectorAll('.story-slide').forEach((page,i)=>{
       page.setAttribute('aria-hidden',i===pageIndex?'false':'true');
-      page.querySelectorAll('.beat').forEach(card=>card.classList.toggle('is-current',i===pageIndex));
+      page.querySelectorAll('.beat').forEach(card=>{
+        const isCurrent=i===pageIndex;
+        card.classList.toggle('is-current',isCurrent);
+      });
     });
+    if(storyHasEntered)typeCurrentStoryPage();
     requestRingUpdate();
   }
   let ringFrame=0;
@@ -1580,10 +1783,16 @@ if(story){
     if(nextCardsPerPage!==cardsPerPage){cardsPerPage=nextCardsPerPage;buildPages();}
     else{drawStoryVine();requestRingUpdate();}
   });
+  let swipeStartX=0,swipeStartY=0;
+  viewport.addEventListener('touchstart',event=>{
+    const touch=event.changedTouches[0];swipeStartX=touch.clientX;swipeStartY=touch.clientY;
+  },{passive:true});
+  viewport.addEventListener('touchend',event=>{
+    const touch=event.changedTouches[0];
+    const deltaX=touch.clientX-swipeStartX,deltaY=touch.clientY-swipeStartY;
+    if(Math.abs(deltaX)>48&&Math.abs(deltaX)>Math.abs(deltaY))showPage(pageIndex+(deltaX<0?1:-1));
+  },{passive:true});
   previous.onclick=()=>showPage(pageIndex-1);next.onclick=()=>showPage(pageIndex+1);buildPages();
-  if(slides.children.length>1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-    setInterval(()=>showPage(pageIndex+1),7000);
-  }
 }
 
 </script>
@@ -1597,9 +1806,87 @@ function scrollFamily(direction){
   if(direction<0 && track.scrollLeft<=4){track.scrollTo({left:maxScroll,behavior:'smooth'});return;}
   track.scrollBy({left:track.clientWidth*direction,behavior:'smooth'});
 }
-const familyGallery=document.querySelector('.family-wrapper');
-if(familyGallery && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-  setInterval(()=>scrollFamily(1),5500);
-}
+</script>
+
+<script>
+// Tap or swipe a gallery photo to view the full, uncropped image.
+(function photoViewer(){
+  const viewer=document.getElementById('photoLightbox');
+  const stage=viewer?.querySelector('.photo-lightbox-stage');
+  const image=document.getElementById('photoLightboxImage');
+  const closeButton=viewer?.querySelector('.photo-lightbox-close');
+  const previousButton=viewer?.querySelector('.photo-lightbox-prev');
+  const nextButton=viewer?.querySelector('.photo-lightbox-next');
+  if(!viewer||!stage||!image||!closeButton||!previousButton||!nextButton)return;
+
+  let photos=[],photoIndex=0,opener=null,touchStartX=0,touchStartY=0;
+  const photoSelector='#familyTrack img, #story .beat-media img';
+  document.querySelectorAll(photoSelector).forEach(photo=>{
+    photo.tabIndex=0;
+    photo.setAttribute('role','button');
+    photo.setAttribute('aria-haspopup','dialog');
+    photo.setAttribute('aria-label',`${photo.alt||'Photo'} — open full-screen`);
+  });
+
+  function renderPhoto(){
+    const photo=photos[photoIndex];
+    if(!photo)return;
+    image.src=photo.currentSrc||photo.src;
+    image.alt=photo.alt||'Wedding memory photo';
+  }
+  function openPhoto(photo){
+    const group=photo.closest('#familyTrack')?'#familyTrack img':'#story .beat-media img';
+    photos=Array.from(document.querySelectorAll(group));
+    photoIndex=Math.max(0,photos.indexOf(photo));
+    opener=photo;
+    renderPhoto();
+    viewer.classList.add('is-open');
+    viewer.setAttribute('aria-hidden','false');
+    document.body.classList.add('photo-viewer-open');
+    closeButton.focus();
+  }
+  function closePhoto(){
+    viewer.classList.remove('is-open');
+    viewer.setAttribute('aria-hidden','true');
+    document.body.classList.remove('photo-viewer-open');
+    image.removeAttribute('src');
+    opener?.focus();
+  }
+  function movePhoto(direction){
+    if(!photos.length)return;
+    photoIndex=(photoIndex+direction+photos.length)%photos.length;
+    renderPhoto();
+  }
+  document.addEventListener('click',event=>{
+    const photo=event.target.closest?.(photoSelector);
+    if(photo){openPhoto(photo);return;}
+    if(event.target===viewer)closePhoto();
+  });
+  document.addEventListener('keydown',event=>{
+    const photo=event.target.closest?.(photoSelector);
+    if(photo&&(event.key==='Enter'||event.key===' ')){event.preventDefault();openPhoto(photo);return;}
+    if(!viewer.classList.contains('is-open'))return;
+    if(event.key==='Escape'){event.preventDefault();closePhoto();}
+    else if(event.key==='ArrowLeft'){event.preventDefault();movePhoto(-1);}
+    else if(event.key==='ArrowRight'){event.preventDefault();movePhoto(1);}
+    else if(event.key==='Tab'){
+      const controls=[closeButton,previousButton,nextButton];
+      const first=controls[0],last=controls[controls.length-1];
+      if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+      else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+    }
+  });
+  closeButton.addEventListener('click',closePhoto);
+  previousButton.addEventListener('click',()=>movePhoto(-1));
+  nextButton.addEventListener('click',()=>movePhoto(1));
+  stage.addEventListener('touchstart',event=>{
+    const touch=event.changedTouches[0];touchStartX=touch.clientX;touchStartY=touch.clientY;
+  },{passive:true});
+  stage.addEventListener('touchend',event=>{
+    const touch=event.changedTouches[0];
+    const deltaX=touch.clientX-touchStartX,deltaY=touch.clientY-touchStartY;
+    if(Math.abs(deltaX)>48&&Math.abs(deltaX)>Math.abs(deltaY))movePhoto(deltaX<0?1:-1);
+  },{passive:true});
+})();
 </script></body>
 </html>
